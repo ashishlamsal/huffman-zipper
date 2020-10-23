@@ -15,8 +15,7 @@ ___
 ## Visual Studio 2019 Settings
 
   sln Property Pages >>
-`
-
+```sh
 - Output Directory          : $(SolutionDir)bin\($Platform)\$(Configuration)\
 - Intermediate Directory    : $(SolutionDir)bin\intertmediates\($Platform)\$(Configuration)\
-`
+```
