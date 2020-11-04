@@ -1,7 +1,7 @@
-#include "minHeap.h"
+#include "MinHeap.h"
 
-//template class MinHeap<int>;
-//template class MinHeap<float>;
+template class MinHeap<int>;
+template class MinHeap<float>;
 
 template <class T>
 MinHeap<T>::MinHeap() {

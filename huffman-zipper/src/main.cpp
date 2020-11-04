@@ -8,16 +8,17 @@
 
 #include "BinNode.h"
 //#include "PriorityQueue.h"
-#include "MinHeap.h"
+//#include "MinHeap.h"
 
 class Comparator {
 public:
 	bool operator()(BinNode* first, BinNode* second) {
-		return first->getFrequency() > second->getFrequency();
+		return first->getFrequency() > second->getFrequency(); 
+		// to adjust in the ascending order i.e min-heap
 	}
 };
 
-std::unordered_map<char, std::string> codeMap;
+std::unordered_map<char, std::string> codeMap; 
 void encodeCharacters(BinNode* rootNode, std::string codeString) {
 	if (rootNode == nullptr)
 		return;
@@ -49,7 +50,7 @@ std::string decodeCharacters(BinNode* root, std::string encodedString) {
 
 
 int main() {
-	MinHeap<int> heap;
+	/*MinHeap<int> heap;
 	heap.insert(5);
 	heap.insert(10);
 	heap.insert(17);
@@ -62,16 +63,16 @@ int main() {
 	std::cout << heap.remove() << " is removed" << std::endl;
 	heap.display();
 	std::cout << heap.remove() << " is removed" << std::endl;
-	heap.display();
+	heap.display();*/
 
-	//PriorityQueue<float> pqueue;
-	//pqueue.enqueue(30.5);
-	//pqueue.enqueue(20.2);
-	//pqueue.enqueue(40.6);
-	//pqueue.enqueue(10.6);
-	//pqueue.display();
-	//std::cout << pqueue.dequeue() << " is removed" << std::endl;
-	//pqueue.display();
+	/*PriorityQueue<float> pqueue;
+	pqueue.enqueue(30.5);
+	pqueue.enqueue(20.2);
+	pqueue.enqueue(40.6);
+	pqueue.enqueue(10.6);
+	pqueue.display();
+	std::cout << pqueue.dequeue() << " is removed" << std::endl;
+	pqueue.display();*/
 
 
 
@@ -87,14 +88,14 @@ int main() {
 	//get frequency
 	char ch;
 	std::unordered_map<char, int> frequency;
-	while (!infile.eof()) {
+	while (!infile.eof()) { // inline.get(c) 
 		infile.get(ch);
 		frequency[ch]++;
 	}
 	infile.close();
 
 	for (auto&& character : frequency)
-		std::cout << character.first << "=" << character.second << std::endl;
+		std::cout << (int)character.first << "=" << character.second << std::endl;
 
 	// priority queue
 	std::priority_queue<BinNode*, std::vector<BinNode*>, Comparator> pq;
@@ -118,11 +119,12 @@ int main() {
 	// generate Huffman codes
 	encodeCharacters(pq.top(), "");
 
+	// disply the huffman codes
 	for (auto&& code : codeMap)
-		std::cout << code.first << "=" << code.second << std::endl;
+		std::cout << (int)code.first << "=" << code.second << std::endl; 
 
 
-	//encoded string
+	//encoded string :encode  .txt of file
 	char character;
 	std::string encodedString;
 	std::ifstream inputStream("./src/small-text.txt");
@@ -133,7 +135,6 @@ int main() {
 
 	//decoded string
 	std::cout << decodeCharacters(pq.top(), encodedString);
-
 	//TODO
 	// 1. Write encodedString to file
 	// 2. Read encodedString from file

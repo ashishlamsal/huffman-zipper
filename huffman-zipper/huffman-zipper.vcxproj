@@ -149,7 +149,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\MinHeap.cpp" />
-    <ClCompile Include="src\PriorityQueue.cpp" />
+    <ClCompile Include="src\PriorityQueue.txt" />
     <ClCompile Include="src\BinNode.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>

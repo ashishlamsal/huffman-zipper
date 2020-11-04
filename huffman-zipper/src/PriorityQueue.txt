@@ -1,3 +1,4 @@
+#pragma once
 #include "PriorityQueue.h"
 
 template class PriorityQueue<float>;
