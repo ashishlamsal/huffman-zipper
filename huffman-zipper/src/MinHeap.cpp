@@ -1,7 +1,9 @@
 #include "minHeap.h"
 
-//template class MinHeap<int>;
-//template class MinHeap<float>;
+template class MinHeap<int>;
+template class MinHeap<float>;
+template class MinHeap<BinNode*>;
+template class MinHeap<BinNode>;
 
 template <class T>
 MinHeap<T>::MinHeap() {

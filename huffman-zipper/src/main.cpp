@@ -7,7 +7,7 @@
 #include <bitset>
 
 #include "BinNode.h"
-//#include "PriorityQueue.h"
+#include "PriorityQueue.h"
 #include "MinHeap.h"
 
 class Comparator {
@@ -49,32 +49,6 @@ std::string decodeCharacters(BinNode* root, std::string encodedString) {
 
 
 int main() {
-	MinHeap<int> heap;
-	heap.insert(5);
-	heap.insert(10);
-	heap.insert(17);
-	heap.insert(4);
-	heap.insert(22);
-	heap.insert(30);
-	heap.insert(15);
-	heap.display();
-	std::cout << heap.remove() << " is removed" << std::endl;
-	std::cout << heap.remove() << " is removed" << std::endl;
-	heap.display();
-	std::cout << heap.remove() << " is removed" << std::endl;
-	heap.display();
-
-	//PriorityQueue<float> pqueue;
-	//pqueue.enqueue(30.5);
-	//pqueue.enqueue(20.2);
-	//pqueue.enqueue(40.6);
-	//pqueue.enqueue(10.6);
-	//pqueue.display();
-	//std::cout << pqueue.dequeue() << " is removed" << std::endl;
-	//pqueue.display();
-
-
-
 	// read file
 	std::ifstream infile("./src/small-text.txt");
 	if (!infile) {
@@ -96,43 +70,74 @@ int main() {
 	for (auto&& character : frequency)
 		std::cout << character.first << "=" << character.second << std::endl;
 
-	// priority queue
-	std::priority_queue<BinNode*, std::vector<BinNode*>, Comparator> pq;
+	PriorityQueue<BinNode*> pq;
 	for (auto&& character : frequency) {
-		pq.push(new BinNode(character.first, character.second));
+		pq.enqueue(new BinNode(character.first, character.second));
 	}
 
-	std::cout << "Building Tree...\n";
-	while (pq.size() != 1)
+	pq.display();
+	while (pq.getSize() != 0)
 	{
-		BinNode* left = pq.top();
-		pq.pop();
-		BinNode* right = pq.top();
-		pq.pop();
-		BinNode* new_pair = new BinNode('$', left->getFrequency() + right->getFrequency());
-		pq.push(new_pair);
-		new_pair->setLeftChild(left);
-		new_pair->setRightChild(right);
+		std::cout << pq.dequeue() << std::endl;
 	}
+
+	//std::cout << "Building Tree...\n";
+	//while (pq.getSize() != 1)
+	//{
+	//	BinNode* left = pq.dequeue();
+	//	BinNode* right = pq.dequeue();
+	//	BinNode* new_pair = new BinNode('$', left->getFrequency() + right->getFrequency());
+	//	pq.enqueue(new_pair);
+	//	new_pair->setLeftChild(left);
+	//	new_pair->setRightChild(right);
+	//}
+
+	////generate Huffman codes
+	//encodeCharacters(pq.top(), "");
+
+	//for (auto&& code : codeMap)
+	//	std::cout << code.first << "=" << code.second << std::endl;
+
+
+
+	// priority queue
+	//std::priority_queue<BinNode*, std::vector<BinNode*>, Comparator> pq;
+	//for (auto&& character : frequency) {
+	//	pq.push(new BinNode(character.first, character.second));
+	//}
+
+	//std::cout << "Building Tree...\n";
+	//while (pq.size() != 1)
+	//{
+	//	BinNode* left = pq.top();
+	//	pq.pop();
+	//	BinNode* right = pq.top();
+	//	pq.pop();
+	//	BinNode* new_pair = new BinNode('$', left->getFrequency() + right->getFrequency());
+	//	pq.push(new_pair);
+	//	new_pair->setLeftChild(left);
+	//	new_pair->setRightChild(right);
+	//}
 
 	// generate Huffman codes
-	encodeCharacters(pq.top(), "");
+	//encodeCharacters(pq.top(), "");
 
-	for (auto&& code : codeMap)
-		std::cout << code.first << "=" << code.second << std::endl;
+	//for (auto&& code : codeMap)
+	//	std::cout << code.first << "=" << code.second << std::endl;
 
 
 	//encoded string
-	char character;
-	std::string encodedString;
-	std::ifstream inputStream("./src/small-text.txt");
-	while (inputStream.get(character))
-		encodedString += codeMap[character];
-	inputStream.close();
-	std::cout << encodedString << std::endl;
+	//char character;
+	//std::string encodedString;
+	//std::ifstream inputStream("./src/small-text.txt");
+	//while (inputStream.get(character))
+	//	encodedString += codeMap[character];
+	//inputStream.close();
+	//std::cout << encodedString << std::endl;
 
-	//decoded string
-	std::cout << decodeCharacters(pq.top(), encodedString);
+	////decoded string
+	//std::cout << decodeCharacters(pq.top(), encodedString);
+
 
 	//TODO
 	// 1. Write encodedString to file
@@ -147,6 +152,8 @@ int main() {
 	//std::ifstream inputStream("./src/small-text.txt");
 	//std::ofstream outputStream("./src/out.txt");
 	////writeHeader(outputStream);
+
+
 
 	//while (inputStream.get(character))
 	//	file += codeMap[character];

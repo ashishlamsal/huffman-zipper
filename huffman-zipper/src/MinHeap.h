@@ -2,6 +2,8 @@
 #include <iostream>
 #include <vector>
 
+#include "BinNode.h"
+
 template <class T>
 class MinHeap {
 private:
@@ -35,4 +37,3 @@ public:
 
 	void display();
 };
-
