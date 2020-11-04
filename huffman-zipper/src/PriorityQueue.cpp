@@ -1,8 +1,8 @@
 #include "PriorityQueue.h"
 
-template class PriorityQueue<float>;
+//template class PriorityQueue<float>;
 template class PriorityQueue<BinNode*>;
-template class PriorityQueue<BinNode>;
+//template class PriorityQueue<BinNode>;
 
 template <class T>
 bool PriorityQueue<T>::isEmpty() {

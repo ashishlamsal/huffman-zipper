@@ -1,10 +1,10 @@
 #include "minHeap.h"
 
-template class MinHeap<int>;
-template class MinHeap<float>;
+//template class MinHeap<int>;
+//template class MinHeap<float>;
 template class MinHeap<BinNode*>;
-template class MinHeap<BinNode>;
 
+//template class MinHeap<BinNode>;
 template <class T>
 MinHeap<T>::MinHeap() {
 }
@@ -64,7 +64,7 @@ void MinHeap<T>::insert(const T& value) {
 template <class T>
 void MinHeap<T>::bubbleUp() {
 	int index = getSize() - 1;
-	while (index > 0 && items[index] < items[parent(index)]) {
+	while (index > 0 && *items[index] < *items[parent(index)]) {
 		swap(index, parent(index));
 		index = parent(index);
 	}
@@ -110,9 +110,9 @@ bool MinHeap<T>::isValidParent(int index) {
 	if (!hasLeftChild(index))
 		return true;
 	if (!hasRightChild(index))
-		return items[index] <= items[leftChild(index)];
+		return *items[index] <= *items[leftChild(index)];
 
-	return items[index] <= items[leftChild(index)] && items[index] <= items[rightChild(index)];
+	return *items[index] <= *items[leftChild(index)] && *items[index] <= *items[rightChild(index)];
 }
 
 template <class T>
@@ -122,7 +122,7 @@ int MinHeap<T>::smallerChild(int index) {
 	if (!hasRightChild(index))
 		return leftChild(index);
 
-	return (items[leftChild(index)] < items[rightChild(index)]) ?
+	return (*items[leftChild(index)] < *items[rightChild(index)]) ?
 		leftChild(index) : rightChild(index);
 }
 
@@ -131,7 +131,7 @@ void MinHeap<T>::display() {
 	std::cout << "Min Heap : [  ";
 	for (int i = 0; i < getSize(); i++)
 	{
-		std::cout << items[i] << ", ";
+		std::cout << *items[i] << ", ";
 	}
 	std::cout << "\b\b  ]\n";
 }
