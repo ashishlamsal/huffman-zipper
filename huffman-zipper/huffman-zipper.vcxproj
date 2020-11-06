@@ -148,12 +148,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\compressor.cpp" />
+    <ClCompile Include="src\decompressor.cpp" />
     <ClCompile Include="src\MinHeap.cpp" />
-    <ClCompile Include="src\PriorityQueue.txt" />
     <ClCompile Include="src\BinNode.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Compressor.h" />
+    <ClInclude Include="src\Decompressor.h" />
     <ClInclude Include="src\MinHeap.h" />
     <ClInclude Include="src\PriorityQueue.h" />
     <ClInclude Include="src\BinNode.h" />
