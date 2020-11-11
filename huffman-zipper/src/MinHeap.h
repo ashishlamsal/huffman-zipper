@@ -4,6 +4,7 @@
 #include <type_traits>
 
 #include "BinNode.h"
+#include "Constants.h"
 
 template <class T>
 class MinHeap {
@@ -53,6 +54,7 @@ public:
 // implementation
 template <class T>
 MinHeap<T>::MinHeap() {
+	items.reserve(RESERVE_SIZE);
 }
 
 template <class T>

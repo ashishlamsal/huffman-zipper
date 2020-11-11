@@ -3,13 +3,11 @@
 #include <vector>
 #include <iterator>
 #include "HashCode.h"
+#include "Constants.h"
 
 template <typename KeyType, typename ValueType>
 class HashMap {
 private:
-	static const int INITIAL_BUCKET_COUNT = 101;
-	static const int MAX_LOAD_PERCENTAGE = 70;
-
 	struct Entry {
 		KeyType key;
 		ValueType value;

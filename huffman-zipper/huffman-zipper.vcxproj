@@ -152,6 +152,7 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Constants.h" />
     <ClInclude Include="src\HashCode.h" />
     <ClInclude Include="src\HashMap.h" />
     <ClInclude Include="src\BinNode.h" />
