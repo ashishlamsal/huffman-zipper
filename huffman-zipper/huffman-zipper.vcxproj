@@ -150,10 +150,10 @@
   <ItemGroup>
     <ClCompile Include="src\BinNode.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\MinHeap.cpp" />
-    <ClCompile Include="src\PriorityQueue.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\HashCode.h" />
+    <ClInclude Include="src\HashMap.h" />
     <ClInclude Include="src\BinNode.h" />
     <ClInclude Include="src\MinHeap.h" />
     <ClInclude Include="src\PriorityQueue.h" />

@@ -16,6 +16,7 @@ public:
 	bool operator<(const BinNode&);
 	bool operator<=(const BinNode&);
 
+
 	char getCharacter() const;
 	int getFrequency() const;
 

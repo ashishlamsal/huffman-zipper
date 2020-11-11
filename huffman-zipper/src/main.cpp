@@ -1,23 +1,14 @@
 #include <iostream>
 #include <fstream>
-#include <unordered_map>
-#include <queue>
 #include <string>
 #include <sstream>
 #include <bitset>
 
 #include "BinNode.h"
 #include "PriorityQueue.h"
-#include "MinHeap.h"
+#include "HashMap.h"
 
-class Comparator {
-public:
-	bool operator()(BinNode* first, BinNode* second) {
-		return first->getFrequency() > second->getFrequency();
-	}
-};
-
-std::unordered_map<char, std::string> codeMap;
+HashMap<char, std::string> codeMap;
 void encodeCharacters(BinNode* rootNode, std::string codeString) {
 	if (rootNode == nullptr)
 		return;
@@ -47,7 +38,6 @@ std::string decodeCharacters(BinNode* root, std::string encodedString) {
 	return decodedString;
 }
 
-
 int main() {
 	// read file
 	std::ifstream infile("./src/small-text.txt");
@@ -60,7 +50,7 @@ int main() {
 
 	//get frequency
 	char ch;
-	std::unordered_map<char, int> frequency;
+	HashMap<char, int> frequency;
 	while (!infile.eof()) {
 		infile.get(ch);
 		frequency[ch]++;
@@ -68,62 +58,32 @@ int main() {
 	infile.close();
 
 	for (auto&& character : frequency)
-		std::cout << character.first << "=" << character.second << std::endl;
-
+		std::cout << character.key << "=" << character.value << std::endl;
+	
+	//priority queue 
 	PriorityQueue<BinNode*> pq;
 	for (auto&& character : frequency) {
-		pq.enqueue(new BinNode(character.first, character.second));
+		pq.enqueue(new BinNode(character.key, character.value));
 	}
 
 	pq.display();
-	while (pq.getSize() != 0)
+
+	std::cout << "Building Tree1...\n";
+	while (pq.getSize() != 1)
 	{
-		std::cout << pq.dequeue() << std::endl;
+		BinNode* left = pq.dequeue();
+		BinNode* right = pq.dequeue();
+		BinNode* new_pair = new BinNode('$', left->getFrequency() + right->getFrequency());
+		pq.enqueue(new_pair);
+		new_pair->setLeftChild(left);
+		new_pair->setRightChild(right);
 	}
 
-	//std::cout << "Building Tree...\n";
-	//while (pq.getSize() != 1)
-	//{
-	//	BinNode* left = pq.dequeue();
-	//	BinNode* right = pq.dequeue();
-	//	BinNode* new_pair = new BinNode('$', left->getFrequency() + right->getFrequency());
-	//	pq.enqueue(new_pair);
-	//	new_pair->setLeftChild(left);
-	//	new_pair->setRightChild(right);
-	//}
+	//generate Huffman codes
+	encodeCharacters(pq.top(), "");
 
-	////generate Huffman codes
-	//encodeCharacters(pq.top(), "");
-
-	//for (auto&& code : codeMap)
-	//	std::cout << code.first << "=" << code.second << std::endl;
-
-
-
-	// priority queue
-	//std::priority_queue<BinNode*, std::vector<BinNode*>, Comparator> pq;
-	//for (auto&& character : frequency) {
-	//	pq.push(new BinNode(character.first, character.second));
-	//}
-
-	//std::cout << "Building Tree...\n";
-	//while (pq.size() != 1)
-	//{
-	//	BinNode* left = pq.top();
-	//	pq.pop();
-	//	BinNode* right = pq.top();
-	//	pq.pop();
-	//	BinNode* new_pair = new BinNode('$', left->getFrequency() + right->getFrequency());
-	//	pq.push(new_pair);
-	//	new_pair->setLeftChild(left);
-	//	new_pair->setRightChild(right);
-	//}
-
-	// generate Huffman codes
-	//encodeCharacters(pq.top(), "");
-
-	//for (auto&& code : codeMap)
-	//	std::cout << code.first << "=" << code.second << std::endl;
+	for (auto&& code : codeMap)
+		std::cout << code.key << "=" << code.value << ", ";
 
 
 	//encoded string
@@ -146,33 +106,5 @@ int main() {
 	// 4. decode string
 	// 5. write decoded string to file
 
-	//write to file
-	//char character;
-	//std::string file;
-	//std::ifstream inputStream("./src/small-text.txt");
-	//std::ofstream outputStream("./src/out.txt");
-	////writeHeader(outputStream);
-
-
-
-	//while (inputStream.get(character))
-	//	file += codeMap[character];
-	//inputStream.close();
-
-	//file += codeMap[PSEUDO_EOF];
-	//	unsigned long remainder = (file.size() - 1) % 8;
-	//	for (int i = 0; i < 8 - remainder; ++i)
-	//		file += '0';
-	//	std::stringstream stringStream(file);
-	//
-	//	while (stringStream.good()) {
-	//		std::bitset<8> bits;
-	//		stringStream >> bits;
-	//		char c = char(bits.to_ulong());
-	//		outputStream << c;
-	//	}	
-	//	outputStream.flush();
-	//	outputStream.close();
-
 	return 0;
-};
+}
