@@ -39,29 +39,15 @@ std::string decodeCharacters(BinNode* root, std::string encodedString) {
 
 
 int main() {
+
+	//compressor 
 	compressor("small-text.txt");
-
-	//encoded string :encode  .txt of file
-	/*char character;
-	std::string encodedString;
-	std::ifstream inputStream("./src/small-text.txt");
-	while (inputStream.get(character))
-		encodedString += codeMap[character];
-	encodedString += codeMap[PSEUDO_EOF];
-	inputStream.close();
-	std::cout << encodedString << std::endl;
-
-	//decoded string
-	std::cout << decodeCharacters(pq.top(), encodedString);
-	//TODO
-	// 1. Write encodedString to file
-	encodeIntoFile(encodedString, "output.txt");
 
 
 	//-----------------------Decompression-------------------------//
+	//decompressor("output.txt");
 	// 2. Read encodedString from file
-	std::string encodedString2 = readEncodedFile("output.txt");
-	*/
+
 	
 	// 3. Build decoding tree
 

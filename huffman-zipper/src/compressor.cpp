@@ -4,7 +4,11 @@
 #include<bitset>
 #include<unordered_map>
 #include<queue>
+#define INTERNAL_NODE_CHARACTER char(128)
 #define PSEUDO_EOF char(129)
+#define CHARACTER_CODE_SEPERATOR char(130)
+#define HEADER_ENTRY_SEPERATOR char(131)
+#define HEADER_TEXT_SEPERATOR char(132)
 
 #include"BinNode.h"
 
@@ -58,7 +62,7 @@ BinNode* createHuffmanTree(std::unordered_map<char, int> frequency) {
 void generateHuffmanCode(BinNode* rootNode, std::string codeString, std::unordered_map<char, std::string>& codeMap) {
 	if (rootNode == nullptr)
 		return;
-	if (rootNode->getCharacter() != '$') {
+	if (rootNode->getLeftChild() == nullptr && rootNode->getRightChild() == nullptr) {
 		codeMap[rootNode->getCharacter()] = codeString;
 	}
 
@@ -66,12 +70,23 @@ void generateHuffmanCode(BinNode* rootNode, std::string codeString, std::unorder
 	generateHuffmanCode(rootNode->getRightChild(), codeString + "1",codeMap);
 
 }
-void encodeIntoFile(std::string encodedString, std::string outfileName) {
+
+void writeHeader(std::ofstream &outfile, std::unordered_map<char, std::string>codeMap) {
+	for (const auto& item : codeMap)
+		outfile << item.first << CHARACTER_CODE_SEPERATOR << item.second << HEADER_ENTRY_SEPERATOR;
+	outfile << HEADER_TEXT_SEPERATOR;
+
+}
+void encodeIntoFile(std::string encodedString, std::string outfileName, std::unordered_map<char, std::string>codeMap) {
 	std::ofstream outfile("./src/" + outfileName);;
 	if (!outfile) {
 		std::cout << "Error writing on the file";
 		exit(1);
 	}
+
+	writeHeader(outfile,codeMap);
+	//mark pseudo end of the file
+	encodedString += codeMap[PSEUDO_EOF];
 	unsigned long remainder = (encodedString.size()) % 8;
 	for (int i = 0; i < 8 - remainder; ++i)
 		encodedString += '0';
@@ -81,11 +96,33 @@ void encodeIntoFile(std::string encodedString, std::string outfileName) {
 		std::bitset<8> bits;
 		stringStream >> bits;
 		char c = char(bits.to_ulong());
+		std::cout  << c;
 		outfile << c;
 	}
 	outfile.flush();
 	outfile.close();
 }
+
+std::string generateEncodedString(std::unordered_map<char, std::string> codeMap, std::ifstream& infile) {
+
+	char character;
+	std::string encodedString;
+	//write the header to the encoded string 
+
+
+	// seek the pointer to the beginning of the file
+	// temporary fix; // will fix permanently once internet available
+	
+	infile.close();
+	infile.open("./src/small-text.txt");
+
+	while (infile.get(character)) {
+		encodedString += codeMap[character];
+	}
+
+	return encodedString;
+}
+
 
 void compressor(std::string infileName) {
 	std::ifstream infile("./src/"+infileName);
@@ -105,7 +142,16 @@ void compressor(std::string infileName) {
 	//display the huffman code
 	std::cout << "display huffman code\n";
 	for (auto&& code : codeMap)
-		std::cout << (int)code.first << "=" << code.second << std::endl;
+		std::cout <<code.first << "=" << code.second << std::endl;
+
+	//generate the encodedString from the file.
+	std::string encodedString = generateEncodedString(codeMap,infile);
+
+
+	encodeIntoFile(encodedString, "output.txt",codeMap);
+
+	infile.close();
+
 }
 
 
