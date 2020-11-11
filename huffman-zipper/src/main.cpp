@@ -45,7 +45,9 @@ int main() {
 
 
 	//-----------------------Decompression-------------------------//
-	//decompressor("output.txt");
+	Decompressor decompression;
+
+	decompression.decompressor("output.txt");
 	// 2. Read encodedString from file
 
 	

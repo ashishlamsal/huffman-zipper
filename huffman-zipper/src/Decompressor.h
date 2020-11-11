@@ -1,6 +1,15 @@
 #pragma once
 #include<iostream>
 
-std::string readAllCharFromFile(std::ifstream& infile );
-std::string extractTextFromFile(std::string infileName);
-void decompressor(std::string);
+class Decompressor {
+
+	std::unordered_map<char, std::string> codeMap;
+	std::ifstream infile;
+	void readHeader();
+	std::string readAllCharFromFile();
+	std::string extractTextFromFile();
+	
+public:
+	void decompressor(std::string infileName);
+
+};
