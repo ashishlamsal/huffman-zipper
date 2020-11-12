@@ -9,73 +9,37 @@ static const int HASH_SEED = 5381;               // Starting point for first cyc
 static const int HASH_MULTIPLIER = 33;           // Multiplier for each cycle
 static const int HASH_MASK = unsigned(-1) >> 1;  // All 1 bits except the sign
 
-int hashCode(int key) {
-	return key & HASH_MASK;
-}
+int hashCode(int key);
 
-int hashCode(bool key) {
-	return hashCode(static_cast<int>(key));
-}
+int hashCode(bool key);
 
-int hashCode(char key) {
-	return hashCode(static_cast<int>(key));
-}
+int hashCode(char key);
 
-int hashCode(unsigned int key) {
-	return hashCode(static_cast<int>(key));
-}
+int hashCode(unsigned int key);
+int hashCode(long key);
 
-int hashCode(long key) {
-	return hashCode(static_cast<int>(key));
-}
+int hashCode(unsigned long key);
 
-int hashCode(unsigned long key) {
-	return hashCode(static_cast<int>(key));
-}
+int hashCode(short key);
 
-int hashCode(short key) {
-	return hashCode(static_cast<int>(key));
-}
-
-int hashCode(unsigned short key) {
-	return hashCode(static_cast<int>(key));
-}
+int hashCode(unsigned short key);
 
 #ifdef _WIN64
-int hashCode(uintptr_t key) {
-	return hashCode(static_cast<unsigned long>(key));
-}
+int hashCode(uintptr_t key);
 #endif // _WIN64
 
 
-int hashCode(void* key) {
-	return hashCode(reinterpret_cast<uintptr_t>(key));
-}
+int hashCode(void* key);
 
-int hashCode(const char* base, size_t numBytes) {
-	unsigned hash = HASH_SEED;
-	for (size_t i = 0; i < numBytes; i++) {
-		hash = HASH_MULTIPLIER * hash + base[i];
-	}
-	return hashCode(hash);
-}
+int hashCode(const char* base, size_t numBytes);
 
-int hashCode(const char* str) {
-	return hashCode(str, strlen(str));
-}
 
-int hashCode(const std::string& str) {
-	return hashCode(str.data(), str.length());
-}
+int hashCode(const char* str);
 
-int hashCode(double key) {
-	return hashCode(reinterpret_cast<const char*>(&key), sizeof(double));
-}
+int hashCode(const std::string& str);
 
-int hashCode(float key) {
-	return hashCode(reinterpret_cast<const char*>(&key), sizeof(float));
-}
+int hashCode(double key);
 
-int hashCode(long double key) {
-	return hashCode(reinterpret_cast<const char*>(&key), sizeof(long double));
-}
+int hashCode(float key);
+
+int hashCode(long double key);

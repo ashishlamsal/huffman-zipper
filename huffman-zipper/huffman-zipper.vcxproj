@@ -18,6 +18,29 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\decompressor.cpp" />
+    <ClCompile Include="src\HashCode.cpp" />
+    <ClCompile Include="src\BinNode.cpp" />
+    <ClCompile Include="src\compressor.cpp" />
+    <ClCompile Include="src\main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\BinNode.h" />
+    <ClInclude Include="src\Compressor.h" />
+    <ClInclude Include="src\Constants.h" />
+    <ClInclude Include="src\Decompressor.h" />
+    <ClInclude Include="src\HashCode.h" />
+    <ClInclude Include="src\HashMap.h" />
+    <ClInclude Include="src\MinHeap.h" />
+    <ClInclude Include="src\PriorityQueue.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="src\hamlet.txt" />
+    <Text Include="src\output.txt" />
+    <Text Include="src\PriorityQueue.txt" />
+    <Text Include="src\small-text.txt" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -147,18 +170,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="src\BinNode.cpp" />
-    <ClCompile Include="src\main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\Constants.h" />
-    <ClInclude Include="src\HashCode.h" />
-    <ClInclude Include="src\HashMap.h" />
-    <ClInclude Include="src\BinNode.h" />
-    <ClInclude Include="src\MinHeap.h" />
-    <ClInclude Include="src\PriorityQueue.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
