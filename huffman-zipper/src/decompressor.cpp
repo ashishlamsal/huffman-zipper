@@ -3,6 +3,7 @@
 #include<bitset>
 #include<unordered_map>
 #include"Decompressor.h"
+#include "BinNode.h"
 #define INTERNAL_NODE_CHARACTER char(128)
 #define PSEUDO_EOF char(129)
 #define CHARACTER_CODE_SEPERATOR char(130)
@@ -50,10 +51,47 @@ std::string Decompressor::extractTextFromFile() {
 	return encodedString;
 
 }
+
+
+BinNode* buildDecodingTree(std::unordered_map<char, std::string>& encodingMap) {
+
+	BinNode* rootNode = new BinNode(INTERNAL_NODE_CHARACTER, int());
+	BinNode* previousNode;
+
+	for (auto&& item : encodingMap) {
+		previousNode = rootNode;
+		std::string& characterCode = item.value;
+		for (int i = 0; i < characterCode.size(); i++) {
+			if (characterCode[i] == '0') {
+				if (i == characterCode.size() - 1)		// last character
+					previousNode->setLeftChild(new BinNode(item.key, int()));
+				else {
+					if (!previousNode->getLeftChild())
+						previousNode->setLeftChild(new BinNode(INTERNAL_NODE_CHARACTER, int()));
+					previousNode = previousNode->getLeftChild();
+				}
+			}
+			else {
+				if (i == characterCode.size() - 1)
+					previousNode->setRightChild(new BinNode(item.key, int()));
+				else {
+					if (!previousNode->getRightChild())
+						previousNode->setRightChild(new BinNode(INTERNAL_NODE_CHARACTER, int()));
+					previousNode = previousNode->getRightChild();
+				}
+			}
+		}
+	}
+	return rootNode;
+}
+
+
 void Decompressor::decompressor(std::string infileName) {
 	infile.open("./src/" + infileName);
 	std::string encodedString = extractTextFromFile();
 	std::cout << encodedString;
+
+	
 }
 
 
