@@ -18,13 +18,13 @@
     <ClCompile Include="src\BinNode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\compressor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\MinHeap.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\compressor.cpp">
+    <ClCompile Include="src\HashCode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\decompressor.cpp">
@@ -35,17 +35,32 @@
     <ClInclude Include="src\BinNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Compressor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Constants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Decompressor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\HashCode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\HashMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="src\MinHeap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\PriorityQueue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Compressor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Decompressor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="src\hamlet.txt" />
+    <Text Include="src\output.txt" />
+    <Text Include="src\PriorityQueue.txt" />
+    <Text Include="src\small-text.txt" />
   </ItemGroup>
 </Project>

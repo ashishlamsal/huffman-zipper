@@ -1,10 +1,27 @@
 #include "BinNode.h"
 
 BinNode::BinNode(char character, int frequency) {
-
 	this->character = character;
 	this->frequency = frequency;
 	this->leftChild = this->rightChild = nullptr;
+}
+
+std::ostream& operator<<(std::ostream& os, BinNode* node) {
+	os << node->getCharacter() << "=" << node->getFrequency() << std::flush;
+	return os;
+}
+
+std::ostream& operator<<(std::ostream& os, const BinNode& node) {
+	os << node.getCharacter() << "=" << node.getFrequency() << std::flush;
+	return os;
+}
+
+bool BinNode::operator<(const BinNode& other) {
+	return this->getFrequency() < other.getFrequency();
+}
+
+bool BinNode::operator<=(const BinNode& other) {
+	return this->getFrequency() <= other.getFrequency();
 }
 
 char BinNode::getCharacter() const {

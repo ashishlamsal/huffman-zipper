@@ -1,16 +1,9 @@
 #include <iostream>
-#include <fstream>
-#include <unordered_map>
-#include <queue>
-#include <string>
-#include <sstream>
-#include <bitset>
 
-#include "BinNode.h"
+
 #include "Compressor.h"
 #include "Decompressor.h"
-//#include "PriorityQueue.h"
-//#include "MinHeap.h"
+
 
 
 
@@ -41,13 +34,16 @@ std::string decodeCharacters(BinNode* root, std::string encodedString) {
 int main() {
 
 	//compressor 
-	compressor("small-text.txt");
+	/*{
+		Compressor compression;
+		compression.compressor(INPUT_FILE_PATH);
+	}*/
 
 
 	//-----------------------Decompression-------------------------//
 	Decompressor decompression;
 
-	decompression.decompressor("output.txt");
+	decompression.decompressor(COMPRESSED_FILE_PATH);
 	// 2. Read encodedString from file
 
 	

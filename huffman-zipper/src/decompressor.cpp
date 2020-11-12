@@ -1,18 +1,9 @@
-#include<iostream>
-#include<fstream>
-#include<bitset>
-#include<unordered_map>
 #include"Decompressor.h"
-#include "BinNode.h"
-#define INTERNAL_NODE_CHARACTER char(128)
-#define PSEUDO_EOF char(129)
-#define CHARACTER_CODE_SEPERATOR char(130)
-#define HEADER_ENTRY_SEPERATOR char(131)
-#define HEADER_TEXT_SEPERATOR char(132)
+
+
 
 
 void Decompressor::readHeader() {
-	std::unordered_map<char, std::string> codeMap;
 	char c;
 	infile.get(c);
 	char key = c;
@@ -38,7 +29,9 @@ std::string Decompressor::readAllCharFromFile() {
 	while (infile.get(character))
 	{
 		std::bitset<8> bits(character);
+		std::cout <<"----"<< character;
 		encodedString += bits.to_string();
+		
 	}
 
 	return encodedString;
@@ -53,12 +46,12 @@ std::string Decompressor::extractTextFromFile() {
 }
 
 
-BinNode* buildDecodingTree(std::unordered_map<char, std::string>& encodingMap) {
+BinNode* Decompressor:: buildDecodingTree() {
 
 	BinNode* rootNode = new BinNode(INTERNAL_NODE_CHARACTER, int());
 	BinNode* previousNode;
 
-	for (auto&& item : encodingMap) {
+	for (auto&& item : codeMap) {
 		previousNode = rootNode;
 		std::string& characterCode = item.value;
 		for (int i = 0; i < characterCode.size(); i++) {
@@ -85,11 +78,55 @@ BinNode* buildDecodingTree(std::unordered_map<char, std::string>& encodingMap) {
 	return rootNode;
 }
 
+std::string Decompressor::decodeCharacters(BinNode* root, std::string encodedString) {
+	std::string decodedString = "";
+	BinNode* curr = root;
+	for (int i = 0; i < encodedString.size(); i++) {
+		if (encodedString[i] == '0')
+			curr = curr->getLeftChild();
+		else
+			curr = curr->getRightChild();
 
-void Decompressor::decompressor(std::string infileName) {
-	infile.open("./src/" + infileName);
+		// reached leaf node 
+		if (curr->getLeftChild() == nullptr && curr->getRightChild() == nullptr) {
+			if (curr->getCharacter() == PSEUDO_EOF) return decodedString;
+			decodedString += curr->getCharacter();
+			curr = root;
+		}
+	}
+	//return decodedString;
+}
+
+void Decompressor::writeIntoFile(const std::string& decodedString) {
+	std::cout << "decoding tree";
+	std::ofstream outfile(DECOMPRESSED_FILE_PATH);
+	
+	outfile << decodedString;
+	outfile.close();
+
+}
+
+
+void Decompressor::decompressor(std::string infileName) {	
+	infile.open(infileName);
 	std::string encodedString = extractTextFromFile();
-	std::cout << encodedString;
+	std::cout <<"DE-ENCODEDSTRING\n"<< encodedString;
+	std::cout << "DE-encoding\n";
+	infile.close();
+
+	BinNode* rootNode = buildDecodingTree();
+	
+	std::string decodedString= decodeCharacters(rootNode, encodedString);
+	
+	std::cout << decodedString;
+	writeIntoFile(decodedString);
+	std::cout << "decoding tree";
+
+
+
+	// decoding tree 
+
+	// final code 
 
 	
 }

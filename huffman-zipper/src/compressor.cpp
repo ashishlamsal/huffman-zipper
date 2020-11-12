@@ -1,95 +1,77 @@
-#include<iostream>
-#include<fstream>
-#include<sstream>
-#include<bitset>
-#include<unordered_map>
-#include<queue>
-#define INTERNAL_NODE_CHARACTER char(128)
-#define PSEUDO_EOF char(129)
-#define CHARACTER_CODE_SEPERATOR char(130)
-#define HEADER_ENTRY_SEPERATOR char(131)
-#define HEADER_TEXT_SEPERATOR char(132)
 
-#include"BinNode.h"
+#include "Compressor.h"
 
-class Comparator {
-public:
-	bool operator()(BinNode* first, BinNode* second) {
-		return first->getFrequency() > second->getFrequency();
-		// to adjust in the ascending order i.e min-heap
-	}
-};
 
-std::unordered_map<char,int> getFrequency(std::ifstream & infile) {
-	char ch;
-	std::unordered_map<char, int> frequency;
+
+
+HashMap<char, int>  Compressor::getFrequency() {
+	char ch;	
 	while (!infile.eof()) { // inline.get(c) 
 		infile.get(ch);
 		frequency[ch]++;
 	}
 	frequency[PSEUDO_EOF]++;
 	infile.close();
-
-	for (auto&& character : frequency)
-		std::cout << (int)character.first << "=" << character.second << std::endl;
-
 	return frequency;
 }
 
-BinNode* createHuffmanTree(std::unordered_map<char, int> frequency) {
+BinNode* Compressor::createHuffmanTree() {
 	//takes frequency count and return the pointer to root node of huffman tree
 
-	std::priority_queue<BinNode*, std::vector<BinNode*>, Comparator> pq;
+	PriorityQueue<BinNode*> pq;
 	for (auto&& character : frequency) {
-		pq.push(new BinNode(character.first, character.second));
+		pq.enqueue(new BinNode(character.key, character.value));
 	}
 
 	std::cout << "Building Tree...\n";
-	while (pq.size() != 1)
+	while (pq.getSize() != 1)
 	{
-		BinNode* left = pq.top();
-		pq.pop();
-		BinNode* right = pq.top();
-		pq.pop();
+		BinNode* left = pq.dequeue();
+		BinNode* right = pq.dequeue();
 		BinNode* new_pair = new BinNode('$', left->getFrequency() + right->getFrequency());
-		pq.push(new_pair);
+		pq.enqueue(new_pair);
 		new_pair->setLeftChild(left);
 		new_pair->setRightChild(right);
 	}
 	return pq.top();
 }
 
-void generateHuffmanCode(BinNode* rootNode, std::string codeString, std::unordered_map<char, std::string>& codeMap) {
+void Compressor::generateHuffmanCode(BinNode* rootNode, std::string codeString) {
 	if (rootNode == nullptr)
 		return;
 	if (rootNode->getLeftChild() == nullptr && rootNode->getRightChild() == nullptr) {
 		codeMap[rootNode->getCharacter()] = codeString;
 	}
 
-	generateHuffmanCode(rootNode->getLeftChild(), codeString + "0",codeMap);
-	generateHuffmanCode(rootNode->getRightChild(), codeString + "1",codeMap);
+	generateHuffmanCode(rootNode->getLeftChild(), codeString + "0");
+	generateHuffmanCode(rootNode->getRightChild(), codeString + "1");
 
 }
 
-void writeHeader(std::ofstream &outfile, std::unordered_map<char, std::string>codeMap) {
+void Compressor::writeHeader(std::ofstream& outfile) {
 	for (const auto& item : codeMap)
-		outfile << item.first << CHARACTER_CODE_SEPERATOR << item.second << HEADER_ENTRY_SEPERATOR;
+		outfile << item.key << CHARACTER_CODE_SEPERATOR << item.value << HEADER_ENTRY_SEPERATOR;
 	outfile << HEADER_TEXT_SEPERATOR;
 
 }
-void encodeIntoFile(std::string encodedString, std::string outfileName, std::unordered_map<char, std::string>codeMap) {
-	std::ofstream outfile("./src/" + outfileName);;
+void Compressor::encodeIntoFile(std::string encodedString, std::string outfileName ) {
+	std::ofstream outfile(outfileName);;
 	if (!outfile) {
 		std::cout << "Error writing on the file";
 		exit(1);
 	}
 
-	writeHeader(outfile,codeMap);
+	writeHeader(outfile);
 	//mark pseudo end of the file
 	encodedString += codeMap[PSEUDO_EOF];
 	unsigned long remainder = (encodedString.size()) % 8;
-	for (int i = 0; i < 8 - remainder; ++i)
-		encodedString += '0';
+	if (remainder){
+		for (int i = 0; i < 8 - remainder; ++i)
+			encodedString += '1';
+	}
+
+	
+	
 	std::stringstream stringStream(encodedString);
 
 	while (stringStream.good()) {
@@ -103,18 +85,20 @@ void encodeIntoFile(std::string encodedString, std::string outfileName, std::uno
 	outfile.close();
 }
 
-std::string generateEncodedString(std::unordered_map<char, std::string> codeMap, std::ifstream& infile) {
+std::string Compressor::generateEncodedString() {
 
 	char character;
 	std::string encodedString;
 	//write the header to the encoded string 
 
-
+	
 	// seek the pointer to the beginning of the file
 	// temporary fix; // will fix permanently once internet available
 	
+	//infile.seekg(0, std::ios::beg );
+
 	infile.close();
-	infile.open("./src/small-text.txt");
+	infile.open(INPUT_FILE_PATH);
 
 	while (infile.get(character)) {
 		encodedString += codeMap[character];
@@ -124,31 +108,31 @@ std::string generateEncodedString(std::unordered_map<char, std::string> codeMap,
 }
 
 
-void compressor(std::string infileName) {
-	std::ifstream infile("./src/"+infileName);
+void Compressor::compressor(std::string infileName) {
+	infile.open(infileName);
 	if (!infile) {
 		std::cout << "Error: File couldn't be opened." << std::endl;
 		exit(1);
 	}
 	std::cout << "Success: File opened successfully." << std::endl;
 
-	std::unordered_map<char, int> frequency = getFrequency(infile);
+	HashMap<char, int> frequency = getFrequency();
 	//create the huffmantree out of frequency map
 
-	BinNode* rootNode = createHuffmanTree(frequency);
+	BinNode* rootNode = createHuffmanTree();
 	
-	std::unordered_map<char, std::string> codeMap;
-	generateHuffmanCode(rootNode, "",codeMap);
+	
+	generateHuffmanCode(rootNode, "");
 	//display the huffman code
 	std::cout << "display huffman code\n";
-	for (auto&& code : codeMap)
-		std::cout <<code.first << "=" << code.second << std::endl;
-
+	for (auto var : codeMap) {
+		std::cout << var.key << "==" << var.value << std::endl;
+	}
 	//generate the encodedString from the file.
-	std::string encodedString = generateEncodedString(codeMap,infile);
+	std::string encodedString = generateEncodedString();
+	std::cout << "ENCODEDSTRING\n" << encodedString;
 
-
-	encodeIntoFile(encodedString, "output.txt",codeMap);
+	encodeIntoFile(encodedString, COMPRESSED_FILE_PATH);
 
 	infile.close();
 

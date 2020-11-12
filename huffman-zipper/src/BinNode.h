@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 
 class BinNode {
 private:
@@ -9,6 +10,12 @@ private:
 
 public:
 	BinNode(char, int);
+
+	friend std::ostream& operator<<(std::ostream&, BinNode*);
+	friend std::ostream& operator<<(std::ostream&, const BinNode&);
+	bool operator<(const BinNode&);
+	bool operator<=(const BinNode&);
+
 
 	char getCharacter() const;
 	int getFrequency() const;
