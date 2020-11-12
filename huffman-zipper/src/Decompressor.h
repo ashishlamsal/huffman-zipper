@@ -13,11 +13,10 @@ class Decompressor {
 	HashMap<char, std::string> codeMap;
 	std::ifstream infile;
 	void readHeader();
-	std::string readAllCharFromFile();
-	std::string extractTextFromFile();
+	void readAllCharFromFile();
 	BinNode* buildDecodingTree();
-	std::string decodeCharacters(BinNode* root, std::string encodedString);
-	void writeIntoFile(const std::string &decodedString);
+	void decodeCharacters(BinNode* root);
+
 	
 public:
 	void decompressor(std::string infileName);

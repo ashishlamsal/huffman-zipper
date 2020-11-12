@@ -1,5 +1,5 @@
 #include <iostream>
-
+#include<exception>
 
 #include "Compressor.h"
 #include "Decompressor.h"
@@ -34,16 +34,21 @@ std::string decodeCharacters(BinNode* root, std::string encodedString) {
 int main() {
 
 	//compressor 
-	/*{
+	try {
 		Compressor compression;
 		compression.compressor(INPUT_FILE_PATH);
-	}*/
 
 
-	//-----------------------Decompression-------------------------//
-	Decompressor decompression;
 
-	decompression.decompressor(COMPRESSED_FILE_PATH);
+		//-----------------------Decompression-------------------------//
+		Decompressor decompression;
+
+		decompression.decompressor(COMPRESSED_FILE_PATH);
+	}
+
+	catch(std::exception err){
+		std::cerr << err.what();
+	}
 	// 2. Read encodedString from file
 
 	

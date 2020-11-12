@@ -21,29 +21,28 @@ void Decompressor::readHeader() {
 			key = c;
 		infile.get(c);
 	}
+	for (auto var : codeMap) {
+		std::cout << var.key << "=" << var.value;
+	}
 }
-std::string Decompressor::readAllCharFromFile() {
+void Decompressor::readAllCharFromFile() {
 	char character;
 	std::string encodedString;
+	std::ofstream tempFile("./binary_temp.tmp");
+	if (!tempFile) throw std::exception("[binary_temp] couldn't be opened");
 	readHeader();
 	while (infile.get(character))
 	{
 		std::bitset<8> bits(character);
 		std::cout <<"----"<< character;
-		encodedString += bits.to_string();
+		//writes the binary code into the tempFile
+		tempFile << bits.to_string();
 		
 	}
-
-	return encodedString;
+	tempFile.close();
 }
 
-std::string Decompressor::extractTextFromFile() {
-	std::string encodedString;
 
-	encodedString = readAllCharFromFile();
-	return encodedString;
-
-}
 
 
 BinNode* Decompressor:: buildDecodingTree() {
@@ -78,55 +77,50 @@ BinNode* Decompressor:: buildDecodingTree() {
 	return rootNode;
 }
 
-std::string Decompressor::decodeCharacters(BinNode* root, std::string encodedString) {
-	std::string decodedString = "";
+void Decompressor::decodeCharacters(BinNode* root) {
+	std::ifstream tempFile("./binary_temp.tmp");
+	if (!tempFile) throw std::exception("[binary_temp.tmp] couldn't be opened");
+	std::ofstream outFile(DECOMPRESSED_FILE_PATH);
+	if(!outFile) throw std::exception("[DECOMPRESSED_FILE] couldn't be opened");
+
+	char ch;
 	BinNode* curr = root;
-	for (int i = 0; i < encodedString.size(); i++) {
-		if (encodedString[i] == '0')
+	while(1) {
+		tempFile.get(ch);
+		if ( ch == '0')
 			curr = curr->getLeftChild();
 		else
 			curr = curr->getRightChild();
 
 		// reached leaf node 
 		if (curr->getLeftChild() == nullptr && curr->getRightChild() == nullptr) {
-			if (curr->getCharacter() == PSEUDO_EOF) return decodedString;
-			decodedString += curr->getCharacter();
+			if (curr->getCharacter() == PSEUDO_EOF) {
+				tempFile.close();
+				return ;
+			}
+			outFile << curr->getCharacter();
 			curr = root;
 		}
 	}
-	//return decodedString;
 }
 
-void Decompressor::writeIntoFile(const std::string& decodedString) {
-	std::cout << "decoding tree";
-	std::ofstream outfile(DECOMPRESSED_FILE_PATH);
-	
-	outfile << decodedString;
-	outfile.close();
 
-}
 
 
 void Decompressor::decompressor(std::string infileName) {	
 	infile.open(infileName);
-	std::string encodedString = extractTextFromFile();
-	std::cout <<"DE-ENCODEDSTRING\n"<< encodedString;
-	std::cout << "DE-encoding\n";
+	if (!infile) throw std::exception("[decompressor, infile] couldn't be opened");
+		// write the extracted text(in binary) into tempFile
+	readAllCharFromFile();
 	infile.close();
 
 	BinNode* rootNode = buildDecodingTree();
+	std::cout << "test";
 	
-	std::string decodedString= decodeCharacters(rootNode, encodedString);
+	decodeCharacters(rootNode);
+
+
 	
-	std::cout << decodedString;
-	writeIntoFile(decodedString);
-	std::cout << "decoding tree";
-
-
-
-	// decoding tree 
-
-	// final code 
 
 	
 }
