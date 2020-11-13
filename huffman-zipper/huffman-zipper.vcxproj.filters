@@ -57,10 +57,4 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
-  <ItemGroup>
-    <Text Include="src\hamlet.txt" />
-    <Text Include="src\output.txt" />
-    <Text Include="src\PriorityQueue.txt" />
-    <Text Include="src\small-text.txt" />
-  </ItemGroup>
 </Project>

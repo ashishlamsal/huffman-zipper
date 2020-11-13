@@ -35,12 +35,6 @@
     <ClInclude Include="src\MinHeap.h" />
     <ClInclude Include="src\PriorityQueue.h" />
   </ItemGroup>
-  <ItemGroup>
-    <Text Include="src\hamlet.txt" />
-    <Text Include="src\output.txt" />
-    <Text Include="src\PriorityQueue.txt" />
-    <Text Include="src\small-text.txt" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>

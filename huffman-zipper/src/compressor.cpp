@@ -1,12 +1,8 @@
-
 #include "Compressor.h"
 
-
-
-
-HashMap<char, int>  Compressor::getFrequency() {
-	char ch;	
-	while (!infile.eof()) { // inline.get(c) 
+HashMap<char, int> Compressor::getFrequency() {
+	char ch;
+	while (!infile.eof()) { // inline.get(ch) 
 		infile.get(ch);
 		frequency[ch]++;
 	}
@@ -28,7 +24,7 @@ BinNode* Compressor::createHuffmanTree() {
 	{
 		BinNode* left = pq.dequeue();
 		BinNode* right = pq.dequeue();
-		BinNode* new_pair = new BinNode('$', left->getFrequency() + right->getFrequency());
+		BinNode* new_pair = new BinNode(INTERNAL_NODE_CHARACTER, left->getFrequency() + right->getFrequency());
 		pq.enqueue(new_pair);
 		new_pair->setLeftChild(left);
 		new_pair->setRightChild(right);
@@ -45,16 +41,15 @@ void Compressor::generateHuffmanCode(BinNode* rootNode, std::string codeString) 
 
 	generateHuffmanCode(rootNode->getLeftChild(), codeString + "0");
 	generateHuffmanCode(rootNode->getRightChild(), codeString + "1");
-
 }
 
 void Compressor::writeHeader(std::ofstream& outfile) {
 	for (const auto& item : codeMap)
 		outfile << item.key << CHARACTER_CODE_SEPERATOR << item.value << HEADER_ENTRY_SEPERATOR;
 	outfile << HEADER_TEXT_SEPERATOR;
-
 }
-void Compressor::encodeIntoFile(std::string encodedString, std::string outfileName ) {
+
+void Compressor::encodeIntoFile(std::string encodedString, std::string outfileName) {
 	std::ofstream outfile(outfileName);;
 	if (!outfile) {
 		std::cout << "Error writing on the file";
@@ -62,40 +57,39 @@ void Compressor::encodeIntoFile(std::string encodedString, std::string outfileNa
 	}
 
 	writeHeader(outfile);
+	
 	//mark pseudo end of the file
 	encodedString += codeMap[PSEUDO_EOF];
 	unsigned long remainder = (encodedString.size()) % 8;
-	if (remainder){
+	if (remainder) {
 		for (int i = 0; i < 8 - remainder; ++i)
-			encodedString += '1';
+			encodedString += '0';
 	}
 
-	
-	
 	std::stringstream stringStream(encodedString);
 
 	while (stringStream.good()) {
 		std::bitset<8> bits;
 		stringStream >> bits;
 		char c = char(bits.to_ulong());
-		std::cout  << c;
-		outfile << c;
+		std::cout << c;
+		outfile.put(c);
 	}
+	std::cout << "\nFinished encoding" << std::endl;
 	outfile.flush();
 	outfile.close();
 }
 
 std::string Compressor::generateEncodedString() {
-
 	char character;
 	std::string encodedString;
 	//write the header to the encoded string 
 
-	
+
 	// seek the pointer to the beginning of the file
 	// temporary fix; // will fix permanently once internet available
-	
-	//infile.seekg(0, std::ios::beg );
+
+	//infile.seekg(0, std::ios::beg);
 
 	infile.close();
 	infile.open(INPUT_FILE_PATH);
@@ -120,22 +114,21 @@ void Compressor::compressor(std::string infileName) {
 	//create the huffmantree out of frequency map
 
 	BinNode* rootNode = createHuffmanTree();
-	
-	
+
+
 	generateHuffmanCode(rootNode, "");
 	//display the huffman code
 	std::cout << "display huffman code\n";
 	for (auto var : codeMap) {
 		std::cout << var.key << "==" << var.value << std::endl;
 	}
+
 	//generate the encodedString from the file.
 	std::string encodedString = generateEncodedString();
-	std::cout << "ENCODEDSTRING\n" << encodedString;
+	std::cout << "ENCODEDSTRING\n" << encodedString << std::endl;
 
 	encodeIntoFile(encodedString, COMPRESSED_FILE_PATH);
-
 	infile.close();
-
 }
 
 

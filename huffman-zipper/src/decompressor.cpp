@@ -1,8 +1,5 @@
 #include"Decompressor.h"
 
-
-
-
 void Decompressor::readHeader() {
 	char c;
 	infile.get(c);
@@ -12,7 +9,7 @@ void Decompressor::readHeader() {
 		if (c == CHARACTER_CODE_SEPERATOR) {
 			infile.get(c);
 			while (c != HEADER_ENTRY_SEPERATOR) {
-				std::cout << c;
+				//std::cout << c;
 				codeMap[key] += c;
 				infile.get(c);
 			}
@@ -21,29 +18,28 @@ void Decompressor::readHeader() {
 			key = c;
 		infile.get(c);
 	}
-	for (auto var : codeMap) {
-		std::cout << var.key << "=" << var.value;
-	}
+	//for (auto&& var : codeMap) {
+	//	std::cout << var.key << "=" << var.value << std::endl;
+	//}
 }
+
 void Decompressor::readAllCharFromFile() {
 	char character;
 	std::string encodedString;
-	std::ofstream tempFile("./binary_temp.tmp");
+	std::ofstream tempFile("./src/binary_temp.tmp");
 	if (!tempFile) throw std::exception("[binary_temp] couldn't be opened");
 	readHeader();
 	while (infile.get(character))
 	{
+		std::cout << character;
 		std::bitset<8> bits(character);
-		std::cout <<"----"<< character;
 		//writes the binary code into the tempFile
 		tempFile << bits.to_string();
-		
+
 	}
+	std::cout << std::endl;
 	tempFile.close();
 }
-
-
-
 
 BinNode* Decompressor:: buildDecodingTree() {
 
@@ -78,16 +74,15 @@ BinNode* Decompressor:: buildDecodingTree() {
 }
 
 void Decompressor::decodeCharacters(BinNode* root) {
-	std::ifstream tempFile("./binary_temp.tmp");
+	std::ifstream tempFile("./src/binary_temp.tmp");
 	if (!tempFile) throw std::exception("[binary_temp.tmp] couldn't be opened");
 	std::ofstream outFile(DECOMPRESSED_FILE_PATH);
-	if(!outFile) throw std::exception("[DECOMPRESSED_FILE] couldn't be opened");
+	if (!outFile) throw std::exception("[DECOMPRESSED_FILE] couldn't be opened");
 
 	char ch;
 	BinNode* curr = root;
-	while(1) {
-		tempFile.get(ch);
-		if ( ch == '0')
+	while (tempFile.get(ch)) {
+		if (ch == '0')
 			curr = curr->getLeftChild();
 		else
 			curr = curr->getRightChild();
@@ -95,22 +90,23 @@ void Decompressor::decodeCharacters(BinNode* root) {
 		// reached leaf node 
 		if (curr->getLeftChild() == nullptr && curr->getRightChild() == nullptr) {
 			if (curr->getCharacter() == PSEUDO_EOF) {
-				tempFile.close();
-				return ;
+				break;
 			}
-			outFile << curr->getCharacter();
+			outFile.put(curr->getCharacter());
 			curr = root;
 		}
 	}
+	tempFile.close();
+	outFile.flush();
+	outFile.close();
 }
-
-
 
 
 void Decompressor::decompressor(std::string infileName) {	
 	infile.open(infileName);
 	if (!infile) throw std::exception("[decompressor, infile] couldn't be opened");
-		// write the extracted text(in binary) into tempFile
+	
+	// write the extracted text(in binary) into tempFile
 	readAllCharFromFile();
 	infile.close();
 
@@ -119,10 +115,6 @@ void Decompressor::decompressor(std::string infileName) {
 	
 	decodeCharacters(rootNode);
 
-
-	
-
-	
 }
 
 
