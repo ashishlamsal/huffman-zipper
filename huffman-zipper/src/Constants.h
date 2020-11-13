@@ -13,7 +13,7 @@ constexpr auto RESERVE_SIZE = 101;
 #define CHARACTER_CODE_SEPERATOR char(130)
 #define HEADER_ENTRY_SEPERATOR char(131)
 #define HEADER_TEXT_SEPERATOR char(132)
-#define INPUT_FILE_PATH "./src/test.txt"
+#define INPUT_FILE_PATH "./src/hamlet.txt"
 #define COMPRESSED_FILE_PATH "./src/output1.txt"
 #define DECOMPRESSED_FILE_PATH "./src/output2.txt"
 

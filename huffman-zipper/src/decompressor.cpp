@@ -18,9 +18,13 @@ void Decompressor::readHeader() {
 			key = c;
 		infile.get(c);
 	}
-	//for (auto&& var : codeMap) {
-	//	std::cout << var.key << "=" << var.value << std::endl;
-	//}
+
+	//infile.read((char*)&codeMap, sizeof(codeMap));
+
+	std::cout << "header reading" << std::endl;
+	for (auto&& var : codeMap) {
+		std::cout << var.key << "=" << var.value << std::endl;
+	}
 }
 
 void Decompressor::readAllCharFromFile() {
@@ -29,6 +33,7 @@ void Decompressor::readAllCharFromFile() {
 	std::ofstream tempFile("./src/binary_temp.tmp");
 	if (!tempFile) throw std::exception("[binary_temp] couldn't be opened");
 	readHeader();
+	
 	while (infile.get(character))
 	{
 		std::cout << character;
@@ -103,7 +108,7 @@ void Decompressor::decodeCharacters(BinNode* root) {
 
 
 void Decompressor::decompressor(std::string infileName) {	
-	infile.open(infileName);
+	infile.open(infileName, std::ios::in | std::ios::binary);
 	if (!infile) throw std::exception("[decompressor, infile] couldn't be opened");
 	
 	// write the extracted text(in binary) into tempFile

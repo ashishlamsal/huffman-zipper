@@ -44,13 +44,24 @@ void Compressor::generateHuffmanCode(BinNode* rootNode, std::string codeString) 
 }
 
 void Compressor::writeHeader(std::ofstream& outfile) {
-	for (const auto& item : codeMap)
+	for (const auto& item : codeMap) {
 		outfile << item.key << CHARACTER_CODE_SEPERATOR << item.value << HEADER_ENTRY_SEPERATOR;
+	}
 	outfile << HEADER_TEXT_SEPERATOR;
+	//for (auto&& item : codeMap) {
+	//	outfile.write(reinterpret_cast<char*>(&item.key), sizeof(char));
+	//	outfile.write(reinterpret_cast<char*>(CHARACTER_CODE_SEPERATOR), sizeof(char));
+	//	outfile.write(reinterpret_cast<char*>(&item.value), sizeof(item.value));
+	//	outfile.write(reinterpret_cast<char*>(HEADER_ENTRY_SEPERATOR), sizeof(char));
+	//	outfile.write(reinterpret_cast<char*>(HEADER_TEXT_SEPERATOR), sizeof(char));
+	//}
+	//std::cout << sizeof(codeMap) << std::endl;
+	//outfile.write((char*)&codeMap, sizeof(codeMap));
+	std::cout << "Header writing" << std::endl;
 }
 
 void Compressor::encodeIntoFile(std::string encodedString, std::string outfileName) {
-	std::ofstream outfile(outfileName);;
+	std::ofstream outfile(outfileName, std::ios::out | std::ios::binary);
 	if (!outfile) {
 		std::cout << "Error writing on the file";
 		exit(1);
@@ -74,6 +85,7 @@ void Compressor::encodeIntoFile(std::string encodedString, std::string outfileNa
 		char c = char(bits.to_ulong());
 		std::cout << c;
 		outfile.put(c);
+		//outfile.write(reinterpret_cast<char*>(&c), sizeof(c));
 	}
 	std::cout << "\nFinished encoding" << std::endl;
 	outfile.flush();
