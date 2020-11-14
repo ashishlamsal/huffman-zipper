@@ -4,7 +4,6 @@
 #include "Compressor.h"
 #include "Decompressor.h"
 
-
 int main() {
 	try {
 		//-----------------------Compression-------------------------//

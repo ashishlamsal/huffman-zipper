@@ -54,7 +54,7 @@ public:
 // implementation
 template <class T>
 MinHeap<T>::MinHeap() {
-	//items.reserve(RESERVE_SIZE);
+	items.reserve(RESERVE_SIZE);
 }
 
 template <class T>
