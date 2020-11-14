@@ -1,54 +1,55 @@
 #include"Decompressor.h"
 
-
-
+Decompressor::~Decompressor() {
+	if (remove("./src/binary_temp.tmp") != 0)
+		perror("tempFile deletion failed");
+	else
+		std::cout << "tempFile deleted successfully\n";
+}
 
 void Decompressor::readHeader() {
-	char c;
-	infile.get(c);
-	char key = c;
-	while (c != HEADER_TEXT_SEPERATOR) {
-
-		if (c == CHARACTER_CODE_SEPERATOR) {
-			infile.get(c);
-			while (c != HEADER_ENTRY_SEPERATOR) {
-				std::cout << c;
-				codeMap[key] += c;
-				infile.get(c);
+	char ch;
+	infile.read(reinterpret_cast<char*>(&ch), sizeof(ch));
+	char key = ch;
+	while (ch != HEADER_TEXT_SEPERATOR) {
+		if (ch == CHARACTER_CODE_SEPERATOR) {
+			infile.read(reinterpret_cast<char*>(&ch), sizeof(ch));
+			while (ch != HEADER_ENTRY_SEPERATOR) {
+				codeMap[key] += ch;
+				infile.read(reinterpret_cast<char*>(&ch), sizeof(ch));
 			}
 		}
-		else
-			key = c;
-		infile.get(c);
+		else {
+			key = ch;
+		}
+		infile.read(reinterpret_cast<char*>(&ch), sizeof(ch));
 	}
+
+	//for (auto&& var : codeMap) {
+	//	std::cout << var.key << "=" << var.value << std::endl;
+	//}
 }
-std::string Decompressor::readAllCharFromFile() {
-	char character;
-	std::string encodedString;
+
+void Decompressor::readAllCharFromFile() {
+	tempFile.open("./src/binary_temp.tmp", std::ios::in | std::ios::out | std::ios::binary | std::ios::trunc);
+	if (!tempFile)
+		throw std::runtime_error("[binary_temp] couldn't be opened");
+
 	readHeader();
-	while (infile.get(character))
-	{
-		std::bitset<8> bits(character);
-		std::cout <<"----"<< character;
-		encodedString += bits.to_string();
-		
+
+	char ch;
+	while (infile.read(reinterpret_cast<char*>(&ch), sizeof(ch))) {
+		//std::cout << ch;
+		std::bitset<8> bits(ch);
+		// write the extracted binary code into tempFile
+		tempFile.write(bits.to_string().c_str(), bits.size());
 	}
-
-	return encodedString;
+	//std::cout << std::endl;
+	infile.close();
 }
-
-std::string Decompressor::extractTextFromFile() {
-	std::string encodedString;
-
-	encodedString = readAllCharFromFile();
-	return encodedString;
-
-}
-
 
 BinNode* Decompressor:: buildDecodingTree() {
-
-	BinNode* rootNode = new BinNode(INTERNAL_NODE_CHARACTER, int());
+	BinNode* rootNode = new BinNode(INTERNAL_NODE_CHARACTER);
 	BinNode* previousNode;
 
 	for (auto&& item : codeMap) {
@@ -57,19 +58,19 @@ BinNode* Decompressor:: buildDecodingTree() {
 		for (int i = 0; i < characterCode.size(); i++) {
 			if (characterCode[i] == '0') {
 				if (i == characterCode.size() - 1)		// last character
-					previousNode->setLeftChild(new BinNode(item.key, int()));
+					previousNode->setLeftChild(new BinNode(item.key));
 				else {
 					if (!previousNode->getLeftChild())
-						previousNode->setLeftChild(new BinNode(INTERNAL_NODE_CHARACTER, int()));
+						previousNode->setLeftChild(new BinNode(INTERNAL_NODE_CHARACTER));
 					previousNode = previousNode->getLeftChild();
 				}
 			}
 			else {
 				if (i == characterCode.size() - 1)
-					previousNode->setRightChild(new BinNode(item.key, int()));
+					previousNode->setRightChild(new BinNode(item.key));
 				else {
 					if (!previousNode->getRightChild())
-						previousNode->setRightChild(new BinNode(INTERNAL_NODE_CHARACTER, int()));
+						previousNode->setRightChild(new BinNode(INTERNAL_NODE_CHARACTER));
 					previousNode = previousNode->getRightChild();
 				}
 			}
@@ -78,57 +79,61 @@ BinNode* Decompressor:: buildDecodingTree() {
 	return rootNode;
 }
 
-std::string Decompressor::decodeCharacters(BinNode* root, std::string encodedString) {
-	std::string decodedString = "";
+void Decompressor::decodeCharacters(BinNode* root) {
+	std::ofstream outFile(DECOMPRESSED_FILE_PATH, std::ios::out | std::ios::trunc);
+	if (!outFile)
+		throw std::runtime_error("[DECOMPRESSED_FILE] couldn't be opened");
+
+	tempFile.clear();
+	tempFile.seekg(0, std::ios::beg);
+
+	char ch;
 	BinNode* curr = root;
-	for (int i = 0; i < encodedString.size(); i++) {
-		if (encodedString[i] == '0')
+	while (tempFile.read(reinterpret_cast<char*>(&ch), sizeof(ch))) {
+		if (ch == '0')
 			curr = curr->getLeftChild();
 		else
 			curr = curr->getRightChild();
 
-		// reached leaf node 
-		if (curr->getLeftChild() == nullptr && curr->getRightChild() == nullptr) {
-			if (curr->getCharacter() == PSEUDO_EOF) return decodedString;
-			decodedString += curr->getCharacter();
+		if (curr->isLeaf()) {		// reached leaf node 
+			if (curr->getCharacter() == PSEUDO_EOF) {
+				break;
+			}
+			outFile.put(curr->getCharacter());
 			curr = root;
 		}
 	}
-	//return decodedString;
+
+	tempFile.close();
+	outFile.flush();
+	outFile.close();
 }
 
-void Decompressor::writeIntoFile(const std::string& decodedString) {
-	std::cout << "decoding tree";
-	std::ofstream outfile(DECOMPRESSED_FILE_PATH);
-	
-	outfile << decodedString;
-	outfile.close();
+void Decompressor::decompressor(std::string infileName) {
+	auto start = std::chrono::steady_clock::now();
+	infile.open(infileName, std::ios::in | std::ios::binary);
+	if (!infile)
+		throw std::runtime_error("[decompressor, infile] couldn't be opened");
 
-}
-
-
-void Decompressor::decompressor(std::string infileName) {	
-	infile.open(infileName);
-	std::string encodedString = extractTextFromFile();
-	std::cout <<"DE-ENCODEDSTRING\n"<< encodedString;
-	std::cout << "DE-encoding\n";
-	infile.close();
-
+	readAllCharFromFile();
 	BinNode* rootNode = buildDecodingTree();
-	
-	std::string decodedString= decodeCharacters(rootNode, encodedString);
-	
-	std::cout << decodedString;
-	writeIntoFile(decodedString);
-	std::cout << "decoding tree";
+	decodeCharacters(rootNode);
+	deleteTree(rootNode);
 
+	auto stop = std::chrono::steady_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::duration<double>>(stop - start);
+	std::cout << "Decompression Time: " << duration.count() << " seconds" << std::endl;
+}
 
+void Decompressor::deleteTree(BinNode* node) {
+	if (node == nullptr) return;
 
-	// decoding tree 
+	/* first delete both subtrees */
+	deleteTree(node->getLeftChild());
+	deleteTree(node->getRightChild());
 
-	// final code 
-
-	
+	/* then delete the node */
+	delete node;
 }
 
 

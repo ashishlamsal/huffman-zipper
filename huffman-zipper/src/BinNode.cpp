@@ -1,10 +1,8 @@
 #include "BinNode.h"
 
-BinNode::BinNode(char character, int frequency) {
-	this->character = character;
-	this->frequency = frequency;
-	this->leftChild = this->rightChild = nullptr;
-}
+BinNode::BinNode(char character) :character(character), frequency(0), leftChild(nullptr), rightChild(nullptr) {}
+
+BinNode::BinNode(char character, int frequency) : character(character), frequency(frequency), leftChild(nullptr), rightChild(nullptr) {}
 
 std::ostream& operator<<(std::ostream& os, BinNode* node) {
 	os << node->getCharacter() << "=" << node->getFrequency() << std::flush;
@@ -33,11 +31,11 @@ int BinNode::getFrequency() const {
 }
 
 void BinNode::setLeftChild(BinNode* left) {
-	BinNode::leftChild = left;
+	this->leftChild = left;
 }
 
 void BinNode::setRightChild(BinNode* right) {
-	BinNode::rightChild = right;
+	this->rightChild = right;
 }
 
 BinNode* BinNode::getLeftChild() const {
@@ -46,4 +44,8 @@ BinNode* BinNode::getLeftChild() const {
 
 BinNode* BinNode::getRightChild() const {
 	return rightChild;
+}
+
+bool BinNode::isLeaf() {
+	return getLeftChild() == nullptr && getRightChild() == nullptr;
 }

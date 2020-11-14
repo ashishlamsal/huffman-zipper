@@ -1,25 +1,27 @@
 #pragma once
-#include<iostream>
-#include<fstream>
-#include<bitset>
-#include<string>
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <bitset>
+#include <chrono>
+
 #include "HashMap.h"
 #include "BinNode.h"
 
-
-
 class Decompressor {
-
+private:
 	HashMap<char, std::string> codeMap;
 	std::ifstream infile;
-	void readHeader();
-	std::string readAllCharFromFile();
-	std::string extractTextFromFile();
-	BinNode* buildDecodingTree();
-	std::string decodeCharacters(BinNode* root, std::string encodedString);
-	void writeIntoFile(const std::string &decodedString);
-	
-public:
-	void decompressor(std::string infileName);
+	std::fstream tempFile;
 
+private:
+	void readHeader();
+	void readAllCharFromFile();
+	BinNode* buildDecodingTree();
+	void decodeCharacters(BinNode* root);
+	void deleteTree(BinNode* node);
+
+public:
+	~Decompressor();
+	void decompressor(std::string infileName);
 };
