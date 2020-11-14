@@ -118,10 +118,22 @@ void Decompressor::decompressor(std::string infileName) {
 	readAllCharFromFile();
 	BinNode* rootNode = buildDecodingTree();
 	decodeCharacters(rootNode);
+	deleteTree(rootNode);
 
 	auto stop = std::chrono::steady_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::duration<double>>(stop - start);
 	std::cout << "Decompression Time: " << duration.count() << " seconds" << std::endl;
+}
+
+void Decompressor::deleteTree(BinNode* node) {
+	if (node == nullptr) return;
+
+	/* first delete both subtrees */
+	deleteTree(node->getLeftChild());
+	deleteTree(node->getRightChild());
+
+	/* then delete the node */
+	delete node;
 }
 
 

@@ -19,6 +19,7 @@ private:
 	void readAllCharFromFile();
 	BinNode* buildDecodingTree();
 	void decodeCharacters(BinNode* root);
+	void deleteTree(BinNode* node);
 
 public:
 	~Decompressor();

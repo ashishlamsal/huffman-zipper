@@ -26,6 +26,7 @@ private:
 	
 	void writeHeader(std::ofstream& outfile);
 	void encodeIntoFile(std::string encodedString, std::string outfileName);
+	void deleteTree(BinNode* node);
 
 public:
 	void compressor(std::string infileName);

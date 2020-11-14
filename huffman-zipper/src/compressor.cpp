@@ -107,6 +107,7 @@ void Compressor::compressor(std::string infileName) {
 	HashMap<char, int> frequency = getFrequency();
 	BinNode* rootNode = createHuffmanTree();
 	generateHuffmanCode(rootNode, "");
+	deleteTree(rootNode);
 	std::string encodedString = generateEncodedString();
 	encodeIntoFile(encodedString, COMPRESSED_FILE_PATH);
 
@@ -119,4 +120,15 @@ void Compressor::compressor(std::string infileName) {
 	//for (auto&& var : codeMap) {
 	//	std::cout << var.key << "=" << var.value << std::endl;
 	//}
+}
+
+void Compressor::deleteTree(BinNode* node) {
+	if (node == nullptr) return;
+
+	/* first delete both subtrees */
+	deleteTree(node->getLeftChild());
+	deleteTree(node->getRightChild());
+
+	/* then delete the node */
+	delete node;
 }
