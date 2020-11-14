@@ -9,13 +9,13 @@ private:
 	BinNode* rightChild;
 
 public:
+	BinNode(char);
 	BinNode(char, int);
 
 	friend std::ostream& operator<<(std::ostream&, BinNode*);
 	friend std::ostream& operator<<(std::ostream&, const BinNode&);
 	bool operator<(const BinNode&);
 	bool operator<=(const BinNode&);
-
 
 	char getCharacter() const;
 	int getFrequency() const;
@@ -25,4 +25,6 @@ public:
 
 	void setLeftChild(BinNode*);
 	void setRightChild(BinNode*);
+
+	bool isLeaf();
 };

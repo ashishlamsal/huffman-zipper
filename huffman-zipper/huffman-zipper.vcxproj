@@ -19,10 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\decompressor.cpp" />
+    <ClCompile Include="src\Decompressor.cpp" />
     <ClCompile Include="src\HashCode.cpp" />
     <ClCompile Include="src\BinNode.cpp" />
-    <ClCompile Include="src\compressor.cpp" />
+    <ClCompile Include="src\Compressor.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>

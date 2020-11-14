@@ -2,7 +2,9 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <string>
 #include <bitset>
+#include <chrono>
 
 #include "BinNode.h"
 #include "HashMap.h"
@@ -17,11 +19,13 @@ private:
 
 private:
 	HashMap<char, int> getFrequency();
+	
 	BinNode* createHuffmanTree();
 	void generateHuffmanCode(BinNode* rootNode, std::string codeString);
+	std::string generateEncodedString();
+	
 	void writeHeader(std::ofstream& outfile);
 	void encodeIntoFile(std::string encodedString, std::string outfileName);
-	std::string generateEncodedString();
 
 public:
 	void compressor(std::string infileName);

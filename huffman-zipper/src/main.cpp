@@ -11,7 +11,6 @@ int main() {
 		Compressor compression;
 		compression.compressor(INPUT_FILE_PATH);
 
-		std::cout << "======================================================================================" << std::endl;
 		//-----------------------Decompression-------------------------//
 		Decompressor decompression;
 		decompression.decompressor(COMPRESSED_FILE_PATH);

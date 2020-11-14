@@ -1,6 +1,5 @@
 #include"HashCode.h"
 
-
 int hashCode(int key) {
 	return key & HASH_MASK;
 }
