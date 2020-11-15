@@ -97,7 +97,7 @@ void Compressor::encodeIntoFile(std::string encodedString, std::string outfileNa
 void Compressor::compressor(std::string infileName) {
 	auto start = std::chrono::steady_clock::now();
 
-	infile.open(infileName);
+	infile.open(infileName, std::ios::in | std::ios::binary);
 	if (!infile) {
 		std::cout << "Error: File couldn't be opened." << std::endl;
 		exit(1);

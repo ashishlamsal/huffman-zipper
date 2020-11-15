@@ -80,7 +80,7 @@ BinNode* Decompressor:: buildDecodingTree() {
 }
 
 void Decompressor::decodeCharacters(BinNode* root) {
-	std::ofstream outFile(DECOMPRESSED_FILE_PATH, std::ios::out | std::ios::trunc);
+	std::ofstream outFile(DECOMPRESSED_FILE_PATH, std::ios::out | std::ios::binary | std::ios::trunc);
 	if (!outFile)
 		throw std::runtime_error("[DECOMPRESSED_FILE] couldn't be opened");
 
