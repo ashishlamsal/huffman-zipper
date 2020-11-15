@@ -85,7 +85,7 @@ void Decompressor::decodeCharacters(BinNode* root) {
 
 	char ch;
 	BinNode* curr = root;
-	while(1) {
+	for(long int i = 0;i<2980;i++){
 		tempFile.get(ch);
 		if ( ch == '0')
 			curr = curr->getLeftChild();
