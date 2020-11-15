@@ -34,7 +34,7 @@ private:
 	typename std::enable_if<!std::is_pointer<U>::value, void >::type bubbleUp();
 
 	void bubbleDown();
-	void swap(int, int); // @param indexes
+	void swap(int, int);	// @param indexes
 
 public:
 	MinHeap();
@@ -45,7 +45,7 @@ public:
 
 	T min();
 	void insert(const T&);
-	T remove();      // removes root node (default)
+	T remove();				// removes root node (default)
 
 	void display();
 };
@@ -54,7 +54,7 @@ public:
 // implementation
 template <class T>
 MinHeap<T>::MinHeap() {
-	//items.reserve(RESERVE_SIZE);
+	items.reserve(RESERVE_SIZE);
 }
 
 template <class T>
