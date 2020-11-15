@@ -17,6 +17,6 @@ constexpr auto HEADER_ENTRY_SEPERATOR = char(131);
 constexpr auto HEADER_TEXT_SEPERATOR = char(132);
 
 // File locations
-constexpr auto INPUT_FILE_PATH = "./src/input.txt";
+constexpr auto INPUT_FILE_PATH = "./src/hamlet.txt";
 constexpr auto COMPRESSED_FILE_PATH = "./src/output1.txt";
 constexpr auto DECOMPRESSED_FILE_PATH = "./src/output2.txt";
