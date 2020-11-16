@@ -2,6 +2,8 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=vscode,visualstudio,c++
 
 ### C++ ###
+#sample files 
+*.txt
 # Prerequisites
 *.d
 
