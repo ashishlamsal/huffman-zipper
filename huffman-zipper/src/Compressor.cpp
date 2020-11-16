@@ -1,13 +1,27 @@
 #include "Compressor.h"
 
-HashMap<char, int> Compressor::getFrequency() {
+Compressor::Compressor() :rootNode(nullptr) {}
+
+Compressor::~Compressor() {
+	deleteTree(rootNode);
+}
+
+void Compressor::deleteTree(BinNode* node) {
+	if (node == nullptr) return;
+
+	deleteTree(node->getLeftChild());
+	deleteTree(node->getRightChild());
+
+	delete node;
+}
+
+void Compressor::getFrequency() {
 	char ch;
 	while (!infile.eof()) {
 		infile.get(ch);
 		frequency[ch]++;
 	}
 	frequency[PSEUDO_EOF]++;
-	return frequency;
 }
 
 //create the Huffman's tree out of frequency map
@@ -17,9 +31,7 @@ BinNode* Compressor::createHuffmanTree() {
 		pq.enqueue(new BinNode(character.key, character.value));
 	}
 
-	//std::cout << "Building Tree...\n";
-	while (pq.getSize() != 1)
-	{
+	while (pq.getSize() != 1) {
 		BinNode* left = pq.dequeue();
 		BinNode* right = pq.dequeue();
 		BinNode* new_pair = new BinNode(INTERNAL_NODE_CHARACTER, left->getFrequency() + right->getFrequency());
@@ -41,19 +53,20 @@ void Compressor::generateHuffmanCode(BinNode* rootNode, std::string codeString) 
 	generateHuffmanCode(rootNode->getRightChild(), codeString + "1");
 }
 
-std::string Compressor::generateEncodedString() {
+void Compressor::generateEncodedString() {
 	char ch;
-	std::string encodedString;
-
+	
 	infile.clear();
 	infile.seekg(0, std::ios::beg);
 
 	while (infile.get(ch)) {
 		encodedString += codeMap[ch];
 	}
-	infile.close();
 
-	return encodedString;
+	//mark pseudo end of the file
+	encodedString += codeMap[PSEUDO_EOF];
+	
+	infile.close();
 }
 
 //write the header to the encoded string 
@@ -64,17 +77,12 @@ void Compressor::writeHeader(std::ofstream& outfile) {
 	outfile << HEADER_TEXT_SEPERATOR;
 }
 
-void Compressor::encodeIntoFile(std::string encodedString, std::string outfileName) {
+void Compressor::encodeIntoFile(const std::string& outfileName) {
 	std::ofstream outfile(outfileName, std::ios::out | std::ios::binary | std::ios::trunc);
-	if (!outfile) {
-		std::cout << "Error writing on the file";
-		exit(1);
-	}
+	if (!outfile)
+		throw std::runtime_error("Output Error : \'" + outfileName + "\' couldn't be created");
 
 	writeHeader(outfile);
-
-	//mark pseudo end of the file
-	encodedString += codeMap[PSEUDO_EOF];
 
 	unsigned long remainder = (encodedString.size()) % 8;
 	if (remainder) {
@@ -90,45 +98,50 @@ void Compressor::encodeIntoFile(std::string encodedString, std::string outfileNa
 		//std::cout << c;
 		outfile.write(reinterpret_cast<char*>(&c), sizeof(c));
 	}
+
 	outfile.flush();
 	outfile.close();
 }
 
-void Compressor::compressor(std::string infileName) {
+void Compressor::compressFile(const std::string& infileName) {
+	std::cout << "Compressing ..." << std::endl;
 	auto start = std::chrono::steady_clock::now();
 
 	infile.open(infileName, std::ios::in | std::ios::binary);
-	if (!infile) {
-		std::cout << "Error: File couldn't be opened." << std::endl;
-		exit(1);
-	}
-	std::cout << "Success: File opened successfully." << std::endl;
-
-	HashMap<char, int> frequency = getFrequency();
-	BinNode* rootNode = createHuffmanTree();
+	if (!infile)
+		throw std::runtime_error("Input Error : \'" + infileName + "\' couldn't be opened");
+	
+	std::cout << "Reading frequency ..." << std::endl;
+	getFrequency();
+	
+	std::cout << "Creating Huffman Tree ..." << std::endl;
+	rootNode = createHuffmanTree();
+	
+	std::cout << "Generating CodeMap ..." << std::endl;
 	generateHuffmanCode(rootNode, "");
-	deleteTree(rootNode);
-	std::string encodedString = generateEncodedString();
-	encodeIntoFile(encodedString, COMPRESSED_FILE_PATH);
+	
+	std::cout << "Generating Encoded String ..." << std::endl;
+	generateEncodedString();
+	
+	std::cout << "Encoding to File ..." << std::endl;
+	encodeIntoFile(COMPRESSED_FILE_PATH);
+	
+	std::cout << "Success: Compression Completed.\n" << std::endl;
 
 	auto stop = std::chrono::steady_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::duration<double>>(stop - start);
-	std::cout << "Compression Time: " << duration.count() << " seconds" << std::endl;
+	std::cout << "Compression Time: " << duration.count() << " seconds\n" << std::endl;
 
-	////display the Huffman code
-	//std::cout << "display Huffman code\n";
-	//for (auto&& var : codeMap) {
-	//	std::cout << var.key << "=" << var.value << std::endl;
-	//}
+	std::cout << "display Huffman code\n";
+	for (auto&& var : codeMap) {
+		std::cout << var.key << "=" << var.value << std::endl;
+	}
 }
 
-void Compressor::deleteTree(BinNode* node) {
-	if (node == nullptr) return;
+void Compressor::compressFiles(const std::string& infileName) {
 
-	/* first delete both subtrees */
-	deleteTree(node->getLeftChild());
-	deleteTree(node->getRightChild());
+}
 
-	/* then delete the node */
-	delete node;
+void Compressor::compressFolder(const std::string& infileName) {
+
 }

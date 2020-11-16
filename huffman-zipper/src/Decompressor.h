@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <stdexcept>
 #include <fstream>
 #include <string>
 #include <bitset>
@@ -7,21 +8,27 @@
 
 #include "HashMap.h"
 #include "BinNode.h"
+#include "Constants.h"
 
 class Decompressor {
 private:
 	HashMap<char, std::string> codeMap;
+	
 	std::ifstream infile;
 	std::fstream tempFile;
+
+	BinNode* rootNode;
 
 private:
 	void readHeader();
 	void readAllCharFromFile();
-	BinNode* buildDecodingTree();
-	void decodeCharacters(BinNode* root);
+
+	void buildDecodingTree();
+	void decodeCharacters(const std::string& outfileName);
 	void deleteTree(BinNode* node);
 
 public:
+	Decompressor();
 	~Decompressor();
-	void decompressor(std::string infileName);
+	void decompressFile(const std::string& infileName);
 };

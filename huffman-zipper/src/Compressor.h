@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <stdexcept>
 #include <fstream>
 #include <sstream>
 #include <string>
@@ -13,21 +14,29 @@
 
 class Compressor {
 private:
-	std::ifstream infile;
 	HashMap<char, int> frequency;
 	HashMap<char, std::string> codeMap;
+	
+	BinNode* rootNode;
+	std::string encodedString;
+	
+	std::ifstream infile;
 
 private:
-	HashMap<char, int> getFrequency();
-	
+	void getFrequency();
 	BinNode* createHuffmanTree();
 	void generateHuffmanCode(BinNode* rootNode, std::string codeString);
-	std::string generateEncodedString();
+	void generateEncodedString();
 	
 	void writeHeader(std::ofstream& outfile);
-	void encodeIntoFile(std::string encodedString, std::string outfileName);
+	void encodeIntoFile(const std::string& outfileName);
 	void deleteTree(BinNode* node);
 
 public:
-	void compressor(std::string infileName);
+	Compressor();
+	~Compressor();
+
+	void compressFile(const std::string& infileName);
+	void compressFiles(const std::string& infileName);
+	void compressFolder(const std::string& infileName);
 };
