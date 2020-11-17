@@ -401,3 +401,5 @@ MigrationBackup/
 # End of https://www.toptal.com/developers/gitignore/api/vscode,visualstudio,c++
 /huffman-zipper/src/input.txt
 /huffman-zipper/src/input1.txt
+*.jpg
+*.txt

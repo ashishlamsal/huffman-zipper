@@ -1,6 +1,5 @@
 #pragma once
 #include <vector>
-#include <iterator>
 
 #include "HashCode.h"
 #include "Constants.h"
@@ -45,7 +44,7 @@ public:
 	ValueType operator[](const KeyType& key) const;
 
 
-	class iterator : public std::iterator<std::input_iterator_tag, Entry> {
+	class iterator {
 	private:
 		const HashMap* map;          /* Pointer to the map           */
 		int bucket;                  /* Index of current bucket      */
@@ -104,6 +103,13 @@ public:
 		Entry* operator->() {
 			return current;
 		}
+		
+		// iterator traits
+		using difference_type = Entry;
+		using value_type = Entry;
+		using pointer = const Entry*;
+		using reference = const Entry&;
+		using iterator_category = std::forward_iterator_tag;
 	};
 
 	iterator begin() const {
