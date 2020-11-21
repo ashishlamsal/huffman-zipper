@@ -18,6 +18,7 @@ constexpr auto HEADER_TEXT_SEPERATOR = char(2); //Strat of text charcater:STX
 constexpr auto FILE_SEPARATOR = char(28); // file separtor: FS
 
 // File locations
-constexpr auto INPUT_FILE_PATH = "./src/a.jpg";
-constexpr auto COMPRESSED_FILE_PATH = "./src/output1.txt";
-constexpr auto DECOMPRESSED_FILE_PATH = "./src/output2.jpg";
+constexpr auto INPUT_FILE_PATH = "./src/test.txt";
+constexpr auto COMPRESSED_FILE_PATH = "./src/compressedmultifile.txt";
+constexpr auto DECOMPRESSED_FILE_PATH = "./src/multifile.txt";
+constexpr auto DIRECTORY = "./src/huffman";

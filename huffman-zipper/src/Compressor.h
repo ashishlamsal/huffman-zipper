@@ -6,11 +6,13 @@
 #include <string>
 #include <bitset>
 #include <chrono>
+#include<filesystem>
 
 #include "BinNode.h"
 #include "HashMap.h"
 #include "PriorityQueue.h"
 #include "Constants.h"
+
 
 class Compressor {
 private:

@@ -32,10 +32,15 @@
 int main() {
 	try {
 		//-----------------------Compression-------------------------//
-		Compressor compression;
-		compression.compressFile(INPUT_FILE_PATH);
+		/*Compressor compression;
+		compression.compressFile(INPUT_FILE_PATH);*/
 
 		//-----------------------Decompression-------------------------//
+		/*Decompressor decompression;
+		decompression.decompressFile(COMPRESSED_FILE_PATH);*/
+
+		Compressor compression;
+		compression.compressFiles(DIRECTORY);
 		Decompressor decompression;
 		decompression.decompressFile(COMPRESSED_FILE_PATH);
 	}

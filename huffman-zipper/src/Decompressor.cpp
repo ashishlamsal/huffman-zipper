@@ -92,13 +92,13 @@ void Decompressor:: buildDecodingTree() {
 }
 
 void Decompressor::decodeCharacters(const std::string& outfileName) {
-	std::ofstream outfile(outfileName, std::ios::out | std::ios::binary | std::ios::trunc);
+	outfile.open(outfileName, std::ios::out | std::ios::binary | std::ios::trunc);
 	if (!outfile)
 		throw std::runtime_error("Output Error : \'" + outfileName + "\' couldn't be created");
 
 	tempFile.clear();
 	tempFile.seekg(0, std::ios::beg);
-
+	int count = 1;
 	char ch;
 	BinNode* curr = rootNode;
 	while (tempFile.read(reinterpret_cast<char*>(&ch), sizeof(ch))) {
@@ -113,6 +113,18 @@ void Decompressor::decodeCharacters(const std::string& outfileName) {
 			if (curr->getCharacter() == PSEUDO_EOF) {
 				break;
 			}
+			if (curr->getCharacter() == FILE_SEPARATOR) {
+
+				outfile.flush();
+				outfile.close();
+
+
+				outfile.open(std::string(outfileName).insert(outfileName.find_last_of("."),std::to_string(++count)), std::ios::out | std::ios::binary | std::ios::trunc);
+				if (!outfile) throw std::exception("Decompressing file couldnt be opened");
+				curr = rootNode;
+				continue;
+			}
+			
 			outfile.put(curr->getCharacter());
 			curr = rootNode;
 		}
@@ -121,6 +133,10 @@ void Decompressor::decodeCharacters(const std::string& outfileName) {
 	tempFile.close();
 	outfile.flush();
 	outfile.close();
+	if (remove(std::string(outfileName).insert(outfileName.find_last_of("."), std::to_string(count)).c_str()))
+	{
+		throw std::exception("[At decoingcharacter()] Unwanted decompressed file couldn't be deleted");
+	}
 }
 
 void Decompressor::decompressFile(const std::string& infileName) {
@@ -146,7 +162,6 @@ void Decompressor::decompressFile(const std::string& infileName) {
 	auto duration = std::chrono::duration_cast<std::chrono::duration<double>>(stop - start);
 	std::cout << "Decompression Time: " << duration.count() << " seconds\n" << std::endl;
 }
-
 
 
 

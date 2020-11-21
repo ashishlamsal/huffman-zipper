@@ -16,7 +16,7 @@ private:
 	
 	std::ifstream infile;
 	std::fstream tempFile;
-
+	std::ofstream outfile;
 	BinNode* rootNode;
 
 private:
