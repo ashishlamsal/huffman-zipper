@@ -12,31 +12,29 @@
 #include "PriorityQueue.h"
 #include "Constants.h"
 
-class Compressor {
+class HuffmanCompress {
 private:
 	HashMap<char, int> frequency;
 	HashMap<char, std::string> codeMap;
-	
+
+	int numChars;
 	BinNode* rootNode;
-	std::string encodedString;
-	
 	std::ifstream infile;
 
 private:
-	void getFrequency();
+	void readFrequency();
 	BinNode* createHuffmanTree();
 	void generateHuffmanCode(BinNode* rootNode, std::string codeString);
-	void generateEncodedString();
-	
-	void writeHeader(std::ofstream& outfile);
-	void encodeIntoFile(const std::string& outfileName);
-	void deleteTree(BinNode* node);
 
 	void writeTree(std::ofstream& writer, BinNode* head);
+	void writeIntoFile(const std::string& outfileName);
+	void deleteTree(BinNode* node);
 
 public:
-	Compressor();
-	~Compressor();
+	HuffmanCompress();
+	~HuffmanCompress();
 
 	void compressFile(const std::string& infileName);
 };
+
+

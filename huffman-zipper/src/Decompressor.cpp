@@ -43,13 +43,28 @@ void Decompressor::readHeader() {
 	}
 }
 
+BinNode* Decompressor::readTree(std::ifstream& reader) {
+	char nodeType;
+	reader.get(nodeType);
+	if (nodeType == '1') {
+		char ch;
+		reader.get(ch);
+		BinNode* head = new BinNode(ch);
+		return head;
+	}
+	BinNode* head = new BinNode(INTERNAL_NODE_CHARACTER);
+	head->setLeftChild(readTree(reader));
+	head->setRightChild(readTree(reader));
+	return head;
+}
+
 void Decompressor::readAllCharFromFile() {
 	tempFile.open("./src/binary_temp.tmp", std::ios::in | std::ios::out | std::ios::binary | std::ios::trunc);
 	if (!tempFile)
 		throw std::runtime_error("[binary_temp] couldn't be opened");
 
-	readHeader();
-
+	//readHeader();
+	rootNode = readTree(infile);
 	char ch;
 	while (infile.read(reinterpret_cast<char*>(&ch), sizeof(ch))) {
 		//std::cout << ch;
@@ -134,26 +149,15 @@ void Decompressor::decompressFile(const std::string& infileName) {
 	std::cout << "Reading Characters from file ..." << std::endl;
 	readAllCharFromFile();
 	
-	std::cout << "Building Decoding Tree ..." << std::endl;
-	buildDecodingTree();
+	//std::cout << "Building Decoding Tree ..." << std::endl;
+	//buildDecodingTree();
 	
 	std::cout << "Decoding Characters ..." << std::endl;
 	decodeCharacters(DECOMPRESSED_FILE_PATH);
-	
+
 	std::cout << "Success : Decompression Completed.\n" << std::endl;
 
 	auto stop = std::chrono::steady_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::duration<double>>(stop - start);
 	std::cout << "Decompression Time: " << duration.count() << " seconds\n" << std::endl;
 }
-
-
-
-
-
-
-
-
-
-
-

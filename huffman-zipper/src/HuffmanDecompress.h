@@ -10,27 +10,19 @@
 #include "BinNode.h"
 #include "Constants.h"
 
-class Decompressor {
+class HuffmanDecompress {
 private:
-	HashMap<char, std::string> codeMap;
-	
 	std::ifstream infile;
-	std::fstream tempFile;
-
 	BinNode* rootNode;
 
 private:
-	void readHeader();
-	void readAllCharFromFile();
+	BinNode* readTree(std::ifstream& reader);
+	void writeIntoFile(const std::string& outfileName);
 
-	void buildDecodingTree();
-	void decodeCharacters(const std::string& outfileName);
 	void deleteTree(BinNode* node);
 
-	BinNode* readTree(std::ifstream& reader);
-
 public:
-	Decompressor();
-	~Decompressor();
+	HuffmanDecompress();
+	~HuffmanDecompress();
 	void decompressFile(const std::string& infileName);
 };
