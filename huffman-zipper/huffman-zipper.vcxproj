@@ -19,25 +19,22 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\HuffmanDecompress.cpp" />
-    <ClCompile Include="src\HuffmanCompress.cpp" />
     <ClCompile Include="src\Decompressor.cpp" />
+    <ClCompile Include="src\Compressor.cpp" />
     <ClCompile Include="src\HashCode.cpp" />
     <ClCompile Include="src\BinNode.cpp" />
-    <ClCompile Include="src\Compressor.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\HuffmanDecompress.h" />
-    <ClInclude Include="src\HuffmanCompress.h" />
-    <ClInclude Include="src\BinNode.h" />
-    <ClInclude Include="src\Compressor.h" />
-    <ClInclude Include="src\Constants.h" />
     <ClInclude Include="src\Decompressor.h" />
+    <ClInclude Include="src\Compressor.h" />
+    <ClInclude Include="src\BinNode.h" />
+    <ClInclude Include="src\Constants.h" />
     <ClInclude Include="src\HashCode.h" />
     <ClInclude Include="src\HashMap.h" />
     <ClInclude Include="src\MinHeap.h" />
     <ClInclude Include="src\PriorityQueue.h" />
+    <ClInclude Include="src\Queue.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

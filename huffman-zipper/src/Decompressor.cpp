@@ -4,11 +4,6 @@ Decompressor::Decompressor() :rootNode(nullptr) {}
 
 Decompressor::~Decompressor() {
 	deleteTree(rootNode);
-
-	if (remove("./src/binary_temp.tmp") != 0)
-		perror("tempFile deletion failed");
-	else
-		std::cout << "tempFile deleted successfully\n";
 }
 
 void Decompressor::deleteTree(BinNode* node) {
@@ -18,29 +13,6 @@ void Decompressor::deleteTree(BinNode* node) {
 	deleteTree(node->getRightChild());
 
 	delete node;
-}
-
-void Decompressor::readHeader() {
-	char ch;
-	infile.read(reinterpret_cast<char*>(&ch), sizeof(ch));
-	char key = ch;
-	while (ch != HEADER_TEXT_SEPERATOR) {
-		if (ch == CHARACTER_CODE_SEPERATOR) {
-			infile.read(reinterpret_cast<char*>(&ch), sizeof(ch));
-			while (ch != HEADER_ENTRY_SEPERATOR) {
-				codeMap[key] += ch;
-				infile.read(reinterpret_cast<char*>(&ch), sizeof(ch));
-			}
-		}
-		else {
-			key = ch;
-		}
-		infile.read(reinterpret_cast<char*>(&ch), sizeof(ch));
-	}
-
-	for (auto&& var : codeMap) {
-		std::cout << var.key << "=" << var.value << std::endl;
-	}
 }
 
 BinNode* Decompressor::readTree(std::ifstream& reader) {
@@ -58,100 +30,91 @@ BinNode* Decompressor::readTree(std::ifstream& reader) {
 	return head;
 }
 
-void Decompressor::readAllCharFromFile() {
-	tempFile.open("./src/binary_temp.tmp", std::ios::in | std::ios::out | std::ios::binary | std::ios::trunc);
-	if (!tempFile)
-		throw std::runtime_error("[binary_temp] couldn't be opened");
-
-	//readHeader();
+void Decompressor::readHeader(const std::string& infileName, std::ifstream& infile) {
 	rootNode = readTree(infile);
+
+	// Read total number of files
+	uint16_t fileCount = 0;
+	infile.read(reinterpret_cast<char*>(&fileCount), sizeof(fileCount));
+
+	// Read total number of characters in each file, filename and directories
+	std::filesystem::path p(infileName);
+	if (!std::filesystem::exists(p))
+		throw std::runtime_error("ERROR: Compressed file couldn't be found");
+	p = p.parent_path() / p.stem().concat(" (decompressed)");
+
 	char ch;
-	while (infile.read(reinterpret_cast<char*>(&ch), sizeof(ch))) {
-		//std::cout << ch;
-		std::bitset<8> bits(ch);
-		// write the extracted binary code into tempFile
-		tempFile.write(bits.to_string().c_str(), bits.size());
-	}
-	//std::cout << std::endl;
-	infile.close();
-}
+	int chars = 0;
+	std::string fileData;
+	for (int i = 0; i < fileCount; i++) {
+		infile.read(reinterpret_cast<char*>(&chars), sizeof(chars));
 
-void Decompressor:: buildDecodingTree() {
-	rootNode = new BinNode(INTERNAL_NODE_CHARACTER);
-	BinNode* previousNode;
+		while (infile.get(ch)) {
+			fileData += ch;
+			if (ch == '?') {
+				fileData.pop_back();
 
-	for (auto&& item : codeMap) {
-		previousNode = rootNode;
-		std::string& characterCode = item.value;
-		for (int i = 0; i < characterCode.size(); i++) {
-			if (characterCode[i] == '0') {
-				if (i == characterCode.size() - 1)		// last character
-					previousNode->setLeftChild(new BinNode(item.key));
-				else {
-					if (!previousNode->getLeftChild())
-						previousNode->setLeftChild(new BinNode(INTERNAL_NODE_CHARACTER));
-					previousNode = previousNode->getLeftChild();
+				auto path = p / fileData;
+				if (!std::filesystem::exists(path.parent_path())) {
+					if (!std::filesystem::create_directories(path.parent_path())) {
+						throw std::runtime_error("ERROR : Couldn't create output directories");
+					}
 				}
-			}
-			else {
-				if (i == characterCode.size() - 1)
-					previousNode->setRightChild(new BinNode(item.key));
-				else {
-					if (!previousNode->getRightChild())
-						previousNode->setRightChild(new BinNode(INTERNAL_NODE_CHARACTER));
-					previousNode = previousNode->getRightChild();
-				}
+				files.enqueue(std::make_pair(chars, path));
+
+				fileData.clear();
+				break;
 			}
 		}
 	}
 }
 
-void Decompressor::decodeCharacters(const std::string& outfileName) {
-	outfile.open(outfileName, std::ios::out | std::ios::binary | std::ios::trunc);
+void Decompressor::writeIntoFile(const std::string& infileName, const std::string& outfileName) {
+	std::ofstream outfile(files.getFront().second, std::ios::out | std::ios::binary | std::ios::trunc);
 	if (!outfile)
 		throw std::runtime_error("Output Error : \'" + outfileName + "\' couldn't be created");
 
-	tempFile.clear();
-	tempFile.seekg(0, std::ios::beg);
-	int count = 1;
 	char ch;
+	int fileChars = 0;
 	BinNode* curr = rootNode;
-	while (tempFile.read(reinterpret_cast<char*>(&ch), sizeof(ch))) {
-		if (ch == '0')
-			curr = curr->getLeftChild();
-		else if (ch == '1')
-			curr = curr->getRightChild();
-		else
-			throw std::logic_error("Assertion error: Invalid binary code");
+	while (infile.read(reinterpret_cast<char*>(&ch), sizeof(ch)) && !files.isEmpty()) {
+		for (auto&& binCode : std::bitset<8>(ch).to_string()) {
+			if (binCode == '0')
+				curr = curr->getLeftChild();
+			else if (binCode == '1')
+				curr = curr->getRightChild();
+			else
+				throw std::logic_error("Assertion error: Invalid binary code");
 
-		if (curr->isLeaf()) {		// reached leaf node 
-			if (curr->getCharacter() == PSEUDO_EOF) {
-				break;
-			}
-			if (curr->getCharacter() == FILE_SEPARATOR) {
-
-				outfile.flush();
-				outfile.close();
-
-
-				outfile.open(std::string(outfileName).insert(outfileName.find_last_of("."),std::to_string(++count)), std::ios::out | std::ios::binary | std::ios::trunc);
-				if (!outfile) throw std::exception("Decompressing file couldnt be opened");
+			if (curr->isLeaf()) {
+				outfile.put(curr->getCharacter());
 				curr = rootNode;
-				continue;
+
+				fileChars++;
+				if (fileChars == files.getFront().first) {
+					fileChars = 0;
+					files.dequeue();
+
+					outfile.flush();
+					outfile.close();
+
+					if (files.isEmpty()) break;
+
+					outfile.open(files.getFront().second, std::ios::out | std::ios::binary | std::ios::trunc);
+					if (!outfile)
+						throw std::exception("Decompressing file could not be opened");
+				}
 			}
-			
-			outfile.put(curr->getCharacter());
-			curr = rootNode;
 		}
 	}
+	//std::cout << "DeCompression read: " << readChars << std::endl;
 
-	tempFile.close();
+	infile.close();
 	outfile.flush();
 	outfile.close();
-	if (remove(std::string(outfileName).insert(outfileName.find_last_of("."), std::to_string(count)).c_str()))
-	{
-		throw std::exception("[At decoingcharacter()] Unwanted decompressed file couldn't be deleted");
-	}
+
+	if (!fileChars && !files.isEmpty())
+		throw std::runtime_error("ERROR: Compressed file is corrupted");
 }
 
 void Decompressor::decompressFile(const std::string& infileName) {
@@ -162,14 +125,11 @@ void Decompressor::decompressFile(const std::string& infileName) {
 	if (!infile)
 		throw std::runtime_error("Input Error : \'" + infileName + "\' couldn't be opened");
 
-	std::cout << "Reading Characters from file ..." << std::endl;
-	readAllCharFromFile();
-	
-	//std::cout << "Building Decoding Tree ..." << std::endl;
-	//buildDecodingTree();
-	
+	std::cout << "Build decoding Tree ..." << std::endl;
+	readHeader(infileName, infile);
+
 	std::cout << "Decoding Characters ..." << std::endl;
-	decodeCharacters(DECOMPRESSED_FILE_PATH);
+	writeIntoFile(infileName, DECOMPRESSED_FILE_PATH);
 
 	std::cout << "Success : Decompression Completed.\n" << std::endl;
 
@@ -177,13 +137,3 @@ void Decompressor::decompressFile(const std::string& infileName) {
 	auto duration = std::chrono::duration_cast<std::chrono::duration<double>>(stop - start);
 	std::cout << "Decompression Time: " << duration.count() << " seconds\n" << std::endl;
 }
-
-
-
-
-
-
-
-
-
-
