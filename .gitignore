@@ -403,3 +403,4 @@ MigrationBackup/
 /huffman-zipper/src/input1.txt
 *.jpg
 *.txt
+*.huf

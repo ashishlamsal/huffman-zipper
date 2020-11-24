@@ -16,9 +16,17 @@ namespace fs = std::filesystem;
 
 class Decompressor {
 private:
-	Queue<std::pair<int, fs::path>> files;
-	
+	struct fileInfo {
+		int fileSize;
+		fs::path filePath;
+
+		fileInfo() :fileSize(0) {}
+		fileInfo(const int& fileSize, const fs::path& filePath) :fileSize(fileSize), filePath(filePath) {}
+	};
+
+	Queue<fileInfo> files;
 	std::ifstream infile;
+
 	BinNode* rootNode;
 
 private:
@@ -26,7 +34,7 @@ private:
 	
 	void readHeader(const std::string& infileName, std::ifstream& infile);
 	BinNode* readTree(std::ifstream& reader);
-	void writeIntoFile(const std::string& infileName, const std::string& outfileName);
+	void writeIntoFile(const std::string& infileName);
 
 public:
 	Decompressor();

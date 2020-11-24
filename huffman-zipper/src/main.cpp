@@ -7,7 +7,7 @@ int main() {
 		Compressor compression;
 		//compression.compressFile(INPUT_FILE_PATH);
 		compression.compressFolder(DIRECTORY);
-
+				
 		//-----------------------Decompression-------------------------//
 		Decompressor decompression;
 		//decompression.decompressFile(COMPRESSED_FILE_PATH);

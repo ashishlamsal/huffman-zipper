@@ -53,7 +53,7 @@ void Compressor::readFrequency() {
 		frequency[ch]++;
 		count++;
 	}
-	metaData += std::to_string(count) + '|';
+	metaData += std::to_string(count) + FILE_SIZE_SEPARATOR;
 }
 
 void Compressor::scanFile(const std::string& infileName) {
@@ -69,7 +69,7 @@ void Compressor::scanPath(const std::string& pathName) {
 		scanFile(pathName);
 
 		fileCount++;
-		metaData += fs::path(pathName).filename().string() + '?';
+		metaData += fs::path(pathName).filename().string() + FILE_NAME_SEPARATOR;
 	}
 	else {
 		for (auto&& entry : fs::recursive_directory_iterator(pathName)) {
@@ -78,7 +78,7 @@ void Compressor::scanPath(const std::string& pathName) {
 				scanFile(entry.path().string());
 
 				fileCount++;
-				metaData += fs::relative(entry.path(), pathName).string() + '?';
+				metaData += fs::relative(entry.path(), pathName).string() + FILE_NAME_SEPARATOR;
 			}
 		}
 	}
@@ -106,13 +106,13 @@ void Compressor::writeHeader(std::ofstream& outfile) {
 	std::string fileData;
 	for (auto&& ch : metaData) {
 		fileData += ch;
-		if (ch == '|') {
+		if (ch == FILE_SIZE_SEPARATOR) {
 			fileData.pop_back();
 			int fileSize = std::stoi(fileData);
 			outfile.write(reinterpret_cast<char*>(&fileSize), sizeof(fileSize));
 			fileData.clear();
 		}
-		if (ch == '?') {
+		if (ch == FILE_NAME_SEPARATOR) {
 			outfile.write(fileData.c_str(), fileData.size());
 			fileData.clear();
 		}

@@ -51,7 +51,7 @@ void Decompressor::readHeader(const std::string& infileName, std::ifstream& infi
 
 		while (infile.get(ch)) {
 			fileData += ch;
-			if (ch == '?') {
+			if (ch == FILE_NAME_SEPARATOR) {
 				fileData.pop_back();
 
 				auto path = p / fileData;
@@ -60,7 +60,7 @@ void Decompressor::readHeader(const std::string& infileName, std::ifstream& infi
 						throw std::runtime_error("ERROR : Couldn't create output directories");
 					}
 				}
-				files.enqueue(std::make_pair(chars, path));
+				files.enqueue(fileInfo(chars, path));
 
 				fileData.clear();
 				break;
@@ -69,10 +69,10 @@ void Decompressor::readHeader(const std::string& infileName, std::ifstream& infi
 	}
 }
 
-void Decompressor::writeIntoFile(const std::string& infileName, const std::string& outfileName) {
-	std::ofstream outfile(files.getFront().second, std::ios::out | std::ios::binary | std::ios::trunc);
+void Decompressor::writeIntoFile(const std::string& infileName) {
+	std::ofstream outfile(files.getFront().filePath, std::ios::out | std::ios::binary | std::ios::trunc);
 	if (!outfile)
-		throw std::runtime_error("Output Error : \'" + outfileName + "\' couldn't be created");
+		throw std::runtime_error("Output Error : \'" + files.getFront().filePath.string() + "\' couldn't be created");
 
 	char ch;
 	int fileChars = 0;
@@ -91,7 +91,7 @@ void Decompressor::writeIntoFile(const std::string& infileName, const std::strin
 				curr = rootNode;
 
 				fileChars++;
-				if (fileChars == files.getFront().first) {
+				if (fileChars == files.getFront().fileSize) {
 					fileChars = 0;
 					files.dequeue();
 
@@ -100,14 +100,13 @@ void Decompressor::writeIntoFile(const std::string& infileName, const std::strin
 
 					if (files.isEmpty()) break;
 
-					outfile.open(files.getFront().second, std::ios::out | std::ios::binary | std::ios::trunc);
+					outfile.open(files.getFront().filePath, std::ios::out | std::ios::binary | std::ios::trunc);
 					if (!outfile)
-						throw std::exception("Decompressing file could not be opened");
+						throw std::runtime_error("Output Error : \'" + files.getFront().filePath.string() + "\' couldn't be created");
 				}
 			}
 		}
 	}
-	//std::cout << "DeCompression read: " << readChars << std::endl;
 
 	infile.close();
 	outfile.flush();
@@ -129,7 +128,7 @@ void Decompressor::decompressFile(const std::string& infileName) {
 	readHeader(infileName, infile);
 
 	std::cout << "Decoding Characters ..." << std::endl;
-	writeIntoFile(infileName, DECOMPRESSED_FILE_PATH);
+	writeIntoFile(infileName);
 
 	std::cout << "Success : Decompression Completed.\n" << std::endl;
 
