@@ -1,8 +1,10 @@
 #include "Compressor.h"
 
-Compressor::Compressor() :rootNode(nullptr) {}
+Compressor::Compressor() :rootNode(nullptr), fileCount(0) {}
 
 Compressor::~Compressor() {
+	frequency.clear();
+	codeMap.clear();
 	deleteTree(rootNode);
 }
 
@@ -15,16 +17,7 @@ void Compressor::deleteTree(BinNode* node) {
 	delete node;
 }
 
-void Compressor::getFrequency() {
-	char ch;
-	while (infile.get(ch)) {
-		//std::cout <<"[getFrequency()]"<< ch<<std::endl;
-		frequency[ch]++;
-	}
-	frequency[FILE_SEPARATOR]++;
-}
-
-//create the Huffman's tree out of frequency map
+/// create the Huffman's tree out of frequency map
 BinNode* Compressor::createHuffmanTree() {
 	PriorityQueue<BinNode*> pq;
 	for (auto&& character : frequency) {
@@ -53,147 +46,168 @@ void Compressor::generateHuffmanCode(BinNode* rootNode, std::string codeString) 
 	generateHuffmanCode(rootNode->getRightChild(), codeString + "1");
 }
 
-void Compressor::generateEncodedString() {
+void Compressor::readFrequency() {
 	char ch;
-	
-	infile.clear();
-	infile.seekg(0, std::ios::beg);
-
+	int count = 0;
 	while (infile.get(ch)) {
-		encodedString += codeMap[ch];
+		frequency[ch]++;
+		count++;
 	}
+	metaData += std::to_string(count) + '|';
+}
 
-	//mark pseudo end of the file
-	encodedString += codeMap[FILE_SEPARATOR];
-	
+void Compressor::scanFile(const std::string& infileName) {
+	infile.open(infileName, std::ios::in | std::ios::binary);
+	if (!infile)
+		throw std::runtime_error("Input Error : \'" + infileName + "\' couldn't be opened");
+	readFrequency();
 	infile.close();
 }
 
-//write the header to the encoded string 
-void Compressor::writeHeader(std::ofstream& outfile) {
-	for (const auto& item : codeMap) {
-		outfile << item.key << CHARACTER_CODE_SEPERATOR << item.value << HEADER_ENTRY_SEPERATOR;
+void Compressor::scanPath(const std::string& pathName) {
+	if (!fs::directory_entry(pathName).is_directory()) {
+		scanFile(pathName);
+
+		fileCount++;
+		metaData += fs::path(pathName).filename().string() + '?';
 	}
-	outfile << HEADER_TEXT_SEPERATOR;
+	else {
+		for (auto&& entry : fs::recursive_directory_iterator(pathName)) {
+			if (entry.is_regular_file()) {
+				std::cout << entry.path() << '\n';
+				scanFile(entry.path().string());
+
+				fileCount++;
+				metaData += fs::relative(entry.path(), pathName).string() + '?';
+			}
+		}
+	}
 }
 
-void Compressor::encodeIntoFile(const std::string& outfileName) {
+void Compressor::writeTree(std::ofstream& writer, BinNode* head) {
+	if (head->isLeaf()) {
+		writer.put('1');
+		writer.put(head->getCharacter());
+		return;
+	}
+	writer.put('0');
+	writeTree(writer, head->getLeftChild());
+	writeTree(writer, head->getRightChild());
+}
+
+void Compressor::writeHeader(std::ofstream& outfile) {
+
+	writeTree(outfile, rootNode);
+
+	// Write total number of files
+	outfile.write(reinterpret_cast<char*>(&fileCount), sizeof(fileCount));
+
+	// Write total number of characters in each file ,filename and directories
+	std::string fileData;
+	for (auto&& ch : metaData) {
+		fileData += ch;
+		if (ch == '|') {
+			fileData.pop_back();
+			int fileSize = std::stoi(fileData);
+			outfile.write(reinterpret_cast<char*>(&fileSize), sizeof(fileSize));
+			fileData.clear();
+		}
+		if (ch == '?') {
+			outfile.write(fileData.c_str(), fileData.size());
+			fileData.clear();
+		}
+	}
+}
+
+void Compressor::writeBody(char& chr, int& bufferSize, const std::string& infileName, std::ofstream& outfile) {
+	infile.open(infileName, std::ios::in | std::ios::binary);
+	if (!infile)
+		throw std::runtime_error("[compressFiles] one or more files in the directory cant be opened");
+
+	std::cout << "Encoded String for " + infileName + " ... " << std::endl;
+
+	char ch;
+	while (infile.get(ch)) {
+		for (auto&& binCode : codeMap.get(ch)) {
+			chr = (chr << 1) ^ (binCode - '0');
+			bufferSize--;
+			if (bufferSize == 0) {
+				outfile.write(reinterpret_cast<char*>(&chr), sizeof(chr));
+				chr = 0;
+				bufferSize = 8;
+			}
+		}
+	}
+	infile.close();
+}
+
+void Compressor::writeIntoFile(const std::string& inputName, const std::string& outfileName) {
 	std::ofstream outfile(outfileName, std::ios::out | std::ios::binary | std::ios::trunc);
 	if (!outfile)
 		throw std::runtime_error("Output Error : \'" + outfileName + "\' couldn't be created");
 
 	writeHeader(outfile);
+	char chr = 0;
+	int bufferSize = 8;
 
-	unsigned long remainder = (encodedString.size()) % 8;
-	if (remainder) {
-		for (int i = 0; i < 8 - remainder; ++i)
-			encodedString += '0';
+	if (!std::filesystem::directory_entry(inputName).is_directory()) {
+		writeBody(chr, bufferSize, inputName, outfile);
+	}
+	else {
+		for (auto&& p : std::filesystem::recursive_directory_iterator(inputName)) {
+			if (p.is_regular_file()) {
+				writeBody(chr, bufferSize, p.path().string(), outfile);
+			}
+		}
 	}
 
-	std::stringstream stringStream(encodedString);
-	while (stringStream.good()) {
-		std::bitset<8> bits;
-		stringStream >> bits;
-		char c = char(bits.to_ulong());
-		//std::cout << c;
-		outfile.write(reinterpret_cast<char*>(&c), sizeof(c));
+	if (bufferSize) {
+		chr = chr << bufferSize;
+		outfile.write(reinterpret_cast<char*>(&chr), sizeof(chr));
 	}
 
 	outfile.flush();
 	outfile.close();
 }
 
-void Compressor::compressFile(const std::string& infileName) {
+void Compressor::compress(const std::string& infileName) {
 	std::cout << "Compressing ..." << std::endl;
 	auto start = std::chrono::steady_clock::now();
 
-	infile.open(infileName, std::ios::in | std::ios::binary);
-	if (!infile)
-		throw std::runtime_error("Input Error : \'" + infileName + "\' couldn't be opened");
-	
 	std::cout << "Reading frequency ..." << std::endl;
-	getFrequency();
-	
+	scanPath(infileName);
+
 	std::cout << "Creating Huffman Tree ..." << std::endl;
 	rootNode = createHuffmanTree();
-	
+
 	std::cout << "Generating CodeMap ..." << std::endl;
 	generateHuffmanCode(rootNode, "");
-	
-	std::cout << "Generating Encoded String ..." << std::endl;
-	generateEncodedString();
-	
+
 	std::cout << "Encoding to File ..." << std::endl;
-	encodeIntoFile(COMPRESSED_FILE_PATH);
-	
+	writeIntoFile(infileName, COMPRESSED_FILE_PATH);
+
 	std::cout << "Success: Compression Completed.\n" << std::endl;
 
 	auto stop = std::chrono::steady_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::duration<double>>(stop - start);
 	std::cout << "Compression Time: " << duration.count() << " seconds\n" << std::endl;
 
-	std::cout << "display Huffman code\n";
-	for (auto&& var : codeMap) {
-		std::cout << var.key << "=" << var.value << std::endl;
-	}
+	//std::cout << "display Huffman code\n";
+	//for (auto&& var : codeMap) {
+	//	std::cout << var.key << "=" << var.value << std::endl;
+	//}
 }
 
-void Compressor::compressFiles(const std::string& directoryName) {
-	std::cout << "Compressing ..." << std::endl;
-	auto start = std::chrono::steady_clock::now();
-	for (auto& p : std::filesystem::directory_iterator(directoryName))
-	{
-		std::cout << p.path() << '\n';
-		infile.open(p.path(), std::ios::in | std::ios::binary);
-		if (!infile)
-			throw std::exception("[compressFiles] one or more files in the directory cant be opened");
-		std::cout << "Reading frequency ..." << std::endl;
-		char ch;
-		/*while (infile.get(ch))
-		{
+void Compressor::compressFile(const std::string& infileName) {
+	if (!std::filesystem::directory_entry(infileName).is_regular_file())
+		throw std::runtime_error("ERROR : Please enter a valid file path");
 
-			std::cout << ch;
-		}*/
-		getFrequency();
-		infile.close();
-		
-	}
-	frequency[PSEUDO_EOF]++;
-	std::cout << "Creating Huffman Tree ..." << std::endl;
-	rootNode = createHuffmanTree();
-	std::cout << "Generating CodeMap ..." << std::endl;
-	generateHuffmanCode(rootNode, "");
-
-	for (auto& p : std::filesystem::directory_iterator(directoryName))
-	{
-		infile.open(p.path(), std::ios::in | std::ios::binary);
-		if (!infile)
-			throw std::exception("[compressFiles] one or more files in the directory cant be opened");
-		std::cout << "Generating Encoded String for " + p.path().string() + " ... " << std::endl;
-		generateEncodedString();
-	}
-	encodedString += codeMap[PSEUDO_EOF];
-
-	std::cout << "Encoding to File ..." << std::endl;
-	encodeIntoFile(COMPRESSED_FILE_PATH);
-	std::cout << "Success: Compression Completed.\n" << std::endl;
-	auto stop = std::chrono::steady_clock::now();
-	auto duration = std::chrono::duration_cast<std::chrono::duration<double>>(stop - start);
-	std::cout << "Compression Time: " << duration.count() << " seconds\n" << std::endl;
-
-	std::cout << "display Huffman code\n";
-	for (auto&& var : codeMap) {
-		std::cout << var.key << "=" << var.value << std::endl;
-	}
-	/*std::ifstream infile("./src/test/test.txt");
-	char ch;
-	while (infile.get(ch))
-			{
-				
-				std::cout << ch;
-			}*/
+	compress(infileName);
 }
 
-void Compressor::compressFolder(const std::string& infileName) {
+void Compressor::compressFolder(const std::string& directoryName) {
+	if (!std::filesystem::directory_entry(directoryName).is_directory())
+		throw std::runtime_error("ERROR : Please enter a valid directory path");
 
+	compress(directoryName);
 }
