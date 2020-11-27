@@ -3,7 +3,13 @@
 Decompressor::Decompressor() :rootNode(nullptr) {}
 
 Decompressor::~Decompressor() {
+	clear();
+}
+
+void Decompressor::clear() {
+	files.clear();
 	deleteTree(rootNode);
+	rootNode = nullptr;
 }
 
 void Decompressor::deleteTree(BinNode* node) {
@@ -135,4 +141,6 @@ void Decompressor::decompressFile(const std::string& infileName) {
 	auto stop = std::chrono::steady_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::duration<double>>(stop - start);
 	std::cout << "Decompression Time: " << duration.count() << " seconds\n" << std::endl;
+	
+	clear();
 }
