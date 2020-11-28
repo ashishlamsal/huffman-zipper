@@ -1,11 +1,9 @@
 #include "Compressor.h"
 
-Compressor::Compressor() :rootNode(nullptr), fileCount(0) {}
+Compressor::Compressor() :rootNode(nullptr) {}
 
 Compressor::~Compressor() {
-	frequency.clear();
-	codeMap.clear();
-	deleteTree(rootNode);
+	clear();
 }
 
 void Compressor::deleteTree(BinNode* node) {
@@ -15,6 +13,14 @@ void Compressor::deleteTree(BinNode* node) {
 	deleteTree(node->getRightChild());
 
 	delete node;
+}
+
+void Compressor::clear() {
+	frequency.clear();
+	codeMap.clear();
+	inputFiles.clear();
+	deleteTree(rootNode);
+	rootNode = nullptr;
 }
 
 /// create the Huffman's tree out of frequency map
@@ -48,40 +54,17 @@ void Compressor::generateHuffmanCode(BinNode* rootNode, std::string codeString) 
 
 void Compressor::readFrequency() {
 	char ch;
-	int count = 0;
 	while (infile.get(ch)) {
 		frequency[ch]++;
-		count++;
 	}
-	metaData += std::to_string(count) + FILE_SIZE_SEPARATOR;
 }
 
-void Compressor::scanFile(const std::string& infileName) {
-	infile.open(infileName, std::ios::in | std::ios::binary);
+void Compressor::scanFile(const fs::path& infilePath) {
+	infile.open(infilePath, std::ios::in | std::ios::binary);
 	if (!infile)
-		throw std::runtime_error("Input Error : \'" + infileName + "\' couldn't be opened");
+		throw std::runtime_error("Input Error : \'" + infilePath.string() + "\' couldn't be opened");
 	readFrequency();
 	infile.close();
-}
-
-void Compressor::scanPath(const std::string& pathName) {
-	if (!fs::directory_entry(pathName).is_directory()) {
-		scanFile(pathName);
-
-		fileCount++;
-		metaData += fs::path(pathName).filename().string() + FILE_NAME_SEPARATOR;
-	}
-	else {
-		for (auto&& entry : fs::recursive_directory_iterator(pathName)) {
-			if (entry.is_regular_file()) {
-				std::cout << entry.path() << '\n';
-				scanFile(entry.path().string());
-
-				fileCount++;
-				metaData += fs::relative(entry.path(), pathName).string() + FILE_NAME_SEPARATOR;
-			}
-		}
-	}
 }
 
 void Compressor::writeTree(std::ofstream& writer, BinNode* head) {
@@ -95,27 +78,26 @@ void Compressor::writeTree(std::ofstream& writer, BinNode* head) {
 	writeTree(writer, head->getRightChild());
 }
 
-void Compressor::writeHeader(std::ofstream& outfile) {
-
+void Compressor::writeHeader(const std::string& inputName, std::ofstream& outfile) {
 	writeTree(outfile, rootNode);
 
 	// Write total number of files
+	uint16_t fileCount = inputFiles.size();
 	outfile.write(reinterpret_cast<char*>(&fileCount), sizeof(fileCount));
 
-	// Write total number of characters in each file ,filename and directories
-	std::string fileData;
-	for (auto&& ch : metaData) {
-		fileData += ch;
-		if (ch == FILE_SIZE_SEPARATOR) {
-			fileData.pop_back();
-			int fileSize = std::stoi(fileData);
-			outfile.write(reinterpret_cast<char*>(&fileSize), sizeof(fileSize));
-			fileData.clear();
-		}
-		if (ch == FILE_NAME_SEPARATOR) {
-			outfile.write(fileData.c_str(), fileData.size());
-			fileData.clear();
-		}
+	// Write total number of characters in each file, filename and directories
+	std::string file_path;
+	for (auto&& file : inputFiles) {
+		int fileSize = fs::file_size(file);
+		outfile.write(reinterpret_cast<char*>(&fileSize), sizeof(fileSize));
+
+		if (fs::is_directory(inputName))
+			file_path = fs::relative(file, inputName).string();
+		else
+			file_path = file.filename().string();
+		
+		outfile.write(file_path.c_str(), file_path.size());
+		outfile.put(FILE_NAME_SEPARATOR);
 	}
 }
 
@@ -141,24 +123,17 @@ void Compressor::writeBody(char& chr, int& bufferSize, const std::string& infile
 	infile.close();
 }
 
-void Compressor::writeIntoFile(const std::string& inputName, const std::string& outfileName) {
-	std::ofstream outfile(outfileName, std::ios::out | std::ios::binary | std::ios::trunc);
+void Compressor::writeIntoFile(const std::string& inputName) {
+	std::ofstream outfile(fs::canonical(inputName).replace_extension(".huf"), std::ios::out | std::ios::binary | std::ios::trunc);
 	if (!outfile)
-		throw std::runtime_error("Output Error : \'" + outfileName + "\' couldn't be created");
+		throw std::runtime_error("Output Error : compressed file couldn't be created");
 
-	writeHeader(outfile);
+	writeHeader(inputName, outfile);
 	char chr = 0;
 	int bufferSize = 8;
 
-	if (!std::filesystem::directory_entry(inputName).is_directory()) {
-		writeBody(chr, bufferSize, inputName, outfile);
-	}
-	else {
-		for (auto&& p : std::filesystem::recursive_directory_iterator(inputName)) {
-			if (p.is_regular_file()) {
-				writeBody(chr, bufferSize, p.path().string(), outfile);
-			}
-		}
+	for (auto&& file : inputFiles) {
+		writeBody(chr, bufferSize, file.string(), outfile);
 	}
 
 	if (bufferSize) {
@@ -175,7 +150,10 @@ void Compressor::compress(const std::string& infileName) {
 	auto start = std::chrono::steady_clock::now();
 
 	std::cout << "Reading frequency ..." << std::endl;
-	scanPath(infileName);
+	for (auto&& file : inputFiles) {
+		std::cout << file.string() << std::endl;
+		scanFile(file);
+	}
 
 	std::cout << "Creating Huffman Tree ..." << std::endl;
 	rootNode = createHuffmanTree();
@@ -184,7 +162,7 @@ void Compressor::compress(const std::string& infileName) {
 	generateHuffmanCode(rootNode, "");
 
 	std::cout << "Encoding to File ..." << std::endl;
-	writeIntoFile(infileName, COMPRESSED_FILE_PATH);
+	writeIntoFile(infileName);
 
 	std::cout << "Success: Compression Completed.\n" << std::endl;
 
@@ -192,6 +170,7 @@ void Compressor::compress(const std::string& infileName) {
 	auto duration = std::chrono::duration_cast<std::chrono::duration<double>>(stop - start);
 	std::cout << "Compression Time: " << duration.count() << " seconds\n" << std::endl;
 
+	clear();
 	//std::cout << "display Huffman code\n";
 	//for (auto&& var : codeMap) {
 	//	std::cout << var.key << "=" << var.value << std::endl;
@@ -199,15 +178,35 @@ void Compressor::compress(const std::string& infileName) {
 }
 
 void Compressor::compressFile(const std::string& infileName) {
-	if (!std::filesystem::directory_entry(infileName).is_regular_file())
+	if (!fs::is_regular_file(infileName))
 		throw std::runtime_error("ERROR : Please enter a valid file path");
-
+	
+	inputFiles.emplace_back(infileName);
+	
 	compress(infileName);
 }
 
 void Compressor::compressFolder(const std::string& directoryName) {
-	if (!std::filesystem::directory_entry(directoryName).is_directory())
+	if (!fs::is_directory(directoryName))
 		throw std::runtime_error("ERROR : Please enter a valid directory path");
 
+	for (auto&& entry : fs::recursive_directory_iterator(directoryName)) {
+		if (entry.is_regular_file()) {
+			inputFiles.emplace_back(entry.path());
+		}
+	}
+	
 	compress(directoryName);
 }
+
+void Compressor::compressFiles(std::initializer_list<std::string> infileNames) {
+	for (auto&& infileName : infileNames) {
+		if (fs::is_regular_file(infileName))
+			inputFiles.emplace_back(infileName);
+		else
+			throw std::runtime_error("ERROR : Please enter a valid file path");
+	}
+
+	compress(inputFiles.front().string());
+}
+

@@ -7,10 +7,11 @@ int main() {
 		Compressor compression;
 		//compression.compressFile(INPUT_FILE_PATH);
 		compression.compressFolder(DIRECTORY);
-				
+		//compression.compressFiles({ "./src/input1.txt", "./src/small-text.txt" });
+
 		//-----------------------Decompression-------------------------//
 		Decompressor decompression;
-		//decompression.decompressFile(COMPRESSED_FILE_PATH);
+		//decompression.decompressFile("./src/input1.huf");
 		decompression.decompressFile(COMPRESSED_FILE_PATH);
 
 	}

@@ -30,6 +30,7 @@ private:
 	BinNode* rootNode;
 
 private:
+	void clear();
 	void deleteTree(BinNode* node);
 	
 	void readHeader(const std::string& infileName, std::ifstream& infile);
