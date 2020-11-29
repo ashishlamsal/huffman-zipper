@@ -27,7 +27,7 @@ private:
 private:
 	BinNode* createHuffmanTree();
 	void generateHuffmanCode(BinNode* rootNode, std::string codeString);
-	
+
 	void clear();
 	void deleteTree(BinNode* node);
 
