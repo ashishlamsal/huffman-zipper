@@ -123,24 +123,29 @@ void Decompressor::writeIntoFile(const std::string& infileName) {
 }
 
 void Decompressor::decompressFile(const std::string& infileName) {
-	std::cout << "Decompressing ..." << std::endl;
-	auto start = std::chrono::steady_clock::now();
+	try {
+		std::cout << "Decompressing ..." << std::endl;
+		auto start = std::chrono::steady_clock::now();
 
-	infile.open(infileName, std::ios::in | std::ios::binary);
-	if (!infile)
-		throw std::runtime_error("Input Error : \'" + infileName + "\' couldn't be opened");
+		infile.open(infileName, std::ios::in | std::ios::binary);
+		if (!infile)
+			throw std::runtime_error("Input Error : \'" + infileName + "\' couldn't be opened");
 
-	std::cout << "Build decoding Tree ..." << std::endl;
-	readHeader(infileName, infile);
+		std::cout << "Build decoding Tree ..." << std::endl;
+		readHeader(infileName, infile);
 
-	std::cout << "Decoding Characters ..." << std::endl;
-	writeIntoFile(infileName);
+		std::cout << "Decoding Characters ..." << std::endl;
+		writeIntoFile(infileName);
 
-	std::cout << "Success : Decompression Completed.\n" << std::endl;
+		std::cout << "Success : Decompression Completed.\n" << std::endl;
 
-	auto stop = std::chrono::steady_clock::now();
-	auto duration = std::chrono::duration_cast<std::chrono::duration<double>>(stop - start);
-	std::cout << "Decompression Time: " << duration.count() << " seconds\n" << std::endl;
-	
-	clear();
+		auto stop = std::chrono::steady_clock::now();
+		auto duration = std::chrono::duration_cast<std::chrono::duration<double>>(stop - start);
+		std::cout << "Decompression Time: " << duration.count() << " seconds\n" << std::endl;
+
+		clear();
+	}
+	catch (std::exception& err) {
+		throw err;
+	}
 }

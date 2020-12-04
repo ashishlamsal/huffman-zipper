@@ -56,5 +56,8 @@
     <ClInclude Include="src\Queue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="huffmanHeader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -25,6 +25,7 @@
     <ClCompile Include="src\BinNode.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="huffmanHeader.h" />
     <ClInclude Include="src\Decompressor.h" />
     <ClInclude Include="src\Compressor.h" />
     <ClInclude Include="src\BinNode.h" />

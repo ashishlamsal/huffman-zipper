@@ -18,5 +18,5 @@ constexpr auto FILE_NAME_SEPARATOR = char(63);			// Question mark	: ?
 
 // File locations
 constexpr auto INPUT_FILE_PATH = "./src/small-text.txt";
-constexpr auto COMPRESSED_FILE_PATH = "./src/huffman.huf";
+constexpr auto COMPRESSED_FILE_PATH = "./src/small-text.huf";
 constexpr auto DIRECTORY = "./src/huffman/";
