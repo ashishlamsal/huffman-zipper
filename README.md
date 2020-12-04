@@ -21,37 +21,37 @@ Data Compression and Decompression using Greedy Huffman Algorithm
 1. Compress and decompress files according to Greedy Huffman Algorithm
 2. Robust program which handles any files (incuding binary files) as input
 3. Best compression is obtained for text (.txt) files
-4. Can compress single file or multiple files into a comprssed file (.huff file)
-5. Can compress a directory and its content recursively preserving paths of the directory content relative to base directory
+4. Can compress single file or multiple files into a compressed file (.huff file)
+5. Can compress a directory and its content recursively preserving file path hierarchy.
 6. Extracts file, multiple files or directory from compressed file (.huff) into a folder according to compression done previously.
 
 > This repo has three projects among which **huffman-zipper** generates *static .lib file*, **huffmanCLI** is for *command line interface* and **huffmanGUI** is for *graphical user interface*.
 
 ## How Huffman Compression Algorithm Works
 
-The process to build a binary tree for compression is very simple and straightforward.
+The process to build a hufffman binary tree for compression is very simple and straightforward.
 
-1. Read through the whole file and count the number of occurrence of each charcter
+1. Read through the whole file and count the number of occurrence of each character
 
 2. Create a a frequencyMap (Key/ Value pair) with character as key and its frequency as value.
 
-3. For each symbol in frequencyMap, wrap it in a binary node. Insert them into a priority queue which is then popped out in decreasing trend of their frequency.
+3. For each symbol in frequencyMap, wrap it in a binary node. Insert them into a MinHeap Priority Queue which pops out binary node in decreasing trend of their frequency.
 
 4. Pop the two least probable symbols from the priority queue. Combine these two symbols by adding their frequencies into a single binary node. And insert it back to the priority queue.
 
-5. Set the two popped symbols as left and right child of the newly created node.
+5. Set the two popped nodes as left and right child of the newly created node.
 
 6. Repeat step 4 and 5 until only one tree node left in the queue which is the root node of the tree.
 
 7. Create a CodeMap (Key/ Value pair) with character as key and its huffman code as value by assigning each symbol with its path from root node to its node, with left being 0 and right being 1.
 
-8. Use these codewords to compress the file.
+8. Use the codeMap to compress the file.
 
 ### Compression
 
 ___
 
-**1. How to save the tree into the output file?**
+**1. How to save the tree in the compressed file?**
 
 One of approach to write the tree in to the file is to use a pre order traversal. And later during decompression, using same traversal algorithm, we can reconstruct the tree from the file header part.
 
@@ -79,27 +79,22 @@ The decompression is much more easier than compression. During decompression, th
 
 - Clone this repo to your PC
 - Go to its project directory
-- Open *huffman-zipper.sln* in Visual Studio 2019
-- Set HuffmanCLI or HuffmanGUI as startup project (for HuffamnGUI project, configure *wxWigets* for Visual Studio 2019)
+- Open **huffman-zipper.sln** in Visual Studio 2019
+- Set HuffmanCLI or HuffmanGUI as startup project 
+- To build HuffamnGUI project, configure **wxWigets** for Visual Studio 2019.
 - Build and run the project.
 
 ## Links
-
-___
 
 - [Wikipedia: Huffman coding](https://en.wikipedia.org/wiki/Huffman_coding)
 - [Documentation]()
 
 ## How to Contribute
 
-___
-
 Pull requests are welcome. Submit Pull Request with comprehensive description of changes. For major changes, please open an issue first to discuss what you would like to change.
 
 Please make sure to update tests as appropriate.
 
 ## License
-
-___
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
