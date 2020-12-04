@@ -77,12 +77,12 @@ The decompression is much more easier than compression. During decompression, th
 
 ## Installation
 
-- Clone this repo to your PC
-- Go to its project directory
-- Open **huffman-zipper.sln** in Visual Studio 2019
-- Set HuffmanCLI or HuffmanGUI as startup project 
-- To build HuffamnGUI project, configure **wxWigets** for Visual Studio 2019.
-- Build and run the project.
+      - Clone this repo to your PC
+      - Go to its project directory
+      - Open **huffman-zipper.sln** in Visual Studio 2019
+      - Set HuffmanCLI or HuffmanGUI as startup project
+      - To build HuffamnGUI project, configure **wxWidgets** for Visual Studio 2019.
+      - Build and run the project.
 
 ## Links
 
