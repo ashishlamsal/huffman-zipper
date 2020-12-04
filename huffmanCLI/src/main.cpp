@@ -11,8 +11,8 @@ int main() {
 
 		//-----------------------Decompression-------------------------//
 		Decompressor decompression;
-		//decompression.decompressFile("./src/input1.huf");
-		decompression.decompressFile(COMPRESSED_FILE_PATH);
+		decompression.decompressFile("./src/huffman.huf");
+		//decompression.decompressFile(COMPRESSED_FILE_PATH);
 	}
 	catch (std::exception& err) {
 		std::cerr << err.what() << '\n';
