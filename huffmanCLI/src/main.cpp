@@ -5,8 +5,8 @@ int main() {
 	try {
 		//-----------------------Compression-------------------------//
 		Compressor compression;
-		//compression.compressFile(INPUT_FILE_PATH);
-		compression.compressFolder(DIRECTORY);
+		compression.compressFile("D:\\ProjectC++\\huffman-zipper\\huffmanGUI\\src\\huffman\\test.txt");
+		//compression.compressFolder(DIRECTORY);
 		//compression.compressFiles({ "./src/input1.txt", "./src/small-text.txt" });
 
 		//-----------------------Decompression-------------------------//
