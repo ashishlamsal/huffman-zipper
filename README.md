@@ -27,6 +27,15 @@ Data Compression and Decompression using Greedy Huffman Algorithm
 
 > This repo has three projects among which **huffman-zipper** generates *static .lib file*, **huffmanCLI** is for *command line interface* and **huffmanGUI** is for *graphical user interface*.
 
+## Installation
+
+      - Clone this repo to your PC
+      - Go to its project directory
+      - Open huffman-zipper.sln in Visual Studio 2019
+      - Set HuffmanCLI or HuffmanGUI as startup project
+      - To build HuffamnGUI project, configure wxWidgets for Visual Studio 2019.
+      - Build and run the project.
+
 ## How Huffman Compression Algorithm Works
 
 The process to build a hufffman binary tree for compression is very simple and straightforward.
@@ -75,14 +84,11 @@ ___
 
 The decompression is much more easier than compression. During decompression, the program first reconstruct the tree, and then decompress the file.
 
-## Installation
+## Conclusion
 
-      - Clone this repo to your PC
-      - Go to its project directory
-      - Open huffman-zipper.sln in Visual Studio 2019
-      - Set HuffmanCLI or HuffmanGUI as startup project
-      - To build HuffamnGUI project, configure wxWidgets for Visual Studio 2019.
-      - Build and run the project.
+The compression ratio and performance of the Huffman coding depends on the size of input text and the frequency of distinct characters in the file. The current implementation of huffman coding may produce file with increase size for small input files due to the overhead of storing `Huffman Tree` in the compressed file, which is required at the time of decompression.
+
+But, as the size of input file increases, the compression ratio becomes nearly 50%.
 
 ## Links
 
