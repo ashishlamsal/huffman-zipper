@@ -34,7 +34,13 @@ class MyFrame1 : public wxFrame
 		void OnCompressClick(wxCommandEvent& event); //{ event.Skip(); }
 		void OnDecompressClick(wxCommandEvent& event); //{ event.Skip(); }
 		wxDECLARE_EVENT_TABLE();
+		Compressor compression;
+		Decompressor decompression;
+		int selection;
 		void tooglePicker();
+		void compress(std::string );
+		void decompress(std::string );
+
 	protected:
 		wxRadioBox* m_radioBox3;
 		wxFilePickerCtrl* m_filePicker1;
