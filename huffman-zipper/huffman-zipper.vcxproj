@@ -25,7 +25,6 @@
     <ClCompile Include="src\BinNode.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="huffmanHeader.h" />
     <ClInclude Include="src\Decompressor.h" />
     <ClInclude Include="src\Compressor.h" />
     <ClInclude Include="src\BinNode.h" />
@@ -102,6 +101,7 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)bin\intermediates\$(Platform)\$(Configuration)\</IntDir>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)src\;;$(ProjectDir)include\</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>

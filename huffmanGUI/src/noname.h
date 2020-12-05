@@ -13,7 +13,9 @@
 #include <wx/sizer.h>
 #include <wx/textctrl.h>
 #include <wx/frame.h>
-#include <huffmanHeader.h>
+
+#include "Compressor.h"
+#include "Decompressor.h"
 
 ///////////////////////////////////////////////////////////////////////////
 
