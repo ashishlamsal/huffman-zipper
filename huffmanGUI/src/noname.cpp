@@ -5,6 +5,7 @@
 #include "noname.h"
 #include<regex>
 #include<chrono>
+#include<fstream>
 
 
 //compression.compressFile(INPUT_FILE_PATH);
@@ -27,6 +28,7 @@ wxBEGIN_EVENT_TABLE(MyFrame1, wxFrame)
 EVT_MENU(ID_CompressButtonClick, MyFrame1::OnCompressClick)
 wxEND_EVENT_TABLE()
 
+
 class MyApp : public wxApp
 {
 public:
@@ -37,24 +39,35 @@ bool MyApp::OnInit()
 {
 	MyFrame1* frame = new MyFrame1(NULL, NULL, "Hello world", wxPoint(50, 50), wxSize(450, 340), wxDEFAULT_FRAME_STYLE);
 	frame->Show(true);
+	
 	return true;
 }
 
 void MyFrame1::OnCompressClick(wxCommandEvent& event) {
+
 	try {
 		this->m_textCtrl1->Clear();
-		this->m_textCtrl1->AppendText("Compressing ...");
-		auto inputPath = this->m_filePicker1->GetPath();
-		std::string inputPathString = inputPath.ToStdString();
-		inputPathString = std::regex_replace(inputPathString, std::regex("(\)"), "/");
-		this->m_textCtrl1->AppendText(inputPathString);
+		wxStreamToTextRedirector redirect(m_textCtrl1);
+		//this->m_textCtrl1->AppendText("Compressing ...");
+		if (!selection) {
+			inputPath = this->m_filePicker1->GetPath().ToStdString();
+		}
+		else {
+			inputPath = this->m_dirPicker1->GetPath().ToStdString();
+
+		}
+		//this->m_textCtrl1->AppendText(inputPath);
+		//inputPathString = std::regex_replace(inputPathString, std::regex("(\\\\)"), "/");
+		//this->m_textCtrl1->AppendText(inputPath);
 		auto start = std::chrono::steady_clock::now();
-		//compress(inputPathString);
+		compress(inputPath);
 		auto stop = std::chrono::steady_clock::now();
 		auto duration = std::chrono::duration_cast<std::chrono::duration<double>>(stop - start);
 		//std::cout << "Compression Time: " << duration.count() << " seconds\n" << std::endl;
 
-		this->m_textCtrl1->AppendText("Compression Successful");
+		//this->m_textCtrl1->AppendText("Compression Successful");
+		clearBrowse();
+
 	}
 	catch (std::exception& err) {
 		wxLogMessage(err.what());
@@ -69,12 +82,17 @@ void MyFrame1::OnChooseClick(wxCommandEvent& event) {
 void MyFrame1::OnDecompressClick(wxCommandEvent& event) {
 	try {
 		this->m_textCtrl1->Clear();
-		this->m_textCtrl1->AppendText("Decompressing ...");
-		auto compressedPath = this->m_filePicker1->GetPath();
-		std::string compressedPathString = compressedPath.ToStdString();
-		this->m_textCtrl1->AppendText(compressedPathString);
-		decompress(compressedPathString);
-		this->m_textCtrl1->AppendText("Depression Successful");
+		wxStreamToTextRedirector redirect(m_textCtrl1);
+		if (selection) {
+			throw std::exception("Please select a valid compressed file");
+		}
+		this->m_textCtrl1->Clear();
+		//this->m_textCtrl1->AppendText("Decompressing ...");
+		inputPath = this->m_filePicker1->GetPath().ToStdString();
+		//this->m_textCtrl1->AppendText(inputPath);
+		decompress(inputPath);
+		//this->m_textCtrl1->AppendText("Depression Successful");
+		clearBrowse();
 	}
 	catch (std::exception& err) {
 		wxLogMessage(err.what());
@@ -99,22 +117,30 @@ void MyFrame1::decompress(std::string input) {
 
 ///////////////////////////////////////////////////////////////////////////
 
-wxIMPLEMENT_APP(MyApp);
 void MyFrame1::tooglePicker() {
 	selection = this->m_radioBox3->GetSelection();
 	if (!selection) {
 		this->m_filePicker1->Show();
 		this->m_dirPicker1->Hide();
+
 	}
 	else {
 		this->m_filePicker1->Hide();
 		this->m_dirPicker1->Show();
+
 	}
 
 }
+void MyFrame1::clearBrowse() {
+	this->m_filePicker1->SetPath(wxT(""));
+	this->m_dirPicker1->SetPath(wxT(""));
+}
+
+wxIMPLEMENT_APP(MyApp);
 
 MyFrame1::MyFrame1(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style) : wxFrame(parent, id, title, pos, size, style)
 {
+	
 	this->SetSizeHints(wxDefaultSize, wxDefaultSize);
 
 	wxBoxSizer* bSizer1;
@@ -150,8 +176,10 @@ MyFrame1::MyFrame1(wxWindow* parent, wxWindowID id, const wxString& title, const
 	wxBoxSizer* bSizer3;
 	bSizer3 = new wxBoxSizer(wxHORIZONTAL);
 
-	m_textCtrl1 = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0);
+	
+	m_textCtrl1 = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE);
 	bSizer3->Add(m_textCtrl1, 3, wxALL | wxEXPAND, 5);
+
 
 	wxBoxSizer* bSizer4;
 	bSizer4 = new wxBoxSizer(wxVERTICAL);

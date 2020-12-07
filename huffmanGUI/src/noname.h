@@ -17,13 +17,7 @@
 #include "Compressor.h"
 #include "Decompressor.h"
 
-///////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-
+#include<wx/richtext/richtextctrl.h>
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class MyFrame1
@@ -38,10 +32,12 @@ private:
 	wxDECLARE_EVENT_TABLE();
 	Compressor compression;
 	Decompressor decompression;
+	std::string inputPath;
 	int selection;
 	void tooglePicker();
 	void compress(std::string);
 	void decompress(std::string);
+	void clearBrowse();
 
 protected:
 	wxRadioBox* m_radioBox3;

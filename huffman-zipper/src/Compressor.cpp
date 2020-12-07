@@ -87,7 +87,7 @@ void Compressor::writeHeader(const std::string& inputName, std::ofstream& outfil
 
 	// Write total number of characters in each file, filename and directories
 	std::string file_path;
-	for (auto&& file : inputFiles) {
+	for (auto&&  file : inputFiles) {
 		int fileSize = fs::file_size(file);
 		outfile.write(reinterpret_cast<char*>(&fileSize), sizeof(fileSize));
 
@@ -137,7 +137,7 @@ void Compressor::writeIntoFile(const std::string& inputName) {
 	}
 
 	if (bufferSize) {
-		chr = chr << bufferSize;
+		chr = chr << bufferSize; //possibility of extra 8-bits
 		outfile.write(reinterpret_cast<char*>(&chr), sizeof(chr));
 	}
 
@@ -183,7 +183,7 @@ void Compressor::compressFile(const std::string& infileName) {
 	
 	inputFiles.emplace_back(infileName);
 	
-	compress(infileName);
+	compress(infileName); 
 }
 
 void Compressor::compressFolder(const std::string& directoryName) {
