@@ -101,7 +101,7 @@ There are many methods to mark the EOF. For example, you can choose a character 
 
 ___
 
-The decompression is much more easier than compression. During decompression, the program first reads the header from the compressed file and reconstruct the tree from it.And using the tree, it decodes the rest of the file to original characters and thus completes the decompression.
+The decompression is much more easier than compression. During decompression, the program first reads the header from the compressed file and reconstruct the tree from it. And using the tree, it decodes the rest of the file to original characters and thus completes the decompression.
 
 ## Conclusion
 

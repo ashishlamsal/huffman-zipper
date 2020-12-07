@@ -1,25 +1,42 @@
 #pragma once
 #include "MinHeap.h"
 
+/**
+ * This class models Priority Queue in which values are processed in order of priority.
+ * 
+ * It uses MinHeap as underlying data structure. So, lower value have higher priorities. 
+ */
 template <class T>
-class PriorityQueue
-{
+class PriorityQueue {
 private:
+
+	/** MinHeap Data Structure for Priority Queue implementation. */
 	MinHeap<T> heap;
 public:
-	PriorityQueue() {}
 
+	/** Adds value to the priority queue  */
 	void enqueue(const T&);
+
+	/** Removes and returns the highest priority value. */
 	T dequeue();
+
+	/** @returns the highest priority value without removing it. */
 	T top();
 
+	/** @returns true if the priority queue contains no elements. */
 	bool isEmpty();
+
+	/** @returns the number of values in the priority queue. */
 	int getSize();
 
+	/** Prints the values of the priority queue. */
 	void display();
 };
 
-// implementation
+/************************************************************************/
+/* implementation                                                       */
+/************************************************************************/
+
 template <class T>
 bool PriorityQueue<T>::isEmpty() {
 	return heap.isEmpty();
