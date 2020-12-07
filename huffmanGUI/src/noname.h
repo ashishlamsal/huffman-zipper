@@ -13,6 +13,7 @@
 #include <wx/sizer.h>
 #include <wx/textctrl.h>
 #include <wx/frame.h>
+#include<wx/richtext/richtextctrl.h>
 #include <huffmanHeader.h>
 
 ///////////////////////////////////////////////////////////////////////////
@@ -36,10 +37,12 @@ private:
 	wxDECLARE_EVENT_TABLE();
 	Compressor compression;
 	Decompressor decompression;
+	std::string inputPath;
 	int selection;
 	void tooglePicker();
 	void compress(std::string);
 	void decompress(std::string);
+	void clearBrowse();
 
 protected:
 	wxRadioBox* m_radioBox3;
