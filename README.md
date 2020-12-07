@@ -111,7 +111,7 @@ But, as the size of input file increases, the compression ratio becomes nearly 5
 
 ## Documentation
 
-The huffman-zipper documentation is available [here.]()
+The huffman-zipper documentation is available [here.](https://ashish-lamsal.github.io/huffman-zipper/)
 
 ## References
 
