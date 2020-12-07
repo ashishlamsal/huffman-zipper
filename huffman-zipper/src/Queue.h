@@ -4,34 +4,65 @@
 
 #include "Constants.h"
 
+/**
+ * This class models a linear structure called a Queue.
+
+ * In queue ,values are added at one end and removed from the other.
+ * This discipline gives rise to a first-in/first-out behavior (FIFO). 
+ */
 template <typename ValueType>
 class Queue {
 private:
-	std::vector<ValueType> ringBuffer;
-	int front;
-	int rear;
+	std::vector<ValueType> ringBuffer;	/**< Vector of ValueType for Circular Queue */
+	int front;							/**< index to front of the queue */
+	int rear;							/**< index to rear of the queue */
 
-	int count;
-	int capacity;
+	int count;							/**< number of value in the queue */
+	int capacity;						/**< capacity of the queue */
 
 private:
+
+	/**
+	 * This private method doubles the capacity of the ringBuffer vector.  
+	 * It also shifts all the elements back to the beginning of the vector.
+	 */
 	void expandRingBufferCapacity();
 
 public:
+	/** Initializes a new empty queue. */
 	Queue();
+
+	/** Frees any heap storage associated with this queue. */
 	virtual ~Queue() = default;
 
+	/** Removes all elements from the queue. */
 	void clear();
-	int size() const;
-	bool isEmpty() const;
 
+	/** @returns the number of values in the queue. */
+	int size() const;
+
+	/** @returns true if the queue contains no elements. */
+	bool isEmpty() const;
+	
+	/** Adds value to the end of the queue. */
 	void enqueue(const ValueType& value);
+
+	/** Removes and returns the first item in the queue. */
 	ValueType dequeue();
+
+	/** @returns the first value in the queue, without removing it */
 	ValueType peek() const;
 
+	/** @returns the first value in the queue by reference. */
 	ValueType& getFront();
+	
+	/** @returns the last value in the queue by reference. */
 	ValueType& getBack();
 };
+
+/************************************************************************/
+/* implementation                                                       */
+/************************************************************************/
 
 template <typename ValueType>
 Queue<ValueType>::Queue() :front(0), rear(0), count(0), capacity(INITIAL_QUEUE_CAPACITY) {
@@ -101,7 +132,6 @@ ValueType& Queue<ValueType>::getBack() {
 
 template <typename ValueType>
 void Queue<ValueType>::expandRingBufferCapacity() {
-	std::cout << "R" << count << std::endl;
 	std::vector<ValueType> copyBuffer = ringBuffer;
 	ringBuffer = std::vector<ValueType>(2 * capacity);
 	for (int i = 0; i < count; i++) {

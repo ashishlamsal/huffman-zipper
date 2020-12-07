@@ -13,16 +13,11 @@
 #include <wx/sizer.h>
 #include <wx/textctrl.h>
 #include <wx/frame.h>
+
+#include "Compressor.h"
+#include "Decompressor.h"
+
 #include<wx/richtext/richtextctrl.h>
-#include <huffmanHeader.h>
-
-///////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class MyFrame1
