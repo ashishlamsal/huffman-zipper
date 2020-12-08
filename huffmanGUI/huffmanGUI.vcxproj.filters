@@ -26,10 +26,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\myframe.cpp">
+    <ClCompile Include="src\Myframe.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\app.cpp">
+    <ClCompile Include="src\App.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

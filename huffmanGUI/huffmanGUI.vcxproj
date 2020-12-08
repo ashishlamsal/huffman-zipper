@@ -19,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\app.cpp" />
-    <ClCompile Include="src\myframe.cpp" />
+    <ClCompile Include="src\App.cpp" />
+    <ClCompile Include="src\Myframe.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\App.h" />
