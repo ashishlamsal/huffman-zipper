@@ -13,33 +13,19 @@
 #include <wx/sizer.h>
 #include <wx/textctrl.h>
 #include <wx/frame.h>
-<<<<<<< HEAD:huffmanGUI/src/MyFrame.h
-#include<wx/richtext/richtextctrl.h>
-#include <huffmanHeader.h>
-///////////////////////////////////////////////////////////////////////////////
-/// Class MyFrame1
-///////////////////////////////////////////////////////////////////////////////
-
-
-
-
-=======
->>>>>>> e512662a60c393f36e63bb79986de5a57b632ec6:huffmanGUI/src/noname.h
-
 #include "Compressor.h"
 #include "Decompressor.h"
-
-#include<wx/richtext/richtextctrl.h>
-
+/**
+* This class models the frame to be rendered on the App
+*/
 class MyFrame1 : public wxFrame
 {
 private:
-
-	wxDECLARE_EVENT_TABLE();
-	Compressor compression;
-	Decompressor decompression;
-	std::string inputPath;
-	int selection;
+	wxDECLARE_EVENT_TABLE(); 
+	Compressor compression;		/**<	Compressor object*/
+	Decompressor decompression;	/**<	Decompressor object*/
+	std::string inputPath;		/**<	Path to the browsed file/directory*/
+	int selection;				/**<	selection=0 for file selection, 1 for dir selection*/
 
 /**
 *This is an event handling function for 'choose' button click event.

@@ -1,5 +1,11 @@
+/**
+ * @file utils.h
+ *
+ */
 #pragma once
 #include"MyFrame.h"
+
+
 enum {
 	ID_ChooseButtonClick = 1,
 	ID_CompressButtonClick,
