@@ -2,10 +2,12 @@
 #ifndef WX_PRECOMP
 #include <wx/wx.h>
 #endif
-#include "noname.h"
 #include<regex>
 #include<chrono>
 #include<fstream>
+#include "Myframe.h"
+#include"App.h"
+#include"utils.h"
 
 
 //compression.compressFile(INPUT_FILE_PATH);
@@ -18,37 +20,15 @@
 //decompression.decompressFile(COMPRESSED_FILE_PATH);
 
 
-enum {
-	ID_ChooseButtonClick = 1,
-	ID_CompressButtonClick,
-	ID_DecompressClick
-};
-
-wxBEGIN_EVENT_TABLE(MyFrame1, wxFrame)
-EVT_MENU(ID_CompressButtonClick, MyFrame1::OnCompressClick)
-wxEND_EVENT_TABLE()
 
 
-class MyApp : public wxApp
-{
-public:
-	virtual bool OnInit();
-};
 
-bool MyApp::OnInit()
-{
-	MyFrame1* frame = new MyFrame1(NULL, NULL, "Hello world", wxPoint(50, 50), wxSize(450, 340), wxDEFAULT_FRAME_STYLE);
-	frame->Show(true);
-	
-	return true;
-}
 
 void MyFrame1::OnCompressClick(wxCommandEvent& event) {
 
 	try {
 		this->m_textCtrl1->Clear();
 		wxStreamToTextRedirector redirect(m_textCtrl1);
-		//this->m_textCtrl1->AppendText("Compressing ...");
 		if (!selection) {
 			inputPath = this->m_filePicker1->GetPath().ToStdString();
 		}
@@ -56,16 +36,7 @@ void MyFrame1::OnCompressClick(wxCommandEvent& event) {
 			inputPath = this->m_dirPicker1->GetPath().ToStdString();
 
 		}
-		//this->m_textCtrl1->AppendText(inputPath);
-		//inputPathString = std::regex_replace(inputPathString, std::regex("(\\\\)"), "/");
-		//this->m_textCtrl1->AppendText(inputPath);
-		auto start = std::chrono::steady_clock::now();
 		compress(inputPath);
-		auto stop = std::chrono::steady_clock::now();
-		auto duration = std::chrono::duration_cast<std::chrono::duration<double>>(stop - start);
-		//std::cout << "Compression Time: " << duration.count() << " seconds\n" << std::endl;
-
-		//this->m_textCtrl1->AppendText("Compression Successful");
 		clearBrowse();
 
 	}
@@ -79,6 +50,8 @@ void MyFrame1::OnCompressClick(wxCommandEvent& event) {
 void MyFrame1::OnChooseClick(wxCommandEvent& event) {
 	tooglePicker();
 }
+
+
 void MyFrame1::OnDecompressClick(wxCommandEvent& event) {
 	try {
 		this->m_textCtrl1->Clear();
@@ -87,11 +60,8 @@ void MyFrame1::OnDecompressClick(wxCommandEvent& event) {
 			throw std::exception("Please select a valid compressed file");
 		}
 		this->m_textCtrl1->Clear();
-		//this->m_textCtrl1->AppendText("Decompressing ...");
 		inputPath = this->m_filePicker1->GetPath().ToStdString();
-		//this->m_textCtrl1->AppendText(inputPath);
 		decompress(inputPath);
-		//this->m_textCtrl1->AppendText("Depression Successful");
 		clearBrowse();
 	}
 	catch (std::exception& err) {
@@ -107,15 +77,13 @@ void MyFrame1::compress(std::string input) {
 		compression.compressFolder(input);
 }
 
+
+
 void MyFrame1::decompress(std::string input) {
 	decompression.decompressFile(input);
 }
 
 
-
-
-
-///////////////////////////////////////////////////////////////////////////
 
 void MyFrame1::tooglePicker() {
 	selection = this->m_radioBox3->GetSelection();
@@ -131,6 +99,7 @@ void MyFrame1::tooglePicker() {
 	}
 
 }
+
 void MyFrame1::clearBrowse() {
 	this->m_filePicker1->SetPath(wxT(""));
 	this->m_dirPicker1->SetPath(wxT(""));

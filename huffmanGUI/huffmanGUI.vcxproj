@@ -19,10 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\noname.cpp" />
+    <ClCompile Include="src\app.cpp" />
+    <ClCompile Include="src\myframe.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\noname.h" />
+    <ClInclude Include="src\App.h" />
+    <ClInclude Include="src\MyFrame.h" />
+    <ClInclude Include="src\utils.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\huffman-zipper\huffman-zipper.vcxproj">
