@@ -13,72 +13,75 @@
 #include <wx/sizer.h>
 #include <wx/textctrl.h>
 #include <wx/frame.h>
+
 #include "Compressor.h"
 #include "Decompressor.h"
+
 /**
-* This class models the frame to be rendered on the App
-*/
-class MyFrame1 : public wxFrame
+ * This class models the frame to be rendered on the HuffmanApp
+ */
+class HuffmanFrame : public wxFrame
 {
 private:
-	wxDECLARE_EVENT_TABLE(); 
-	Compressor compression;		/**<	Compressor object*/
-	Decompressor decompression;	/**<	Decompressor object*/
-	std::string inputPath;		/**<	Path to the browsed file/directory*/
-	int selection;				/**<	selection=0 for file selection, 1 for dir selection*/
+	wxDECLARE_EVENT_TABLE();
+	Compressor compression;		/**<	Compressor object */
+	Decompressor decompression;	/**<	Decompressor object */
+	std::string inputPath;		/**<	Path to the browsed file/directory */
+	int selection;				/**<	selection=0 for file selection, 1 for dir selection */
 
 	/**
 	 * This is an event handling function for 'choose' button click event.
-	 * @params: wxCommandEvent&
-	 * @returns:void
-	 * On radio selecting any item(file/folder) on 'Choose', it sets MyFrame::selection accordingly
+	 * @param wxCommandEvent&
+	 * @returns void
+	 * On radio selecting any item(file/folder) on 'Choose', it sets HuffmanFrame::selection accordingly
 	 * selection = 1 for folder
 	 * selection = 0 for file
 	 */
 	void OnChooseClick(wxCommandEvent& event); //{ event.Skip(); }
-	
+
 	/**
 	 * This is an event handling function for 'compress' button click event.
-	 * @params: wxCommandEvent&
-	 * @returns:void
+	 * @param wxCommandEvent&
+	 * @returns void
 	 * On clicking compress button, it calls @see compress()
 	 */
 	void OnCompressClick(wxCommandEvent& event); //{ event.Skip(); }
-	
+
 	/**
 	 * This is an event handling function for 'decompress' button click event.
-	 * @params: wxCommandEvent&
-	 * @returns:void
+	 * @param wxCommandEvent&
+	 * @returns void
 	 * On clicking decompress button, it calls @see decompress()
 	 */
 	void OnDecompressClick(wxCommandEvent& event); //{ event.Skip(); }
-	
+
 	/**
 	 * This function takes the file/directory path and performs compression on it.
-	 * @params: std::string
-	 * @returns:void
-	 * On implementation level, it calls @see Compression::compress()s
+	 * @param std::string
+	 * @returns void
+	 * On implementation level, it calls @see Compression::compress()
 	 */
 	void compress(std::string);
-	
+
 	/**
 	 * This function takes the file path of the compress file and performs decompression on it.
-	 * @params: std::string
-	 * @returns:void
+	 * @param std::string
+	 * @returns void
 	 * On implementation level, it calls @see Deompression::decompress()
 	 */
 	void decompress(std::string);
-	/**
-	 * This function toogles widget between filePicker and dirPicker based on selection of MyFrame::m_radioBox3.
-	 * @params: None
-	 * @returns:void
-	 */
-	void tooglePicker();
 	
 	/**
+	 * This function toogles widget between filePicker and dirPicker based on selection of HuffmanFrame::m_radioBox3.
+	 * @param  None
+	 * @returns void
+	 */
+	void tooglePicker();
+
+	/**
 	 * This function clears the input of browse widgets.
-	 * @params: None
-	 * @returns:void
+	 * @param None
+	 * @returns void
 	 */
 	void clearBrowse();
 
@@ -96,7 +99,7 @@ protected:
 
 public:
 
-	MyFrame1(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(500, 448), long style = wxDEFAULT_FRAME_STYLE | wxTAB_TRAVERSAL);
+	HuffmanFrame(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(500, 448), long style = wxDEFAULT_FRAME_STYLE | wxTAB_TRAVERSAL);
 
-	~MyFrame1();
+	~HuffmanFrame();
 };

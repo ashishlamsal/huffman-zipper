@@ -2,30 +2,15 @@
 #ifndef WX_PRECOMP
 #include <wx/wx.h>
 #endif
-#include<regex>
-#include<chrono>
-#include<fstream>
-#include "Myframe.h"
-#include"App.h"
-#include"utils.h"
+#include <regex>
+#include <chrono>
+#include <fstream>
 
+#include "HuffmanFrame.h"
+#include "HuffmanApp.h"
+#include "utils.h"
 
-//compression.compressFile(INPUT_FILE_PATH);
-//compression.compressFolder(DIRECTORY);
-//compression.compressFiles({ "./src/input1.txt", "./src/small-text.txt" });
-
-//-----------------------Decompression-------------------------//
-
-//decompression.decompressFile("./src/input1.huf");
-//decompression.decompressFile(COMPRESSED_FILE_PATH);
-
-
-
-
-
-
-void MyFrame1::OnCompressClick(wxCommandEvent& event) {
-
+void HuffmanFrame::OnCompressClick(wxCommandEvent& event) {
 	try {
 		this->m_textCtrl1->Clear();
 		wxStreamToTextRedirector redirect(m_textCtrl1);
@@ -47,12 +32,12 @@ void MyFrame1::OnCompressClick(wxCommandEvent& event) {
 	wxString str = this->m_textCtrl1->GetValue();
 }
 
-void MyFrame1::OnChooseClick(wxCommandEvent& event) {
+void HuffmanFrame::OnChooseClick(wxCommandEvent& event) {
 	tooglePicker();
 }
 
 
-void MyFrame1::OnDecompressClick(wxCommandEvent& event) {
+void HuffmanFrame::OnDecompressClick(wxCommandEvent& event) {
 	try {
 		this->m_textCtrl1->Clear();
 		wxStreamToTextRedirector redirect(m_textCtrl1);
@@ -70,7 +55,7 @@ void MyFrame1::OnDecompressClick(wxCommandEvent& event) {
 	}
 }
 
-void MyFrame1::compress(std::string input) {
+void HuffmanFrame::compress(std::string input) {
 	if (!selection)
 		compression.compressFile(input);
 	else
@@ -78,14 +63,12 @@ void MyFrame1::compress(std::string input) {
 }
 
 
-
-void MyFrame1::decompress(std::string input) {
+void HuffmanFrame::decompress(std::string input) {
 	decompression.decompressFile(input);
 }
 
 
-
-void MyFrame1::tooglePicker() {
+void HuffmanFrame::tooglePicker() {
 	selection = this->m_radioBox3->GetSelection();
 	if (!selection) {
 		this->m_filePicker1->Show();
@@ -97,17 +80,16 @@ void MyFrame1::tooglePicker() {
 		this->m_dirPicker1->Show();
 
 	}
-
 }
 
-void MyFrame1::clearBrowse() {
+void HuffmanFrame::clearBrowse() {
 	this->m_filePicker1->SetPath(wxT(""));
 	this->m_dirPicker1->SetPath(wxT(""));
 }
 
-wxIMPLEMENT_APP(MyApp);
+wxIMPLEMENT_APP(HuffmanApp);
 
-MyFrame1::MyFrame1(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style) : wxFrame(parent, id, title, pos, size, style)
+HuffmanFrame::HuffmanFrame(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style) : wxFrame(parent, id, title, pos, size, style)
 {
 	
 	this->SetSizeHints(wxDefaultSize, wxDefaultSize);
@@ -181,14 +163,14 @@ MyFrame1::MyFrame1(wxWindow* parent, wxWindowID id, const wxString& title, const
 	this->Centre(wxBOTH);
 
 	// Connect Events
-	m_radioBox3->Connect(wxEVT_COMMAND_RADIOBOX_SELECTED, wxCommandEventHandler(MyFrame1::OnChooseClick), NULL, this);
-	m_button1->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MyFrame1::OnCompressClick), NULL, this);
-	m_button2->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MyFrame1::OnDecompressClick), NULL, this);
+	m_radioBox3->Connect(wxEVT_COMMAND_RADIOBOX_SELECTED, wxCommandEventHandler(HuffmanFrame::OnChooseClick), NULL, this);
+	m_button1->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(HuffmanFrame::OnCompressClick), NULL, this);
+	m_button2->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(HuffmanFrame::OnDecompressClick), NULL, this);
 }
 
-MyFrame1::~MyFrame1() {
+HuffmanFrame::~HuffmanFrame() {
 	// Disconnect Events
-	m_radioBox3->Disconnect(wxEVT_COMMAND_RADIOBOX_SELECTED, wxCommandEventHandler(MyFrame1::OnChooseClick), NULL, this);
-	m_button1->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MyFrame1::OnCompressClick), NULL, this);
-	m_button2->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MyFrame1::OnDecompressClick), NULL, this);
+	m_radioBox3->Disconnect(wxEVT_COMMAND_RADIOBOX_SELECTED, wxCommandEventHandler(HuffmanFrame::OnChooseClick), NULL, this);
+	m_button1->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(HuffmanFrame::OnCompressClick), NULL, this);
+	m_button2->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(HuffmanFrame::OnDecompressClick), NULL, this);
 }

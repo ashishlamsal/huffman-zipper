@@ -3,8 +3,7 @@
  *
  */
 #pragma once
-#include"MyFrame.h"
-
+#include "HuffmanFrame.h"
 
 enum {
 	ID_ChooseButtonClick = 1,
@@ -12,6 +11,6 @@ enum {
 	ID_DecompressClick
 };
 
-wxBEGIN_EVENT_TABLE(MyFrame1, wxFrame)
-EVT_MENU(ID_CompressButtonClick, MyFrame1::OnCompressClick)
+wxBEGIN_EVENT_TABLE(HuffmanFrame, wxFrame)
+EVT_MENU(ID_CompressButtonClick, HuffmanFrame::OnCompressClick)
 wxEND_EVENT_TABLE()

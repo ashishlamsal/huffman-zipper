@@ -19,12 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\App.cpp" />
-    <ClCompile Include="src\Myframe.cpp" />
+    <ClCompile Include="src\HuffmanApp.cpp" />
+    <ClCompile Include="src\HuffmanFrame.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\App.h" />
-    <ClInclude Include="src\MyFrame.h" />
+    <ClInclude Include="src\HuffmanApp.h" />
+    <ClInclude Include="src\HuffmanFrame.h" />
     <ClInclude Include="src\utils.h" />
   </ItemGroup>
   <ItemGroup>
