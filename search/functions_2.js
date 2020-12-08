@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['decompress_225',['decompress',['../class_my_frame1.html#aa9657429e00a5cd5c41bb6ca02089d26',1,'MyFrame1']]],
+  ['decompress_225',['decompress',['../class_huffman_frame.html#a1500881dfd2e6d5a4fb3a62e077bdbc5',1,'HuffmanFrame']]],
   ['decompressfile_226',['decompressFile',['../class_decompressor.html#a5295ff5cd426f51be382ad23e108bd2f',1,'Decompressor']]],
   ['decompressor_227',['Decompressor',['../class_decompressor.html#a785385995b7aa672abe8571a433e94e0',1,'Decompressor']]],
   ['deepcopy_228',['deepCopy',['../class_hash_map.html#ab9c633cfa95276587f2a3921ef000d52',1,'HashMap']]],

@@ -14,9 +14,9 @@ var hierarchy =
     [ "Queue< ValueType >", "class_queue.html", null ],
     [ "Queue< Decompressor::fileInfo >", "class_queue.html", null ],
     [ "wxApp", null, [
-      [ "MyApp", "class_my_app.html", null ]
+      [ "HuffmanApp", "class_huffman_app.html", null ]
     ] ],
     [ "wxFrame", null, [
-      [ "MyFrame1", "class_my_frame1.html", null ]
+      [ "HuffmanFrame", "class_huffman_frame.html", null ]
     ] ]
 ];

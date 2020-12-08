@@ -1,9 +1,9 @@
 var searchData=
 [
-  ['onchooseclick_262',['OnChooseClick',['../class_my_frame1.html#a5c1a9c8d5ae0a519e2f32b7805f1a6d7',1,'MyFrame1']]],
-  ['oncompressclick_263',['OnCompressClick',['../class_my_frame1.html#a6d879949db68b880a270840598a54e32',1,'MyFrame1']]],
-  ['ondecompressclick_264',['OnDecompressClick',['../class_my_frame1.html#a895249bb4ecfe644e875ca56a6152d18',1,'MyFrame1']]],
-  ['oninit_265',['OnInit',['../class_my_app.html#a79fa75d1155f0e85e20f2869538296d6',1,'MyApp']]],
+  ['onchooseclick_262',['OnChooseClick',['../class_huffman_frame.html#aab97d5f3f0ae7268bea8ce3bde700663',1,'HuffmanFrame']]],
+  ['oncompressclick_263',['OnCompressClick',['../class_huffman_frame.html#a389749f9eabee8de6ae14e7703b1e56b',1,'HuffmanFrame']]],
+  ['ondecompressclick_264',['OnDecompressClick',['../class_huffman_frame.html#a74c9c2faf51bd405e18673a2608e3ea5',1,'HuffmanFrame']]],
+  ['oninit_265',['OnInit',['../class_huffman_app.html#a6e8032f47f7d0972359dacbb2e06a157',1,'HuffmanApp']]],
   ['operator_21_3d_266',['operator!=',['../class_hash_map_1_1iterator.html#ad64edb0d8d2e757a8fb3a05a70a0e33a',1,'HashMap::iterator']]],
   ['operator_2a_267',['operator*',['../class_hash_map_1_1iterator.html#af7a2ef877088bd646aca5a9d637f6ade',1,'HashMap::iterator']]],
   ['operator_2b_2b_268',['operator++',['../class_hash_map_1_1iterator.html#ac58013e9a26fdc5fecfefcdc076dc9c1',1,'HashMap::iterator::operator++()'],['../class_hash_map_1_1iterator.html#a0317218b1cc0858c814d9fd8df1b3596',1,'HashMap::iterator::operator++(int)']]],

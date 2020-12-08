@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['selection_353',['selection',['../class_my_frame1.html#aa12facdd5f76d5aaaeb532fbff32008c',1,'MyFrame1']]]
+  ['selection_353',['selection',['../class_huffman_frame.html#a742e77eed2f3b77f71a55b53e337917a',1,'HuffmanFrame']]]
 ];

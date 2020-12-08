@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['leftchild_257',['leftChild',['../class_min_heap.html#a04bdb06743669d1204cf90c05c1a3bab',1,'MinHeap']]]
+  ['leftchild_258',['leftChild',['../class_min_heap.html#a04bdb06743669d1204cf90c05c1a3bab',1,'MinHeap']]]
 ];

@@ -1,0 +1,27 @@
+var class_huffman_frame =
+[
+    [ "HuffmanFrame", "class_huffman_frame.html#af31a0f3e540208e476c90c6950385a0b", null ],
+    [ "~HuffmanFrame", "class_huffman_frame.html#aef33a0cf1de7ea5cfd1fc7f63f6f3c81", null ],
+    [ "clearBrowse", "class_huffman_frame.html#a9210d6e56a9672447ffb11abb0e057c6", null ],
+    [ "compress", "class_huffman_frame.html#a813d6d303e529d6c6c5ea36990d9419e", null ],
+    [ "decompress", "class_huffman_frame.html#a1500881dfd2e6d5a4fb3a62e077bdbc5", null ],
+    [ "OnChooseClick", "class_huffman_frame.html#aab97d5f3f0ae7268bea8ce3bde700663", null ],
+    [ "OnCompressClick", "class_huffman_frame.html#a389749f9eabee8de6ae14e7703b1e56b", null ],
+    [ "OnDecompressClick", "class_huffman_frame.html#a74c9c2faf51bd405e18673a2608e3ea5", null ],
+    [ "tooglePicker", "class_huffman_frame.html#a85e9bc32ee269df4a8df877648701404", null ],
+    [ "wxDECLARE_EVENT_TABLE", "class_huffman_frame.html#aacd09b0ced8ab5d173880b44cba47f50", null ],
+    [ "compression", "class_huffman_frame.html#ad78d557415f97ffcb19d5fb2d32ccf43", null ],
+    [ "decompression", "class_huffman_frame.html#ade53676a94fdada8125cb1203417c98a", null ],
+    [ "inputPath", "class_huffman_frame.html#a7afdb094d76e6efdbed1969cccd8e6b4", null ],
+    [ "m_button1", "class_huffman_frame.html#a998460dc849e17f56d7c98110fd44dc2", null ],
+    [ "m_button2", "class_huffman_frame.html#a6320e4875cd1c2b0fc686e5747883ead", null ],
+    [ "m_button3", "class_huffman_frame.html#a527744ae301a865da310c3c343693e1f", null ],
+    [ "m_button4", "class_huffman_frame.html#aa8a93ade080e67d0a7afe995fce0aa80", null ],
+    [ "m_button5", "class_huffman_frame.html#aa1e9a998222abc3d349f4972c6092adb", null ],
+    [ "m_button6", "class_huffman_frame.html#ad7b4932122af581db857eee54ce6bc76", null ],
+    [ "m_dirPicker1", "class_huffman_frame.html#a67073ab5e9da1882d48b90ede08fa6bb", null ],
+    [ "m_filePicker1", "class_huffman_frame.html#a0190d5077fddae4edad7ab4b7faf7cbf", null ],
+    [ "m_radioBox3", "class_huffman_frame.html#aeac9bf53e7a289f903e94105f71a146a", null ],
+    [ "m_textCtrl1", "class_huffman_frame.html#a2e9dc873fbe51f86a2db96a2d591511e", null ],
+    [ "selection", "class_huffman_frame.html#a742e77eed2f3b77f71a55b53e337917a", null ]
+];

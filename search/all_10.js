@@ -1,14 +1,10 @@
 var searchData=
 [
-  ['readfrequency_141',['readFrequency',['../class_compressor.html#a5cbd10c15d349190cf4a284d0fafb5a7',1,'Compressor']]],
-  ['readheader_142',['readHeader',['../class_decompressor.html#a309439ebb1f8e4f96e581a3491739c48',1,'Decompressor']]],
-  ['readme_2emd_143',['README.md',['../_r_e_a_d_m_e_8md.html',1,'']]],
-  ['readtree_144',['readTree',['../class_decompressor.html#ac902140fd224294f430b8dc77dd2fa84',1,'Decompressor']]],
-  ['rear_145',['rear',['../class_queue.html#afe89d61ce6986483c269a0121fb7d147',1,'Queue']]],
-  ['reference_146',['reference',['../class_hash_map_1_1iterator.html#a0dc8222b92578f4b3b74fee69cec7628',1,'HashMap::iterator']]],
-  ['remove_147',['remove',['../class_hash_map.html#a4b1926e1def0a79fe723845f2278666f',1,'HashMap::remove()'],['../class_min_heap.html#ad8c7b54d722760f915c55311ecf9903e',1,'MinHeap::remove()']]],
-  ['reserve_5fsize_148',['RESERVE_SIZE',['../_constants_8h.html#adcb77116ac7db1c3be6f59716e9515cb',1,'Constants.h']]],
-  ['rightchild_149',['rightChild',['../class_bin_node.html#a9b85f0744ab9556dd83b29132c51b62c',1,'BinNode::rightChild()'],['../class_min_heap.html#a620a868824fdac34ae860512b3e45ee6',1,'MinHeap::rightChild()']]],
-  ['ringbuffer_150',['ringBuffer',['../class_queue.html#a3869f8212401dfca3ddf6ec4b9d7d087',1,'Queue']]],
-  ['rootnode_151',['rootNode',['../class_compressor.html#a2680025379d8d7e0f2b14563d044f902',1,'Compressor::rootNode()'],['../class_decompressor.html#a54c68c11f12a71e7bfe833df877c3d1e',1,'Decompressor::rootNode()']]]
+  ['scanfile_152',['scanFile',['../class_compressor.html#a8436ef43f2ce72b9bced0e407f9c4bf1',1,'Compressor']]],
+  ['selection_153',['selection',['../class_huffman_frame.html#a742e77eed2f3b77f71a55b53e337917a',1,'HuffmanFrame']]],
+  ['setleftchild_154',['setLeftChild',['../class_bin_node.html#ac68cb4a3e3309d5cc5bed0e2e1ca71d5',1,'BinNode']]],
+  ['setrightchild_155',['setRightChild',['../class_bin_node.html#aa3b372f3b6dafea691b95d9cf99e7d3c',1,'BinNode']]],
+  ['size_156',['size',['../class_hash_map.html#ab9484b53ecf412b9548802adfe3acde5',1,'HashMap::size()'],['../class_queue.html#a1eef55248777736ffcf70ae9fbd547e1',1,'Queue::size()']]],
+  ['smallerchild_157',['smallerChild',['../class_min_heap.html#a223b62fd4133ef3e52014a8939e882ab',1,'MinHeap::smallerChild(int index)'],['../class_min_heap.html#afae49da2b36c75f00ef642bd1922c43c',1,'MinHeap::smallerChild(int index)']]],
+  ['swap_158',['swap',['../class_min_heap.html#a5d67e22930ff793e9a5ad8ee4ccf90ed',1,'MinHeap']]]
 ];
