@@ -6,6 +6,7 @@ var annotated_dup =
     [ "HashMap", "class_hash_map.html", "class_hash_map" ],
     [ "MinHeap", "class_min_heap.html", "class_min_heap" ],
     [ "MyApp", "class_my_app.html", "class_my_app" ],
+    [ "MyFrame1", "class_my_frame1.html", "class_my_frame1" ],
     [ "PriorityQueue", "class_priority_queue.html", "class_priority_queue" ],
     [ "Queue", "class_queue.html", "class_queue" ]
 ];

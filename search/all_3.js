@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['decompress_30',['decompress',['../_my_frame_8h.html#aa9657429e00a5cd5c41bb6ca02089d26',1,'myframe.cpp']]],
+  ['decompress_30',['decompress',['../class_my_frame1.html#aa9657429e00a5cd5c41bb6ca02089d26',1,'MyFrame1']]],
   ['decompressfile_31',['decompressFile',['../class_decompressor.html#a5295ff5cd426f51be382ad23e108bd2f',1,'Decompressor']]],
-  ['decompression_32',['decompression',['../_my_frame_8h.html#af44b63f708a2a561d15d0f8dff655c59',1,'MyFrame.h']]],
+  ['decompression_32',['decompression',['../class_my_frame1.html#a7e51d052a86992b2972ba6f7ae830ab1',1,'MyFrame1']]],
   ['decompressor_33',['Decompressor',['../class_decompressor.html',1,'Decompressor'],['../class_decompressor.html#a785385995b7aa672abe8571a433e94e0',1,'Decompressor::Decompressor()']]],
   ['decompressor_2ecpp_34',['Decompressor.cpp',['../_decompressor_8cpp.html',1,'']]],
   ['decompressor_2eh_35',['Decompressor.h',['../_decompressor_8h.html',1,'']]],

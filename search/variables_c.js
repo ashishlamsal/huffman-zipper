@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['selection_352',['selection',['../_my_frame_8h.html#ad4174319b419e07ce037d1ed891595d8',1,'MyFrame.h']]]
+  ['value_354',['value',['../struct_hash_map_1_1_entry.html#a657ca736d575a4b4d838c399d8b58106',1,'HashMap::Entry']]]
 ];
