@@ -13,7 +13,7 @@ var hierarchy =
     [ "PriorityQueue< T >", "class_priority_queue.html", null ],
     [ "Queue< ValueType >", "class_queue.html", null ],
     [ "Queue< Decompressor::fileInfo >", "class_queue.html", null ],
-    [ "wxFrame", null, [
-      [ "MyFrame1", "class_my_frame1.html", null ]
+    [ "wxApp", null, [
+      [ "MyApp", "class_my_app.html", null ]
     ] ]
 ];
