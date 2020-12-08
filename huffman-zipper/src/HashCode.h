@@ -1,13 +1,26 @@
+/** 
+ * @file HashCode.h 
+ * 
+ * This file contains prototype for the hashCode functions used in class HashMap.
+ */
+
 #pragma once
 #include <string>
-#include <cstddef>       // For size_t
-#include <cstdint>       // For uintptr_t
-#include <cstring>       // For strlen
+#include <cstddef>       /// For size_t
+#include <cstdint>       /// For uintptr_t
+#include <cstring>       /// For strlen
 
-static const int HASH_SEED = 5381;               // Starting point for first cycle
-static const int HASH_MULTIPLIER = 33;           // Multiplier for each cycle
-static const int HASH_MASK = unsigned(-1) >> 1;  // All 1 bits except the sign
+static const int HASH_SEED = 5381;               /**< Starting point for first cycle	*/
+static const int HASH_MULTIPLIER = 33;           /**< Multiplier for each cycle			*/
+static const int HASH_MASK = unsigned(-1) >> 1;  /**< All 1 bits except the sign		*/
 
+/**
+ * Returns a hash code for the specified key, which is always a
+ * nonnegative integer.  
+ * 
+ * This function is overloaded to support all of the primitive types 
+ * and the C++ <code>string</code> type.
+ */
 int hashCode(int key);
 int hashCode(bool key);
 int hashCode(char key);

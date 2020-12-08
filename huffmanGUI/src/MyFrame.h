@@ -13,6 +13,7 @@
 #include <wx/sizer.h>
 #include <wx/textctrl.h>
 #include <wx/frame.h>
+<<<<<<< HEAD:huffmanGUI/src/MyFrame.h
 #include<wx/richtext/richtextctrl.h>
 #include <huffmanHeader.h>
 ///////////////////////////////////////////////////////////////////////////////
@@ -22,8 +23,13 @@
 
 
 
+=======
+>>>>>>> e512662a60c393f36e63bb79986de5a57b632ec6:huffmanGUI/src/noname.h
 
+#include "Compressor.h"
+#include "Decompressor.h"
 
+#include<wx/richtext/richtextctrl.h>
 
 class MyFrame1 : public wxFrame
 {

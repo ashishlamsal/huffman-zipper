@@ -6,52 +6,94 @@
 #include "BinNode.h"
 #include "Constants.h"
 
+
+/**
+ * This class models a structure called a MinHeap in which value
+ * in the root node is minimum.
+ * 
+ * It is a complete binary tree in which the value contained in each node 
+ * is less than (or equal to) the value in that node's children.
+ */
 template <class T>
 class MinHeap {
 private:
-	std::vector<T> items;
+	std::vector<T> items; /** Vector of items of MinHeap */
 
 private:
-	// returns indexes of array (not item)
+
+	/** @returns parent index of a parameter index */
 	int parent(int);
+
+	/** @returns left child index of a parameter index */
 	int leftChild(int);
+
+	/** @returns right child index of a parameter index */
 	int rightChild(int);
+
+	/** @returns smaller child of parameter index */
 	template< typename U = T >
 	typename std::enable_if<std::is_pointer<U>::value, int >::type smallerChild(int index);
 	template< typename U = T >
 	typename std::enable_if<!std::is_pointer<U>::value, int >::type smallerChild(int index);
 
+	/** @returns true if parameter index has left child */
 	bool hasLeftChild(int);
+
+	/** @returns true if parameter index has right child */
 	bool hasRightChild(int);
 	template< typename U = T >
 	typename std::enable_if<std::is_pointer<U>::value, bool > ::type isValidParent(int index);
 	template< typename U = T >
 	typename std::enable_if<!std::is_pointer<U>::value, bool > ::type isValidParent(int index);
 
+	/** Bubbles up the value to meet the MinHeap property. 
+	 *  @see insert()
+	 */
 	template<typename U = T>
 	typename std::enable_if<std::is_pointer<U>::value, void >::type bubbleUp();
 	template<typename U = T>
 	typename std::enable_if<!std::is_pointer<U>::value, void >::type bubbleUp();
 
+	/** Bubbles down the value to meet the MinHeap property. 
+	 * 	@see remove()
+	 */
 	void bubbleDown();
-	void swap(int, int);	// @param indexes
+
+	/**
+	 * swap two values in the items vector
+	 * @param index of the two values to be swapped
+	 */
+	void swap(int, int);
 
 public:
 	MinHeap();
 	~MinHeap();
 
+	/** @returns true if the MinHeap contains no elements. */
 	bool isEmpty();
+
+	/** @returns the number of values in the MinHeap. */
 	int getSize();
 
+	/** @returns the minimum value in the MinHeap. */
 	T min();
-	void insert(const T&);
-	T remove();				// removes root node (default)
 
+	/** Adds value of type T to the MinHeap. */
+	void insert(const T&);
+
+	/** Removes and returns the minimum value. 
+	 * @returns root node
+	 */
+	T remove();	
+
+	/** Prints the values of the MinHeap. */
 	void display();
 };
 
+/************************************************************************/
+/* implementation                                                       */
+/************************************************************************/
 
-// implementation
 template <class T>
 MinHeap<T>::MinHeap() {
 	items.reserve(RESERVE_SIZE);

@@ -4,51 +4,118 @@
 #include "HashCode.h"
 #include "Constants.h"
 
+/**
+ * This class implements an association between keys and values.
+ *
+ * It stores a set of key-value pairs and uses a hash table as its
+ * underlying representation.
+ */
 template <typename KeyType, typename ValueType>
 class HashMap {
 private:
+
+	/** Type definition for each cells in the bucket chain */
 	struct Entry {
 		KeyType key;
 		ValueType value;
 		Entry* next;
 	};
 
-	std::vector<Entry*> buckets;
-	int nBuckets;
-	int numEntries;
+	std::vector<Entry*> buckets;	/**< Vector of pointer to Entry */
+	int nBuckets;					/**< Total number of buckets */
+	int numEntries;					/**< Total number of entries */
 
 private:
+
+	/** Creates vector of buckets to have nBuckets entries, each NULL.  */
 	void createBuckets(int nBuckets);
+
+	/** Deletes all the cells in the linked lists contained in vector. */
 	void deleteBuckets(std::vector<Entry*>& buckets);
+
+	/**
+	 * Increases the buckets in the map and then rehashes all existing entries.
+	 *
+	 * This operation is used when the load factor (i.e. the number of cells per
+	 * bucket) has increased enough such that the get() and put() operation
+	 * are no longer of complexity of O(1).
+	 */
 	void expandAndRehash();
+
+	/**
+	 * Finds a cell in the chain for the specified bucket that matches key.
+	 * @return pointer to the cell containing the matching key or NULL.
+	 */
 	Entry* findEntry(int bucket, const KeyType& key) const;
+
+	/**
+	 * @param parent cell preceding the matching cell.
+	 * @see remove()
+	 */
 	Entry* findEntry(int bucket, const KeyType& key, Entry*& parent) const;
+
+	/** Creates deep copy of src HashMap*/
 	void deepCopy(const HashMap& src);
 
 public:
 	HashMap();
-	HashMap(const HashMap& src);
-	HashMap& operator=(const HashMap& src);
 	virtual ~HashMap();
 
+	/** This copy constructor is to make a deep copy of HashMap */
+	HashMap(const HashMap& src);
+
+	/** This operator= are defined assign from one map to another. */
+	HashMap& operator=(const HashMap& src);
+
+	/** Removes all entries from this map. */
 	void clear();
+
+	/** @returns the number of entries in this map. */
 	int size() const;
+
+	/** @returns <code>true</code> if this map contains no entries. */
 	bool isEmpty() const;
 
+	/** Associates <code>key</code> with <code>value</code> in this map. */
 	void put(const KeyType& key, const ValueType& value);
+
+	/**
+	* @returns the value associated with <code>key</code> in this map.
+	* @returns the default value for ValueType, if <code>key</code> is not found
+	*/
 	ValueType get(const KeyType& key) const;
+
+	/**
+	 * @returns <code>true</code> if there is an entry for <code>key</code>
+	 * in this map.
+	 */
 	bool containsKey(const KeyType& key) const;
+
+	/**
+	 * removes any entry for <code>key</code> from this map.
+	 * If the given key is not found, has no effect.
+	 */
 	void remove(const KeyType& key);
 
+	/**
+	 * Selects the value associated with <code>key</code>.
+	 * @returns a reference to its associated value.
+	 *
+	 * If key is not present in the map, a new entry is created
+	 * whose value is set to the default for the value type.
+	 */
 	ValueType& operator[](const KeyType& key);
 	ValueType operator[](const KeyType& key) const;
 
 
+	/**
+	 * Iterator support for class HashMap
+	 */
 	class iterator {
 	private:
-		const HashMap* map;          /* Pointer to the map           */
-		int bucket;                  /* Index of current bucket      */
-		Entry* current;              /* Current cell in bucket chain */
+		const HashMap* map;          /**< Pointer to the map           */
+		int bucket;                  /**< Index of current bucket      */
+		Entry* current;              /**< Current cell in bucket chain */
 
 	public:
 		iterator() {}
@@ -103,7 +170,7 @@ public:
 		Entry* operator->() {
 			return current;
 		}
-		
+
 		// iterator traits
 		using difference_type = Entry;
 		using value_type = Entry;
@@ -120,6 +187,10 @@ public:
 		return iterator(this, true);
 	}
 };
+
+/************************************************************************/
+/* implementation                                                       */
+/************************************************************************/
 
 template <typename KeyType, typename ValueType>
 void HashMap<KeyType, ValueType>::createBuckets(int nBuckets) {

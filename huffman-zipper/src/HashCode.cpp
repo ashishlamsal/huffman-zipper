@@ -1,3 +1,9 @@
+/**
+ * @file HashCode.cpp
+ *
+ * This file exports the definitions of hash code functions used in class HashMap.
+ */
+
 #include"HashCode.h"
 
 int hashCode(int key) {

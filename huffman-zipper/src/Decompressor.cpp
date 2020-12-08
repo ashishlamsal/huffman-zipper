@@ -39,11 +39,11 @@ BinNode* Decompressor::readTree(std::ifstream& reader) {
 void Decompressor::readHeader(const std::string& infileName, std::ifstream& infile) {
 	rootNode = readTree(infile);
 
-	// Read total number of files
+	/// Read total number of files
 	uint16_t fileCount = 0;
 	infile.read(reinterpret_cast<char*>(&fileCount), sizeof(fileCount));
 
-	// Read total number of characters in each file, filename and directories
+	/// Read total number of characters in each file, filename and directories
 	std::filesystem::path p(infileName);
 	if (!std::filesystem::exists(p))
 		throw std::runtime_error("ERROR: Compressed file couldn't be found");
