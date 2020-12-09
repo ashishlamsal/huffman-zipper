@@ -15,7 +15,7 @@
 namespace fs = std::filesystem;
 
 /**
- * This class decompresses compressed(.huff) files to its original form.
+ * This class decompresses compressed(.huf) files to its original form.
  *
  * It decompresses those files and folders which was compressed using 
  * Huffman Compression Algorithm.
@@ -91,7 +91,7 @@ public:
 	~Decompressor();
 	
 	/**
-	 *  Decompresses the compressed(.huff) file to its original form.
+	 *  Decompresses the compressed(.huf) file to its original form.
 	 *
 	 * @param infileName compressed file path to be decompressed.
 	 */

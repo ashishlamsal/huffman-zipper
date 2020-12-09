@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <iomanip>
 #include <stdexcept>
 #include <fstream>
 #include <string>
@@ -18,7 +19,7 @@ namespace fs = std::filesystem;
  * This class compresses files and folders using Huffman Compression Algorithm.
  *
  * It can compress single file or multiple files or an entire directory 
- * recursively into a compressed file (.huff file).
+ * recursively into a compressed file (.huf file).
  */
 class Compressor {
 private:
@@ -108,7 +109,7 @@ private:
 	 *  @see writeHeader()
 	 *  @see writeBody()
 	 */
-	void writeIntoFile(const std::string& infileName);
+	fs::path writeIntoFile(const std::string& infileName);
 
 	/**
 	 *  Utility function to compress file.
@@ -134,7 +135,7 @@ public:
 	void compressFolder(const std::string& directoryName);
 	
 	/**
-	 *  Compresses multiple source files into single compressed(.huff) file.
+	 *  Compresses multiple source files into single compressed(.huf) file.
 	 * 
 	 *  @param infileNames list of source files to be compressed.
 	 */

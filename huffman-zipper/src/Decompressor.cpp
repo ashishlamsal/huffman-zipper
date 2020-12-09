@@ -3,7 +3,7 @@
 Decompressor::Decompressor() :rootNode(nullptr) {}
 
 Decompressor::~Decompressor() {
-	clear();
+	//clear();
 }
 
 void Decompressor::clear() {
@@ -24,12 +24,17 @@ void Decompressor::deleteTree(BinNode* node) {
 BinNode* Decompressor::readTree(std::ifstream& reader) {
 	char nodeType;
 	reader.get(nodeType);
+	if (!(nodeType == '1' || nodeType == '0')) {
+		throw std::runtime_error("Compressed file is corrupted.");
+	}
+
 	if (nodeType == '1') {
 		char ch;
 		reader.get(ch);
 		BinNode* head = new BinNode(ch);
 		return head;
 	}
+
 	BinNode* head = new BinNode(INTERNAL_NODE_CHARACTER);
 	head->setLeftChild(readTree(reader));
 	head->setRightChild(readTree(reader));
@@ -76,9 +81,11 @@ void Decompressor::readHeader(const std::string& infileName, std::ifstream& infi
 }
 
 void Decompressor::writeIntoFile(const std::string& infileName) {
-	std::ofstream outfile(files.getFront().filePath, std::ios::out | std::ios::binary | std::ios::trunc);
+	fs::path outfilePath = files.getFront().filePath;
+	std::ofstream outfile(outfilePath, std::ios::out | std::ios::binary | std::ios::trunc);
 	if (!outfile)
-		throw std::runtime_error("Output Error : \'" + files.getFront().filePath.string() + "\' couldn't be created");
+		throw std::runtime_error("Output Error : \'" + outfilePath.string() + "\' couldn't be created");
+	std::cout << "Writing into : " << outfilePath.filename() << std::endl;
 
 	char ch;
 	int fileChars = 0;
@@ -106,9 +113,11 @@ void Decompressor::writeIntoFile(const std::string& infileName) {
 
 					if (files.isEmpty()) break;
 
-					outfile.open(files.getFront().filePath, std::ios::out | std::ios::binary | std::ios::trunc);
+					outfilePath = files.getFront().filePath;
+					outfile.open(outfilePath, std::ios::out | std::ios::binary | std::ios::trunc);
 					if (!outfile)
-						throw std::runtime_error("Output Error : \'" + files.getFront().filePath.string() + "\' couldn't be created");
+						throw std::runtime_error("Output Error : \'" + outfilePath.string() + "\' couldn't be created");
+					std::cout << "Writing into : " << outfilePath.filename() << std::endl;
 				}
 			}
 		}
@@ -123,29 +132,36 @@ void Decompressor::writeIntoFile(const std::string& infileName) {
 }
 
 void Decompressor::decompressFile(const std::string& infileName) {
-	try {
-		std::cout << "Decompressing ..." << std::endl;
-		auto start = std::chrono::steady_clock::now();
-
-		infile.open(infileName, std::ios::in | std::ios::binary);
-		if (!infile)
-			throw std::runtime_error("Input Error : \'" + infileName + "\' couldn't be opened");
-
-		std::cout << "Build decoding Tree ..." << std::endl;
-		readHeader(infileName, infile);
-
-		std::cout << "Decoding Characters ..." << std::endl;
-		writeIntoFile(infileName);
-
-		std::cout << "Success : Decompression Completed.\n" << std::endl;
-
-		auto stop = std::chrono::steady_clock::now();
-		auto duration = std::chrono::duration_cast<std::chrono::duration<double>>(stop - start);
-		std::cout << "Decompression Time: " << duration.count() << " seconds\n" << std::endl;
-
-		clear();
+	if (fs::path(infileName).extension().string() != ".huf") {
+		throw std::runtime_error("Enter compressed (.huf) file");
 	}
-	catch (std::exception& err) {
-		throw err;
-	}
+
+	std::cout << "Huffman Decompression\n";
+	std::cout << std::string(22, char(205));
+
+	std::cout << "\nDecompressing ..." << std::endl;
+	auto start = std::chrono::steady_clock::now();
+
+	infile.open(infileName, std::ios::in | std::ios::binary);
+	if (!infile)
+		throw std::runtime_error("Input Error : \'" + infileName + "\' couldn't be opened");
+
+	std::cout << "Reading File Header ..." << std::endl;
+	std::cout << "Building decoding Tree ..." << std::endl;
+	readHeader(infileName, infile);
+	std::cout << files.size() << " file(s) to be obtained after decompression" << std::endl;
+
+	std::cout << "Decoding Characters ..." << std::endl;
+	writeIntoFile(infileName);
+
+	std::cout << "Cleaning Up ..." << std::endl;
+	clear();
+
+	std::cout << "Success : Decompression Completed.\n" << std::endl;
+	std::cout << "Decompressed Folder : " << fs::path(infileName).parent_path().string() << std::endl;
+
+	auto stop = std::chrono::steady_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::duration<double>>(stop - start);
+	std::cout << "Decompression Time  : " << duration.count() << " seconds\n" << std::endl;
+
 }

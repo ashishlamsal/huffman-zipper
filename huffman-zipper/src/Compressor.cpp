@@ -3,7 +3,7 @@
 Compressor::Compressor() :rootNode(nullptr) {}
 
 Compressor::~Compressor() {
-	clear();
+	//clear();
 }
 
 void Compressor::deleteTree(BinNode* node) {
@@ -106,8 +106,6 @@ void Compressor::writeBody(char& chr, int& bufferSize, const std::string& infile
 	if (!infile)
 		throw std::runtime_error("[compressFiles] one or more files in the directory cant be opened");
 
-	std::cout << "Encoded String for " + infileName + " ... " << std::endl;
-
 	char ch;
 	while (infile.get(ch)) {
 		for (auto&& binCode : codeMap.get(ch)) {
@@ -123,8 +121,12 @@ void Compressor::writeBody(char& chr, int& bufferSize, const std::string& infile
 	infile.close();
 }
 
-void Compressor::writeIntoFile(const std::string& inputName) {
-	std::ofstream outfile(fs::canonical(inputName).replace_extension(".huf"), std::ios::out | std::ios::binary | std::ios::trunc);
+fs::path Compressor::writeIntoFile(const std::string& inputName) {
+	fs::path outfilePath = fs::canonical(inputName).replace_extension(".huf");
+	if (fs::equivalent(inputName, outfilePath)) {
+		outfilePath.replace_filename(outfilePath.stem().string() + "_1.huf");
+	}
+	std::ofstream outfile(outfilePath, std::ios::out | std::ios::binary | std::ios::trunc);
 	if (!outfile)
 		throw std::runtime_error("Output Error : compressed file couldn't be created");
 
@@ -137,21 +139,39 @@ void Compressor::writeIntoFile(const std::string& inputName) {
 	}
 
 	if (bufferSize) {
-		chr = chr << bufferSize; //possibility of extra 8-bits
+		chr = chr << bufferSize; /// possibility of extra 8-bits
 		outfile.write(reinterpret_cast<char*>(&chr), sizeof(chr));
 	}
 
 	outfile.flush();
 	outfile.close();
+
+	return outfilePath;
 }
 
 void Compressor::compress(const std::string& infileName) {
-	std::cout << "Compressing ..." << std::endl;
+	std::cout << "Huffman Compression\n";
+	std::cout << std::string(19, char(205)) << std::endl;
+	std::cout << inputFiles.size() << " file(s) detected\n";
+
+	int fieldWidth = 0;
+	int totalSize = 0;
+	for (auto&& file : inputFiles) {
+		int fileNameWidth = file.filename().string().length() + 3;
+		if (fileNameWidth > fieldWidth)
+			fieldWidth = fileNameWidth;
+		totalSize += fs::file_size(file);
+	}
+	
+	for (auto&& file : inputFiles) {
+		std::cout << "Filename : "<<std::setw(fieldWidth) << std::left << file.filename() << " | size: " << fs::file_size(file) << " bytes"<< std::endl;
+	}
+
+	std::cout << "\nCompressing ..." << std::endl;
 	auto start = std::chrono::steady_clock::now();
 
 	std::cout << "Reading frequency ..." << std::endl;
 	for (auto&& file : inputFiles) {
-		std::cout << file.string() << std::endl;
 		scanFile(file);
 	}
 
@@ -162,19 +182,23 @@ void Compressor::compress(const std::string& infileName) {
 	generateHuffmanCode(rootNode, "");
 
 	std::cout << "Encoding to File ..." << std::endl;
-	writeIntoFile(infileName);
+	const fs::path& outfilePath = writeIntoFile(infileName);
 
+	std::cout << "Cleaning Up ..." << std::endl;
+	clear();
+	
 	std::cout << "Success: Compression Completed.\n" << std::endl;
+	std::cout << "Compressed File Name\n" << outfilePath.filename() << std::endl;
+	std::cout << "Compressed File Location\n" << "\"" << outfilePath.parent_path().string() << "\"\n" << std::endl;
 
 	auto stop = std::chrono::steady_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::duration<double>>(stop - start);
-	std::cout << "Compression Time: " << duration.count() << " seconds\n" << std::endl;
-
-	clear();
-	//std::cout << "display Huffman code\n";
-	//for (auto&& var : codeMap) {
-	//	std::cout << var.key << "=" << var.value << std::endl;
-	//}
+	
+	int outputSize = fs::file_size(outfilePath);
+	std::cout << std::setw(22) << "Total Input Size" << " = "<< totalSize << " bytes" << std::endl;
+	std::cout << std::setw(22) << "Compressed File Size" << " = " << outputSize << " bytes" << std::endl;
+	std::cout << std::setw(22) << "Compression Ratio" << " = " << std::setprecision(4) << float(totalSize - outputSize) / totalSize * 100 << " % " << std::endl;
+	std::cout << std::setw(22) << "Compression Time" << " = " << duration.count() << " seconds\n" << std::endl;
 }
 
 void Compressor::compressFile(const std::string& infileName) {
