@@ -104,26 +104,22 @@ $(document).ready(function(){initNavTree('main_8cpp_source.html',''); initResiza
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;    <span class="keywordflow">try</span> {</div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;        <span class="comment">//-----------------------Compression-------------------------//</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;        <a class="code" href="class_compressor.html">Compressor</a> compression;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;        <span class="comment">//compression.compressFile(&quot;D:\\ProjectC++\\huffman-zipper\\huffmanGUI\\src\\huffman\\test.txt&quot;);</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        compression.<a class="code" href="class_compressor.html#a61d970d63079b17372e780c42657abc4">compressFile</a>(R<span class="stringliteral">&quot;(C:\dev\programs\huffman-test\huffman_1.huf)&quot;);</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="stringliteral">        </span><span class="comment">//compression.compressFolder(R&quot;(C:\dev\programs\huffman-test\huffman)&quot;);</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        <span class="comment">//compression.compressFiles({ &quot;./src/input1.txt&quot;, &quot;./src/small-text.txt&quot; });</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        <span class="comment">//-----------------------Decompression-------------------------//</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        <a class="code" href="class_decompressor.html">Decompressor</a> decompression;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        decompression.<a class="code" href="class_decompressor.html#a5295ff5cd426f51be382ad23e108bd2f">decompressFile</a>(R<span class="stringliteral">&quot;(C:\dev\programs\huffman-test\huffman_1_1 (decompressed)\huffman_1 (decompressed)\huffman.huf)&quot;);</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="stringliteral">        </span><span class="comment">//decompression.decompressFile(COMPRESSED_FILE_PATH);</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    }</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keywordflow">catch</span> (std::exception&amp; err) {</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        std::cerr &lt;&lt; err.what() &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        exit(1);</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    }</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;};</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;        compression.<a class="code" href="class_compressor.html#a61d970d63079b17372e780c42657abc4">compressFile</a>(R<span class="stringliteral">&quot;(C:\dev\programs\huffman-test\input.txt)&quot;);</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="stringliteral">        </span><span class="comment">//compression.compressFiles({ &quot;./src/input1.txt&quot;, &quot;./src/small-text.txt&quot; });</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        <span class="comment">//compression.compressFolder(inputFilePath);</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        <a class="code" href="class_decompressor.html">Decompressor</a> decompression;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        <span class="comment">//decompression.decompressFile(R&quot;(C:\dev\programs\huffman-test\huffman_1_1 (decompressed)\huffman_1 (decompressed)\huffman.huf)&quot;);</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    }</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keywordflow">catch</span> (std::exception&amp; err) {</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        std::cerr &lt;&lt; err.what() &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        exit(1);</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    }</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aclass_compressor_html_a61d970d63079b17372e780c42657abc4"><div class="ttname"><a href="class_compressor.html#a61d970d63079b17372e780c42657abc4">Compressor::compressFile</a></div><div class="ttdeci">void compressFile(const std::string &amp;infileName)</div><div class="ttdoc">Compresses a single input file.</div><div class="ttdef"><b>Definition:</b> <a href="_compressor_8cpp_source.html#l00204">Compressor.cpp:204</a></div></div>
-<div class="ttc" id="aclass_decompressor_html_a5295ff5cd426f51be382ad23e108bd2f"><div class="ttname"><a href="class_decompressor.html#a5295ff5cd426f51be382ad23e108bd2f">Decompressor::decompressFile</a></div><div class="ttdeci">void decompressFile(const std::string &amp;infileName)</div><div class="ttdoc">Decompresses the compressed(.huf) file to its original form.</div><div class="ttdef"><b>Definition:</b> <a href="_decompressor_8cpp_source.html#l00134">Decompressor.cpp:134</a></div></div>
 <div class="ttc" id="a_decompressor_8h_html"><div class="ttname"><a href="_decompressor_8h.html">Decompressor.h</a></div></div>
 <div class="ttc" id="a_compressor_8h_html"><div class="ttname"><a href="_compressor_8h.html">Compressor.h</a></div></div>
 <div class="ttc" id="amain_8cpp_html_ae66f6b31b5ad750f1fe042a706a4e3d4"><div class="ttname"><a href="main_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a></div><div class="ttdeci">int main()</div><div class="ttdef"><b>Definition:</b> <a href="main_8cpp_source.html#l00004">main.cpp:4</a></div></div>
