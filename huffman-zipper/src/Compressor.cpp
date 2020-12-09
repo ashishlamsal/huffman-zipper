@@ -88,7 +88,7 @@ void Compressor::writeHeader(const std::string& inputName, std::ofstream& outfil
 	// Write total number of characters in each file, filename and directories
 	std::string file_path;
 	for (auto&&  file : inputFiles) {
-		int fileSize = fs::file_size(file);
+		unsigned int fileSize = fs::file_size(file);
 		outfile.write(reinterpret_cast<char*>(&fileSize), sizeof(fileSize));
 
 		if (fs::is_directory(inputName))
@@ -123,7 +123,7 @@ void Compressor::writeBody(char& chr, int& bufferSize, const std::string& infile
 
 fs::path Compressor::writeIntoFile(const std::string& inputName) {
 	fs::path outfilePath = fs::canonical(inputName).replace_extension(".huf");
-	if (fs::equivalent(inputName, outfilePath)) {
+	if (fs::path(inputName) == outfilePath) {
 		outfilePath.replace_filename(outfilePath.stem().string() + "_1.huf");
 	}
 	std::ofstream outfile(outfilePath, std::ios::out | std::ios::binary | std::ios::trunc);

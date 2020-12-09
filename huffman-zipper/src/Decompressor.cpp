@@ -55,7 +55,7 @@ void Decompressor::readHeader(const std::string& infileName, std::ifstream& infi
 	p = p.parent_path() / p.stem().concat(" (decompressed)");
 
 	char ch;
-	int chars = 0;
+	unsigned int chars = 0;
 	std::string fileData;
 	for (int i = 0; i < fileCount; i++) {
 		infile.read(reinterpret_cast<char*>(&chars), sizeof(chars));
@@ -88,7 +88,7 @@ void Decompressor::writeIntoFile(const std::string& infileName) {
 	std::cout << "Writing into : " << outfilePath.filename() << std::endl;
 
 	char ch;
-	int fileChars = 0;
+	unsigned int fileChars = 0;
 	BinNode* curr = rootNode;
 	while (infile.read(reinterpret_cast<char*>(&ch), sizeof(ch)) && !files.isEmpty()) {
 		for (auto&& binCode : std::bitset<8>(ch).to_string()) {

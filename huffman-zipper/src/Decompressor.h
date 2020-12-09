@@ -31,11 +31,11 @@ private:
 	* Creates 'input.txt' inside 'abc' directory of 143 bytes after decompression. 
 	*/
 	struct fileInfo {
-		int fileSize;		/**< number of character in file. */
-		fs::path filePath;	/**< path of file including filename and extension. */
+		unsigned int fileSize;		/**< number of character in file. */
+		fs::path filePath;			/**< path of file including filename and extension. */
 
 		fileInfo() :fileSize(0) {}
-		fileInfo(const int& fileSize, const fs::path& filePath) :fileSize(fileSize), filePath(filePath) {}
+		fileInfo(unsigned const int& fileSize, const fs::path& filePath) :fileSize(fileSize), filePath(filePath) {}
 	};
 
 	/** Queue of input file(s) to be decompressed. */
