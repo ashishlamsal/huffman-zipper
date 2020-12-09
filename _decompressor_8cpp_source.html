@@ -102,7 +102,7 @@ $(document).ready(function(){initNavTree('_decompressor_8cpp_source.html',''); i
 <div class="line"><a name="l00003"></a><span class="lineno"><a class="line" href="class_decompressor.html#a785385995b7aa672abe8571a433e94e0">    3</a></span>&#160;<a class="code" href="class_decompressor.html#a785385995b7aa672abe8571a433e94e0">Decompressor::Decompressor</a>() :rootNode(nullptr) {}</div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
 <div class="line"><a name="l00005"></a><span class="lineno"><a class="line" href="class_decompressor.html#af08f2454d000fb70f236e09b23dcecd9">    5</a></span>&#160;<a class="code" href="class_decompressor.html#af08f2454d000fb70f236e09b23dcecd9">Decompressor::~Decompressor</a>() {</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    <a class="code" href="class_decompressor.html#a06c0b3dc51eb5a25dd422906f477ac07">clear</a>();</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    <span class="comment">//clear();</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;}</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
 <div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="class_decompressor.html#a06c0b3dc51eb5a25dd422906f477ac07">    9</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_decompressor.html#a06c0b3dc51eb5a25dd422906f477ac07">Decompressor::clear</a>() {</div>
@@ -123,129 +123,145 @@ $(document).ready(function(){initNavTree('_decompressor_8cpp_source.html',''); i
 <div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="class_decompressor.html#ac902140fd224294f430b8dc77dd2fa84">   24</a></span>&#160;<a class="code" href="class_bin_node.html">BinNode</a>* <a class="code" href="class_decompressor.html#ac902140fd224294f430b8dc77dd2fa84">Decompressor::readTree</a>(std::ifstream&amp; reader) {</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordtype">char</span> nodeType;</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    reader.get(nodeType);</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordflow">if</span> (nodeType == <span class="charliteral">&#39;1&#39;</span>) {</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="keywordtype">char</span> ch;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        reader.get(ch);</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <a class="code" href="class_bin_node.html">BinNode</a>* head = <span class="keyword">new</span> <a class="code" href="class_bin_node.html">BinNode</a>(ch);</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="keywordflow">return</span> head;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    }</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <a class="code" href="class_bin_node.html">BinNode</a>* head = <span class="keyword">new</span> <a class="code" href="class_bin_node.html">BinNode</a>(<a class="code" href="_constants_8h.html#a23ff4d33be1eccc31127168d165c9aca">INTERNAL_NODE_CHARACTER</a>);</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    head-&gt;<a class="code" href="class_bin_node.html#ac68cb4a3e3309d5cc5bed0e2e1ca71d5">setLeftChild</a>(<a class="code" href="class_decompressor.html#ac902140fd224294f430b8dc77dd2fa84">readTree</a>(reader));</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    head-&gt;<a class="code" href="class_bin_node.html#aa3b372f3b6dafea691b95d9cf99e7d3c">setRightChild</a>(<a class="code" href="class_decompressor.html#ac902140fd224294f430b8dc77dd2fa84">readTree</a>(reader));</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordflow">return</span> head;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;}</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
-<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="class_decompressor.html#a309439ebb1f8e4f96e581a3491739c48">   39</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_decompressor.html#a309439ebb1f8e4f96e581a3491739c48">Decompressor::readHeader</a>(<span class="keyword">const</span> std::string&amp; infileName, std::ifstream&amp; infile) {</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <a class="code" href="class_decompressor.html#a54c68c11f12a71e7bfe833df877c3d1e">rootNode</a> = <a class="code" href="class_decompressor.html#ac902140fd224294f430b8dc77dd2fa84">readTree</a>(<a class="code" href="class_decompressor.html#a0c0041811e28331ff9ddaddaa161ad40">infile</a>);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    uint16_t fileCount = 0;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <a class="code" href="class_decompressor.html#a0c0041811e28331ff9ddaddaa161ad40">infile</a>.read(<span class="keyword">reinterpret_cast&lt;</span><span class="keywordtype">char</span>*<span class="keyword">&gt;</span>(&amp;fileCount), <span class="keyword">sizeof</span>(fileCount));</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    std::filesystem::path p(infileName);</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordflow">if</span> (!std::filesystem::exists(p))</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;ERROR: Compressed file couldn&#39;t be found&quot;</span>);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    p = p.parent_path() / p.stem().concat(<span class="stringliteral">&quot; (decompressed)&quot;</span>);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">char</span> ch;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">int</span> chars = 0;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    std::string fileData;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; fileCount; i++) {</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <a class="code" href="class_decompressor.html#a0c0041811e28331ff9ddaddaa161ad40">infile</a>.read(<span class="keyword">reinterpret_cast&lt;</span><span class="keywordtype">char</span>*<span class="keyword">&gt;</span>(&amp;chars), <span class="keyword">sizeof</span>(chars));</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keywordflow">while</span> (<a class="code" href="class_decompressor.html#a0c0041811e28331ff9ddaddaa161ad40">infile</a>.get(ch)) {</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            fileData += ch;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            <span class="keywordflow">if</span> (ch == <a class="code" href="_constants_8h.html#aa2299c19d3d17c2b47400994f20e0e62">FILE_NAME_SEPARATOR</a>) {</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                fileData.pop_back();</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordflow">if</span> (!(nodeType == <span class="charliteral">&#39;1&#39;</span> || nodeType == <span class="charliteral">&#39;0&#39;</span>)) {</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Compressed file is corrupted.&quot;</span>);</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    }</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordflow">if</span> (nodeType == <span class="charliteral">&#39;1&#39;</span>) {</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="keywordtype">char</span> ch;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        reader.get(ch);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <a class="code" href="class_bin_node.html">BinNode</a>* head = <span class="keyword">new</span> <a class="code" href="class_bin_node.html">BinNode</a>(ch);</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keywordflow">return</span> head;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    }</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <a class="code" href="class_bin_node.html">BinNode</a>* head = <span class="keyword">new</span> <a class="code" href="class_bin_node.html">BinNode</a>(<a class="code" href="_constants_8h.html#a23ff4d33be1eccc31127168d165c9aca">INTERNAL_NODE_CHARACTER</a>);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    head-&gt;<a class="code" href="class_bin_node.html#ac68cb4a3e3309d5cc5bed0e2e1ca71d5">setLeftChild</a>(<a class="code" href="class_decompressor.html#ac902140fd224294f430b8dc77dd2fa84">readTree</a>(reader));</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    head-&gt;<a class="code" href="class_bin_node.html#aa3b372f3b6dafea691b95d9cf99e7d3c">setRightChild</a>(<a class="code" href="class_decompressor.html#ac902140fd224294f430b8dc77dd2fa84">readTree</a>(reader));</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordflow">return</span> head;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;}</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="class_decompressor.html#a309439ebb1f8e4f96e581a3491739c48">   44</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_decompressor.html#a309439ebb1f8e4f96e581a3491739c48">Decompressor::readHeader</a>(<span class="keyword">const</span> std::string&amp; infileName, std::ifstream&amp; infile) {</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <a class="code" href="class_decompressor.html#a54c68c11f12a71e7bfe833df877c3d1e">rootNode</a> = <a class="code" href="class_decompressor.html#ac902140fd224294f430b8dc77dd2fa84">readTree</a>(<a class="code" href="class_decompressor.html#a0c0041811e28331ff9ddaddaa161ad40">infile</a>);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    uint16_t fileCount = 0;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <a class="code" href="class_decompressor.html#a0c0041811e28331ff9ddaddaa161ad40">infile</a>.read(<span class="keyword">reinterpret_cast&lt;</span><span class="keywordtype">char</span>*<span class="keyword">&gt;</span>(&amp;fileCount), <span class="keyword">sizeof</span>(fileCount));</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    std::filesystem::path p(infileName);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordflow">if</span> (!std::filesystem::exists(p))</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;ERROR: Compressed file couldn&#39;t be found&quot;</span>);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    p = p.parent_path() / p.stem().concat(<span class="stringliteral">&quot; (decompressed)&quot;</span>);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">char</span> ch;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordtype">int</span> chars = 0;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    std::string fileData;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; fileCount; i++) {</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <a class="code" href="class_decompressor.html#a0c0041811e28331ff9ddaddaa161ad40">infile</a>.read(<span class="keyword">reinterpret_cast&lt;</span><span class="keywordtype">char</span>*<span class="keyword">&gt;</span>(&amp;chars), <span class="keyword">sizeof</span>(chars));</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                <span class="keyword">auto</span> path = p / fileData;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                <span class="keywordflow">if</span> (!std::filesystem::exists(path.parent_path())) {</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                    <span class="keywordflow">if</span> (!std::filesystem::create_directories(path.parent_path())) {</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;ERROR : Couldn&#39;t create output directories&quot;</span>);</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                    }</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                }</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                <a class="code" href="class_decompressor.html#a11b7fe3e2af39320d5d0a488bb908f0f">files</a>.enqueue(<a class="code" href="struct_decompressor_1_1file_info.html">fileInfo</a>(chars, path));</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                fileData.clear();</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            }</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        }</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    }</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;}</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
-<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="class_decompressor.html#a849aa76a943356c4eeff05e6e4b7fadf">   78</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_decompressor.html#a849aa76a943356c4eeff05e6e4b7fadf">Decompressor::writeIntoFile</a>(<span class="keyword">const</span> std::string&amp; infileName) {</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    std::ofstream outfile(<a class="code" href="class_decompressor.html#a11b7fe3e2af39320d5d0a488bb908f0f">files</a>.getFront().filePath, std::ios::out | std::ios::binary | std::ios::trunc);</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keywordflow">if</span> (!outfile)</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Output Error : \&#39;&quot;</span> + <a class="code" href="class_decompressor.html#a11b7fe3e2af39320d5d0a488bb908f0f">files</a>.getFront().filePath.string() + <span class="stringliteral">&quot;\&#39; couldn&#39;t be created&quot;</span>);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="keywordflow">while</span> (<a class="code" href="class_decompressor.html#a0c0041811e28331ff9ddaddaa161ad40">infile</a>.get(ch)) {</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            fileData += ch;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            <span class="keywordflow">if</span> (ch == <a class="code" href="_constants_8h.html#aa2299c19d3d17c2b47400994f20e0e62">FILE_NAME_SEPARATOR</a>) {</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                fileData.pop_back();</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                <span class="keyword">auto</span> path = p / fileData;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                <span class="keywordflow">if</span> (!std::filesystem::exists(path.parent_path())) {</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                    <span class="keywordflow">if</span> (!std::filesystem::create_directories(path.parent_path())) {</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;ERROR : Couldn&#39;t create output directories&quot;</span>);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                    }</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                }</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                <a class="code" href="class_decompressor.html#a11b7fe3e2af39320d5d0a488bb908f0f">files</a>.enqueue(<a class="code" href="struct_decompressor_1_1file_info.html">fileInfo</a>(chars, path));</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                fileData.clear();</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            }</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        }</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    }</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;}</div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordtype">char</span> ch;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keywordtype">int</span> fileChars = 0;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <a class="code" href="class_bin_node.html">BinNode</a>* curr = <a class="code" href="class_decompressor.html#a54c68c11f12a71e7bfe833df877c3d1e">rootNode</a>;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordflow">while</span> (<a class="code" href="class_decompressor.html#a0c0041811e28331ff9ddaddaa161ad40">infile</a>.read(<span class="keyword">reinterpret_cast&lt;</span><span class="keywordtype">char</span>*<span class="keyword">&gt;</span>(&amp;ch), <span class="keyword">sizeof</span>(ch)) &amp;&amp; !<a class="code" href="class_decompressor.html#a11b7fe3e2af39320d5d0a488bb908f0f">files</a>.isEmpty()) {</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp;&amp; binCode : std::bitset&lt;8&gt;(ch).to_string()) {</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;            <span class="keywordflow">if</span> (binCode == <span class="charliteral">&#39;0&#39;</span>)</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                curr = curr-&gt;<a class="code" href="class_bin_node.html#af05068274e93000a2334c000e85c3ac0">getLeftChild</a>();</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (binCode == <span class="charliteral">&#39;1&#39;</span>)</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                curr = curr-&gt;<a class="code" href="class_bin_node.html#a99379526d2ae464fcdb45f3d3d552ccc">getRightChild</a>();</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                <span class="keywordflow">throw</span> std::logic_error(<span class="stringliteral">&quot;Assertion error: Invalid binary code&quot;</span>);</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            <span class="keywordflow">if</span> (curr-&gt;<a class="code" href="class_bin_node.html#ac3da0fe4524b5418898b0d495e1ea1be">isLeaf</a>()) {</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                outfile.put(curr-&gt;<a class="code" href="class_bin_node.html#af48f55542a22ec651f5ce38d9004cc17">getCharacter</a>());</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                curr = <a class="code" href="class_decompressor.html#a54c68c11f12a71e7bfe833df877c3d1e">rootNode</a>;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                fileChars++;</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                <span class="keywordflow">if</span> (fileChars == <a class="code" href="class_decompressor.html#a11b7fe3e2af39320d5d0a488bb908f0f">files</a>.getFront().fileSize) {</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                    fileChars = 0;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                    <a class="code" href="class_decompressor.html#a11b7fe3e2af39320d5d0a488bb908f0f">files</a>.dequeue();</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160; </div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                    outfile.flush();</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                    outfile.close();</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160; </div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                    <span class="keywordflow">if</span> (<a class="code" href="class_decompressor.html#a11b7fe3e2af39320d5d0a488bb908f0f">files</a>.isEmpty()) <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160; </div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                    outfile.open(<a class="code" href="class_decompressor.html#a11b7fe3e2af39320d5d0a488bb908f0f">files</a>.getFront().filePath, std::ios::out | std::ios::binary | std::ios::trunc);</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;                    <span class="keywordflow">if</span> (!outfile)</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;                        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Output Error : \&#39;&quot;</span> + <a class="code" href="class_decompressor.html#a11b7fe3e2af39320d5d0a488bb908f0f">files</a>.getFront().filePath.string() + <span class="stringliteral">&quot;\&#39; couldn&#39;t be created&quot;</span>);</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                }</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;            }</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        }</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    }</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160; </div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <a class="code" href="class_decompressor.html#a0c0041811e28331ff9ddaddaa161ad40">infile</a>.close();</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    outfile.flush();</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    outfile.close();</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160; </div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <span class="keywordflow">if</span> (!fileChars &amp;&amp; !<a class="code" href="class_decompressor.html#a11b7fe3e2af39320d5d0a488bb908f0f">files</a>.isEmpty())</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;ERROR: Compressed file is corrupted&quot;</span>);</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;}</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160; </div>
-<div class="line"><a name="l00125"></a><span class="lineno"><a class="line" href="class_decompressor.html#a5295ff5cd426f51be382ad23e108bd2f">  125</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_decompressor.html#a5295ff5cd426f51be382ad23e108bd2f">Decompressor::decompressFile</a>(<span class="keyword">const</span> std::string&amp; infileName) {</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;Decompressing ...&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        <span class="keyword">auto</span> start = std::chrono::steady_clock::now();</div>
+<div class="line"><a name="l00083"></a><span class="lineno"><a class="line" href="class_decompressor.html#a849aa76a943356c4eeff05e6e4b7fadf">   83</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_decompressor.html#a849aa76a943356c4eeff05e6e4b7fadf">Decompressor::writeIntoFile</a>(<span class="keyword">const</span> std::string&amp; infileName) {</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    fs::path outfilePath = <a class="code" href="class_decompressor.html#a11b7fe3e2af39320d5d0a488bb908f0f">files</a>.getFront().filePath;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    std::ofstream outfile(outfilePath, std::ios::out | std::ios::binary | std::ios::trunc);</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordflow">if</span> (!outfile)</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Output Error : \&#39;&quot;</span> + outfilePath.string() + <span class="stringliteral">&quot;\&#39; couldn&#39;t be created&quot;</span>);</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    std::cout &lt;&lt; <span class="stringliteral">&quot;Writing into : &quot;</span> &lt;&lt; outfilePath.filename() &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keywordtype">char</span> ch;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="keywordtype">int</span> fileChars = 0;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <a class="code" href="class_bin_node.html">BinNode</a>* curr = <a class="code" href="class_decompressor.html#a54c68c11f12a71e7bfe833df877c3d1e">rootNode</a>;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="keywordflow">while</span> (<a class="code" href="class_decompressor.html#a0c0041811e28331ff9ddaddaa161ad40">infile</a>.read(<span class="keyword">reinterpret_cast&lt;</span><span class="keywordtype">char</span>*<span class="keyword">&gt;</span>(&amp;ch), <span class="keyword">sizeof</span>(ch)) &amp;&amp; !<a class="code" href="class_decompressor.html#a11b7fe3e2af39320d5d0a488bb908f0f">files</a>.isEmpty()) {</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp;&amp; binCode : std::bitset&lt;8&gt;(ch).to_string()) {</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            <span class="keywordflow">if</span> (binCode == <span class="charliteral">&#39;0&#39;</span>)</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                curr = curr-&gt;<a class="code" href="class_bin_node.html#af05068274e93000a2334c000e85c3ac0">getLeftChild</a>();</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (binCode == <span class="charliteral">&#39;1&#39;</span>)</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                curr = curr-&gt;<a class="code" href="class_bin_node.html#a99379526d2ae464fcdb45f3d3d552ccc">getRightChild</a>();</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                <span class="keywordflow">throw</span> std::logic_error(<span class="stringliteral">&quot;Assertion error: Invalid binary code&quot;</span>);</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160; </div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;            <span class="keywordflow">if</span> (curr-&gt;<a class="code" href="class_bin_node.html#ac3da0fe4524b5418898b0d495e1ea1be">isLeaf</a>()) {</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                outfile.put(curr-&gt;<a class="code" href="class_bin_node.html#af48f55542a22ec651f5ce38d9004cc17">getCharacter</a>());</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                curr = <a class="code" href="class_decompressor.html#a54c68c11f12a71e7bfe833df877c3d1e">rootNode</a>;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160; </div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                fileChars++;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                <span class="keywordflow">if</span> (fileChars == <a class="code" href="class_decompressor.html#a11b7fe3e2af39320d5d0a488bb908f0f">files</a>.getFront().fileSize) {</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                    fileChars = 0;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                    <a class="code" href="class_decompressor.html#a11b7fe3e2af39320d5d0a488bb908f0f">files</a>.dequeue();</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160; </div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;                    outfile.flush();</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                    outfile.close();</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160; </div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;                    <span class="keywordflow">if</span> (<a class="code" href="class_decompressor.html#a11b7fe3e2af39320d5d0a488bb908f0f">files</a>.isEmpty()) <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160; </div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                    outfilePath = <a class="code" href="class_decompressor.html#a11b7fe3e2af39320d5d0a488bb908f0f">files</a>.getFront().filePath;</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;                    outfile.open(outfilePath, std::ios::out | std::ios::binary | std::ios::trunc);</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;                    <span class="keywordflow">if</span> (!outfile)</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;                        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Output Error : \&#39;&quot;</span> + outfilePath.string() + <span class="stringliteral">&quot;\&#39; couldn&#39;t be created&quot;</span>);</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;                    std::cout &lt;&lt; <span class="stringliteral">&quot;Writing into : &quot;</span> &lt;&lt; outfilePath.filename() &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;                }</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;            }</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        }</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    }</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160; </div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    <a class="code" href="class_decompressor.html#a0c0041811e28331ff9ddaddaa161ad40">infile</a>.close();</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    outfile.flush();</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    outfile.close();</div>
 <div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160; </div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        <a class="code" href="class_decompressor.html#a0c0041811e28331ff9ddaddaa161ad40">infile</a>.open(infileName, std::ios::in | std::ios::binary);</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        <span class="keywordflow">if</span> (!<a class="code" href="class_decompressor.html#a0c0041811e28331ff9ddaddaa161ad40">infile</a>)</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;            <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Input Error : \&#39;&quot;</span> + infileName + <span class="stringliteral">&quot;\&#39; couldn&#39;t be opened&quot;</span>);</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    <span class="keywordflow">if</span> (!fileChars &amp;&amp; !<a class="code" href="class_decompressor.html#a11b7fe3e2af39320d5d0a488bb908f0f">files</a>.isEmpty())</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;ERROR: Compressed file is corrupted&quot;</span>);</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;}</div>
 <div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160; </div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;Build decoding Tree ...&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        <a class="code" href="class_decompressor.html#a309439ebb1f8e4f96e581a3491739c48">readHeader</a>(infileName, <a class="code" href="class_decompressor.html#a0c0041811e28331ff9ddaddaa161ad40">infile</a>);</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160; </div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;Decoding Characters ...&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        <a class="code" href="class_decompressor.html#a849aa76a943356c4eeff05e6e4b7fadf">writeIntoFile</a>(infileName);</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160; </div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;Success : Decompression Completed.\n&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00134"></a><span class="lineno"><a class="line" href="class_decompressor.html#a5295ff5cd426f51be382ad23e108bd2f">  134</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_decompressor.html#a5295ff5cd426f51be382ad23e108bd2f">Decompressor::decompressFile</a>(<span class="keyword">const</span> std::string&amp; infileName) {</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    <span class="keywordflow">if</span> (fs::path(infileName).extension().<span class="keywordtype">string</span>() != <span class="stringliteral">&quot;.huf&quot;</span>) {</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Enter compressed (.huf) file&quot;</span>);</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    }</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160; </div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    std::cout &lt;&lt; <span class="stringliteral">&quot;Huffman Decompression\n&quot;</span>;</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    std::cout &lt;&lt; std::string(22, <span class="keywordtype">char</span>(205));</div>
 <div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160; </div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;        <span class="keyword">auto</span> stop = std::chrono::steady_clock::now();</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;        <span class="keyword">auto</span> duration = std::chrono::duration_cast&lt;std::chrono::duration&lt;double&gt;&gt;(stop - start);</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;Decompression Time: &quot;</span> &lt;&lt; duration.count() &lt;&lt; <span class="stringliteral">&quot; seconds\n&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160; </div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;        <a class="code" href="class_decompressor.html#a06c0b3dc51eb5a25dd422906f477ac07">clear</a>();</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    }</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    <span class="keywordflow">catch</span> (std::exception&amp; err) {</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;        <span class="keywordflow">throw</span> err;</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    }</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;}</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    std::cout &lt;&lt; <span class="stringliteral">&quot;\nDecompressing ...&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    <span class="keyword">auto</span> start = std::chrono::steady_clock::now();</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160; </div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    <a class="code" href="class_decompressor.html#a0c0041811e28331ff9ddaddaa161ad40">infile</a>.open(infileName, std::ios::in | std::ios::binary);</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    <span class="keywordflow">if</span> (!<a class="code" href="class_decompressor.html#a0c0041811e28331ff9ddaddaa161ad40">infile</a>)</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Input Error : \&#39;&quot;</span> + infileName + <span class="stringliteral">&quot;\&#39; couldn&#39;t be opened&quot;</span>);</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160; </div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    std::cout &lt;&lt; <span class="stringliteral">&quot;Reading File Header ...&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    std::cout &lt;&lt; <span class="stringliteral">&quot;Building decoding Tree ...&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <a class="code" href="class_decompressor.html#a309439ebb1f8e4f96e581a3491739c48">readHeader</a>(infileName, <a class="code" href="class_decompressor.html#a0c0041811e28331ff9ddaddaa161ad40">infile</a>);</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    std::cout &lt;&lt; <a class="code" href="class_decompressor.html#a11b7fe3e2af39320d5d0a488bb908f0f">files</a>.size() &lt;&lt; <span class="stringliteral">&quot; file(s) to be obtained after decompression&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160; </div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    std::cout &lt;&lt; <span class="stringliteral">&quot;Decoding Characters ...&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    <a class="code" href="class_decompressor.html#a849aa76a943356c4eeff05e6e4b7fadf">writeIntoFile</a>(infileName);</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160; </div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    std::cout &lt;&lt; <span class="stringliteral">&quot;Cleaning Up ...&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    <a class="code" href="class_decompressor.html#a06c0b3dc51eb5a25dd422906f477ac07">clear</a>();</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160; </div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    std::cout &lt;&lt; <span class="stringliteral">&quot;Success : Decompression Completed.\n&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    std::cout &lt;&lt; <span class="stringliteral">&quot;Decompressed Folder : &quot;</span> &lt;&lt; fs::path(infileName).parent_path().string() &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160; </div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    <span class="keyword">auto</span> stop = std::chrono::steady_clock::now();</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    <span class="keyword">auto</span> duration = std::chrono::duration_cast&lt;std::chrono::duration&lt;double&gt;&gt;(stop - start);</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    std::cout &lt;&lt; <span class="stringliteral">&quot;Decompression Time  : &quot;</span> &lt;&lt; duration.count() &lt;&lt; <span class="stringliteral">&quot; seconds\n&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160; </div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aclass_bin_node_html"><div class="ttname"><a href="class_bin_node.html">BinNode</a></div><div class="ttdoc">This class models a node structure used for building Huffman Binary Tree.</div><div class="ttdef"><b>Definition:</b> <a href="_bin_node_8h_source.html#l00009">BinNode.h:9</a></div></div>
@@ -256,15 +272,15 @@ $(document).ready(function(){initNavTree('_decompressor_8cpp_source.html',''); i
 <div class="ttc" id="aclass_decompressor_html_a0c0041811e28331ff9ddaddaa161ad40"><div class="ttname"><a href="class_decompressor.html#a0c0041811e28331ff9ddaddaa161ad40">Decompressor::infile</a></div><div class="ttdeci">std::ifstream infile</div><div class="ttdoc">Instance of ifstream class for reading encoded characters from compressed file.</div><div class="ttdef"><b>Definition:</b> <a href="_decompressor_8h_source.html#l00045">Decompressor.h:45</a></div></div>
 <div class="ttc" id="astruct_decompressor_1_1file_info_html"><div class="ttname"><a href="struct_decompressor_1_1file_info.html">Decompressor::fileInfo</a></div><div class="ttdoc">Structure to hold file metadata.</div><div class="ttdef"><b>Definition:</b> <a href="_decompressor_8h_source.html#l00033">Decompressor.h:33</a></div></div>
 <div class="ttc" id="aclass_decompressor_html_a06c0b3dc51eb5a25dd422906f477ac07"><div class="ttname"><a href="class_decompressor.html#a06c0b3dc51eb5a25dd422906f477ac07">Decompressor::clear</a></div><div class="ttdeci">void clear()</div><div class="ttdoc">Resets all the attributes for next decompression operation.</div><div class="ttdef"><b>Definition:</b> <a href="_decompressor_8cpp_source.html#l00009">Decompressor.cpp:9</a></div></div>
-<div class="ttc" id="aclass_decompressor_html_a5295ff5cd426f51be382ad23e108bd2f"><div class="ttname"><a href="class_decompressor.html#a5295ff5cd426f51be382ad23e108bd2f">Decompressor::decompressFile</a></div><div class="ttdeci">void decompressFile(const std::string &amp;infileName)</div><div class="ttdoc">Decompresses the compressed(.huff) file to its original form.</div><div class="ttdef"><b>Definition:</b> <a href="_decompressor_8cpp_source.html#l00125">Decompressor.cpp:125</a></div></div>
+<div class="ttc" id="aclass_decompressor_html_a5295ff5cd426f51be382ad23e108bd2f"><div class="ttname"><a href="class_decompressor.html#a5295ff5cd426f51be382ad23e108bd2f">Decompressor::decompressFile</a></div><div class="ttdeci">void decompressFile(const std::string &amp;infileName)</div><div class="ttdoc">Decompresses the compressed(.huf) file to its original form.</div><div class="ttdef"><b>Definition:</b> <a href="_decompressor_8cpp_source.html#l00134">Decompressor.cpp:134</a></div></div>
 <div class="ttc" id="a_decompressor_8h_html"><div class="ttname"><a href="_decompressor_8h.html">Decompressor.h</a></div></div>
 <div class="ttc" id="aclass_bin_node_html_ac3da0fe4524b5418898b0d495e1ea1be"><div class="ttname"><a href="class_bin_node.html#ac3da0fe4524b5418898b0d495e1ea1be">BinNode::isLeaf</a></div><div class="ttdeci">bool isLeaf()</div><div class="ttdef"><b>Definition:</b> <a href="_bin_node_8cpp_source.html#l00049">BinNode.cpp:49</a></div></div>
 <div class="ttc" id="aclass_decompressor_html_ac902140fd224294f430b8dc77dd2fa84"><div class="ttname"><a href="class_decompressor.html#ac902140fd224294f430b8dc77dd2fa84">Decompressor::readTree</a></div><div class="ttdeci">BinNode * readTree(std::ifstream &amp;reader)</div><div class="ttdoc">Reads the entire Huffman tree in to the file header section using a pre-order traversal algorithm.</div><div class="ttdef"><b>Definition:</b> <a href="_decompressor_8cpp_source.html#l00024">Decompressor.cpp:24</a></div></div>
 <div class="ttc" id="aclass_decompressor_html_a51a5c000d6ef89736afa1a401c66f58e"><div class="ttname"><a href="class_decompressor.html#a51a5c000d6ef89736afa1a401c66f58e">Decompressor::deleteTree</a></div><div class="ttdeci">void deleteTree(BinNode *node)</div><div class="ttdoc">Frees all heap storage associated with the Huffman Tree.</div><div class="ttdef"><b>Definition:</b> <a href="_decompressor_8cpp_source.html#l00015">Decompressor.cpp:15</a></div></div>
 <div class="ttc" id="aclass_decompressor_html_a785385995b7aa672abe8571a433e94e0"><div class="ttname"><a href="class_decompressor.html#a785385995b7aa672abe8571a433e94e0">Decompressor::Decompressor</a></div><div class="ttdeci">Decompressor()</div><div class="ttdef"><b>Definition:</b> <a href="_decompressor_8cpp_source.html#l00003">Decompressor.cpp:3</a></div></div>
-<div class="ttc" id="aclass_decompressor_html_a309439ebb1f8e4f96e581a3491739c48"><div class="ttname"><a href="class_decompressor.html#a309439ebb1f8e4f96e581a3491739c48">Decompressor::readHeader</a></div><div class="ttdeci">void readHeader(const std::string &amp;infileName, std::ifstream &amp;infile)</div><div class="ttdoc">Reads the header section from compressed file.</div><div class="ttdef"><b>Definition:</b> <a href="_decompressor_8cpp_source.html#l00039">Decompressor.cpp:39</a></div></div>
+<div class="ttc" id="aclass_decompressor_html_a309439ebb1f8e4f96e581a3491739c48"><div class="ttname"><a href="class_decompressor.html#a309439ebb1f8e4f96e581a3491739c48">Decompressor::readHeader</a></div><div class="ttdeci">void readHeader(const std::string &amp;infileName, std::ifstream &amp;infile)</div><div class="ttdoc">Reads the header section from compressed file.</div><div class="ttdef"><b>Definition:</b> <a href="_decompressor_8cpp_source.html#l00044">Decompressor.cpp:44</a></div></div>
 <div class="ttc" id="a_constants_8h_html_a23ff4d33be1eccc31127168d165c9aca"><div class="ttname"><a href="_constants_8h.html#a23ff4d33be1eccc31127168d165c9aca">INTERNAL_NODE_CHARACTER</a></div><div class="ttdeci">constexpr auto INTERNAL_NODE_CHARACTER</div><div class="ttdoc">Constants for Huffman Tree.</div><div class="ttdef"><b>Definition:</b> <a href="_constants_8h_source.html#l00020">Constants.h:20</a></div></div>
-<div class="ttc" id="aclass_decompressor_html_a849aa76a943356c4eeff05e6e4b7fadf"><div class="ttname"><a href="class_decompressor.html#a849aa76a943356c4eeff05e6e4b7fadf">Decompressor::writeIntoFile</a></div><div class="ttdeci">void writeIntoFile(const std::string &amp;infileName)</div><div class="ttdoc">Decodes encoded characters using the tree obtained from header section.</div><div class="ttdef"><b>Definition:</b> <a href="_decompressor_8cpp_source.html#l00078">Decompressor.cpp:78</a></div></div>
+<div class="ttc" id="aclass_decompressor_html_a849aa76a943356c4eeff05e6e4b7fadf"><div class="ttname"><a href="class_decompressor.html#a849aa76a943356c4eeff05e6e4b7fadf">Decompressor::writeIntoFile</a></div><div class="ttdeci">void writeIntoFile(const std::string &amp;infileName)</div><div class="ttdoc">Decodes encoded characters using the tree obtained from header section.</div><div class="ttdef"><b>Definition:</b> <a href="_decompressor_8cpp_source.html#l00083">Decompressor.cpp:83</a></div></div>
 <div class="ttc" id="aclass_decompressor_html_a54c68c11f12a71e7bfe833df877c3d1e"><div class="ttname"><a href="class_decompressor.html#a54c68c11f12a71e7bfe833df877c3d1e">Decompressor::rootNode</a></div><div class="ttdeci">BinNode * rootNode</div><div class="ttdoc">Root node for Huffman tree.</div><div class="ttdef"><b>Definition:</b> <a href="_decompressor_8h_source.html#l00048">Decompressor.h:48</a></div></div>
 <div class="ttc" id="aclass_bin_node_html_aa3b372f3b6dafea691b95d9cf99e7d3c"><div class="ttname"><a href="class_bin_node.html#aa3b372f3b6dafea691b95d9cf99e7d3c">BinNode::setRightChild</a></div><div class="ttdeci">void setRightChild(BinNode *)</div><div class="ttdoc">sets parameter node as left child of the caller node instance.</div><div class="ttdef"><b>Definition:</b> <a href="_bin_node_8cpp_source.html#l00037">BinNode.cpp:37</a></div></div>
 <div class="ttc" id="aclass_bin_node_html_ac68cb4a3e3309d5cc5bed0e2e1ca71d5"><div class="ttname"><a href="class_bin_node.html#ac68cb4a3e3309d5cc5bed0e2e1ca71d5">BinNode::setLeftChild</a></div><div class="ttdeci">void setLeftChild(BinNode *)</div><div class="ttdoc">sets parameter node as left child of the caller node instance.</div><div class="ttdef"><b>Definition:</b> <a href="_bin_node_8cpp_source.html#l00033">BinNode.cpp:33</a></div></div>

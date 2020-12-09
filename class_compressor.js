@@ -14,7 +14,7 @@ var class_compressor =
     [ "scanFile", "class_compressor.html#a8436ef43f2ce72b9bced0e407f9c4bf1", null ],
     [ "writeBody", "class_compressor.html#a972f07c7acd4ab7007d17ba6766af9d7", null ],
     [ "writeHeader", "class_compressor.html#ac114e56f731115d557b18d96efeb6d8d", null ],
-    [ "writeIntoFile", "class_compressor.html#a663434153fd1e0868783a510b1c25826", null ],
+    [ "writeIntoFile", "class_compressor.html#a0f58cdaeb4df570514ebd42724a20c69", null ],
     [ "writeTree", "class_compressor.html#ad37c1da50a20e6118754c58952f7e339", null ],
     [ "codeMap", "class_compressor.html#a5e75e0c690ce8a3b0ab07c3a1009be50", null ],
     [ "frequency", "class_compressor.html#a668acb31f525c67d1d3694d63e411693", null ],

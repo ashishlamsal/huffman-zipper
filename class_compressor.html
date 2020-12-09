@@ -121,7 +121,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a20ce5c7257b596c3b6b6c307b1a22100"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compresses a directory and its entire content recursively.  <a href="class_compressor.html#a20ce5c7257b596c3b6b6c307b1a22100">More...</a><br /></td></tr>
 <tr class="separator:a20ce5c7257b596c3b6b6c307b1a22100"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a83ff8dc7367f5860be163de09edb50dc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_compressor.html#a83ff8dc7367f5860be163de09edb50dc">compressFiles</a> (std::initializer_list&lt; std::string &gt; infileNames)</td></tr>
-<tr class="memdesc:a83ff8dc7367f5860be163de09edb50dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compresses multiple source files into single compressed(.huff) file.  <a href="class_compressor.html#a83ff8dc7367f5860be163de09edb50dc">More...</a><br /></td></tr>
+<tr class="memdesc:a83ff8dc7367f5860be163de09edb50dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compresses multiple source files into single compressed(.huf) file.  <a href="class_compressor.html#a83ff8dc7367f5860be163de09edb50dc">More...</a><br /></td></tr>
 <tr class="separator:a83ff8dc7367f5860be163de09edb50dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
@@ -153,9 +153,9 @@ Private Member Functions</h2></td></tr>
 <tr class="memitem:a972f07c7acd4ab7007d17ba6766af9d7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_compressor.html#a972f07c7acd4ab7007d17ba6766af9d7">writeBody</a> (char &amp;chr, int &amp;bufferSize, const std::string &amp;infileName, std::ofstream &amp;writer)</td></tr>
 <tr class="memdesc:a972f07c7acd4ab7007d17ba6766af9d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write the body section to compressed file.  <a href="class_compressor.html#a972f07c7acd4ab7007d17ba6766af9d7">More...</a><br /></td></tr>
 <tr class="separator:a972f07c7acd4ab7007d17ba6766af9d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a663434153fd1e0868783a510b1c25826"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_compressor.html#a663434153fd1e0868783a510b1c25826">writeIntoFile</a> (const std::string &amp;infileName)</td></tr>
-<tr class="memdesc:a663434153fd1e0868783a510b1c25826"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write the header and body section to compressed file.  <a href="class_compressor.html#a663434153fd1e0868783a510b1c25826">More...</a><br /></td></tr>
-<tr class="separator:a663434153fd1e0868783a510b1c25826"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f58cdaeb4df570514ebd42724a20c69"><td class="memItemLeft" align="right" valign="top">fs::path&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_compressor.html#a0f58cdaeb4df570514ebd42724a20c69">writeIntoFile</a> (const std::string &amp;infileName)</td></tr>
+<tr class="memdesc:a0f58cdaeb4df570514ebd42724a20c69"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write the header and body section to compressed file.  <a href="class_compressor.html#a0f58cdaeb4df570514ebd42724a20c69">More...</a><br /></td></tr>
+<tr class="separator:a0f58cdaeb4df570514ebd42724a20c69"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7a8f3f6296c0f8976d376725cb82f759"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_compressor.html#a7a8f3f6296c0f8976d376725cb82f759">compress</a> (const std::string &amp;infileName)</td></tr>
 <tr class="memdesc:a7a8f3f6296c0f8976d376725cb82f759"><td class="mdescLeft">&#160;</td><td class="mdescRight">Utility function to compress file.  <a href="class_compressor.html#a7a8f3f6296c0f8976d376725cb82f759">More...</a><br /></td></tr>
 <tr class="separator:a7a8f3f6296c0f8976d376725cb82f759"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -180,9 +180,9 @@ Private Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class compresses files and folders using Huffman Compression Algorithm. </p>
-<p>It can compress single file or multiple files or an entire directory recursively into a compressed file (.huff file). </p>
+<p>It can compress single file or multiple files or an entire directory recursively into a compressed file (.huf file). </p>
 
-<p class="definition">Definition at line <a class="el" href="_compressor_8h_source.html#l00023">23</a> of file <a class="el" href="_compressor_8h_source.html">Compressor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_compressor_8h_source.html#l00024">24</a> of file <a class="el" href="_compressor_8h_source.html">Compressor.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a8a728ed1544cc0f82e8390f4606026b0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8a728ed1544cc0f82e8390f4606026b0">&#9670;&nbsp;</a></span>Compressor()</h2>
@@ -280,7 +280,7 @@ Private Attributes</h2></td></tr>
 
 <p>Utility function to compress file. </p>
 
-<p class="definition">Definition at line <a class="el" href="_compressor_8cpp_source.html#l00148">148</a> of file <a class="el" href="_compressor_8cpp_source.html">Compressor.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_compressor_8cpp_source.html#l00152">152</a> of file <a class="el" href="_compressor_8cpp_source.html">Compressor.cpp</a>.</p>
 
 </div>
 </div>
@@ -308,7 +308,7 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_compressor_8cpp_source.html#l00180">180</a> of file <a class="el" href="_compressor_8cpp_source.html">Compressor.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_compressor_8cpp_source.html#l00204">204</a> of file <a class="el" href="_compressor_8cpp_source.html">Compressor.cpp</a>.</p>
 
 </div>
 </div>
@@ -328,7 +328,7 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Compresses multiple source files into single compressed(.huff) file. </p>
+<p>Compresses multiple source files into single compressed(.huf) file. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">infileNames</td><td>list of source files to be compressed. </td></tr>
@@ -336,7 +336,7 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_compressor_8cpp_source.html#l00202">202</a> of file <a class="el" href="_compressor_8cpp_source.html">Compressor.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_compressor_8cpp_source.html#l00226">226</a> of file <a class="el" href="_compressor_8cpp_source.html">Compressor.cpp</a>.</p>
 
 </div>
 </div>
@@ -364,7 +364,7 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_compressor_8cpp_source.html#l00189">189</a> of file <a class="el" href="_compressor_8cpp_source.html">Compressor.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_compressor_8cpp_source.html#l00213">213</a> of file <a class="el" href="_compressor_8cpp_source.html">Compressor.cpp</a>.</p>
 
 </div>
 </div>
@@ -634,8 +634,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a663434153fd1e0868783a510b1c25826"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a663434153fd1e0868783a510b1c25826">&#9670;&nbsp;</a></span>writeIntoFile()</h2>
+<a id="a0f58cdaeb4df570514ebd42724a20c69"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f58cdaeb4df570514ebd42724a20c69">&#9670;&nbsp;</a></span>writeIntoFile()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -644,7 +644,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void Compressor::writeIntoFile </td>
+          <td class="memname">fs::path Compressor::writeIntoFile </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>infileName</em></td><td>)</td>
@@ -662,8 +662,9 @@ Private Attributes</h2></td></tr>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="class_compressor.html#ac114e56f731115d557b18d96efeb6d8d" title="Write the header section to compressed file.">writeHeader()</a> </dd>
 <dd>
 <a class="el" href="class_compressor.html#a972f07c7acd4ab7007d17ba6766af9d7" title="Write the body section to compressed file.">writeBody()</a> </dd></dl>
+<p>possibility of extra 8-bits</p>
 
-<p class="definition">Definition at line <a class="el" href="_compressor_8cpp_source.html#l00126">126</a> of file <a class="el" href="_compressor_8cpp_source.html">Compressor.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_compressor_8cpp_source.html#l00124">124</a> of file <a class="el" href="_compressor_8cpp_source.html">Compressor.cpp</a>.</p>
 
 </div>
 </div>
@@ -733,7 +734,7 @@ Private Attributes</h2></td></tr>
 <p><br  />
  </p>
 
-<p class="definition">Definition at line <a class="el" href="_compressor_8h_source.html#l00029">29</a> of file <a class="el" href="_compressor_8h_source.html">Compressor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_compressor_8h_source.html#l00030">30</a> of file <a class="el" href="_compressor_8h_source.html">Compressor.h</a>.</p>
 
 </div>
 </div>
@@ -761,7 +762,7 @@ Private Attributes</h2></td></tr>
 <p><br  />
  </p>
 
-<p class="definition">Definition at line <a class="el" href="_compressor_8h_source.html#l00026">26</a> of file <a class="el" href="_compressor_8h_source.html">Compressor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_compressor_8h_source.html#l00027">27</a> of file <a class="el" href="_compressor_8h_source.html">Compressor.h</a>.</p>
 
 </div>
 </div>
@@ -789,7 +790,7 @@ Private Attributes</h2></td></tr>
 <p><br  />
  </p>
 
-<p class="definition">Definition at line <a class="el" href="_compressor_8h_source.html#l00038">38</a> of file <a class="el" href="_compressor_8h_source.html">Compressor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_compressor_8h_source.html#l00039">39</a> of file <a class="el" href="_compressor_8h_source.html">Compressor.h</a>.</p>
 
 </div>
 </div>
@@ -817,7 +818,7 @@ Private Attributes</h2></td></tr>
 <p><br  />
  </p>
 
-<p class="definition">Definition at line <a class="el" href="_compressor_8h_source.html#l00035">35</a> of file <a class="el" href="_compressor_8h_source.html">Compressor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_compressor_8h_source.html#l00036">36</a> of file <a class="el" href="_compressor_8h_source.html">Compressor.h</a>.</p>
 
 </div>
 </div>
@@ -845,7 +846,7 @@ Private Attributes</h2></td></tr>
 <p><br  />
  </p>
 
-<p class="definition">Definition at line <a class="el" href="_compressor_8h_source.html#l00032">32</a> of file <a class="el" href="_compressor_8h_source.html">Compressor.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_compressor_8h_source.html#l00033">33</a> of file <a class="el" href="_compressor_8h_source.html">Compressor.h</a>.</p>
 
 </div>
 </div>
