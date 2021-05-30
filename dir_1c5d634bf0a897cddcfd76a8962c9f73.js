@@ -8,5 +8,5 @@ var dir_1c5d634bf0a897cddcfd76a8962c9f73 =
     [ "HuffmanFrame.h", "_huffman_frame_8h.html", [
       [ "HuffmanFrame", "class_huffman_frame.html", "class_huffman_frame" ]
     ] ],
-    [ "utils.h", "utils_8h.html", "utils_8h" ]
+    [ "utils.h", "utils_8h.html", null ]
 ];

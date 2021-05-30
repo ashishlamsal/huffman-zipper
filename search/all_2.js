@@ -3,7 +3,7 @@ var searchData=
   ['decompress_28',['decompress',['../class_huffman_frame.html#a1500881dfd2e6d5a4fb3a62e077bdbc5',1,'HuffmanFrame']]],
   ['decompressfile_29',['decompressFile',['../class_decompressor.html#a5295ff5cd426f51be382ad23e108bd2f',1,'Decompressor']]],
   ['decompression_30',['decompression',['../class_huffman_frame.html#ade53676a94fdada8125cb1203417c98a',1,'HuffmanFrame']]],
-  ['decompressor_31',['Decompressor',['../class_decompressor.html',1,'Decompressor'],['../class_decompressor.html#a785385995b7aa672abe8571a433e94e0',1,'Decompressor::Decompressor()']]],
+  ['decompressor_31',['Decompressor',['../class_decompressor.html#a785385995b7aa672abe8571a433e94e0',1,'Decompressor::Decompressor()'],['../class_decompressor.html',1,'Decompressor']]],
   ['decompressor_2ecpp_32',['Decompressor.cpp',['../_decompressor_8cpp.html',1,'']]],
   ['decompressor_2eh_33',['Decompressor.h',['../_decompressor_8h.html',1,'']]],
   ['deepcopy_34',['deepCopy',['../class_hash_map.html#ab9c633cfa95276587f2a3921ef000d52',1,'HashMap']]],

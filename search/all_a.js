@@ -15,6 +15,6 @@ var searchData=
   ['map_110',['map',['../class_hash_map_1_1iterator.html#a99d4c31a761819fd298c379f87cd56c7',1,'HashMap::iterator']]],
   ['max_5fload_5fpercentage_111',['MAX_LOAD_PERCENTAGE',['../_constants_8h.html#a714f8c960254e28ca29c4427100d4e7d',1,'Constants.h']]],
   ['min_112',['min',['../class_min_heap.html#ad664832807b9fb986b89e610175740b6',1,'MinHeap']]],
-  ['minheap_113',['MinHeap',['../class_min_heap.html',1,'MinHeap&lt; T &gt;'],['../class_min_heap.html#ab3f13c6abd82c7d1c7895f2c2f44301f',1,'MinHeap::MinHeap()']]],
+  ['minheap_113',['MinHeap',['../class_min_heap.html#ab3f13c6abd82c7d1c7895f2c2f44301f',1,'MinHeap::MinHeap()'],['../class_min_heap.html',1,'MinHeap&lt; T &gt;']]],
   ['minheap_2eh_114',['MinHeap.h',['../_min_heap_8h.html',1,'']]]
 ];
