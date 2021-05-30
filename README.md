@@ -3,13 +3,12 @@
 
 Data Compression and Decompression using Greedy Huffman Algorithm
 
-![C++ Badge](https://img.shields.io/static/v1?label=C%2B%2B+&message=17&style=flat-square&logo=C%2B%2B&color=blue&labelColor=03599d)
+![Top Language](https://img.shields.io/github/languages/top/ashishlamsal/huffman-zipper?style=flat-square)
 ![Visual Studio Badge](https://img.shields.io/static/v1?label=Visual+Studio&message=2019&style=flat-square&logo=visual+studio&color=grey&labelColor=5d2c92)
 ![Data Structures Badge](https://img.shields.io/static/v1?label=Data+Structures&message=Algorithm&style=flat-square&color=red&labelColor=007acc)
-![Top Language](https://img.shields.io/github/languages/top/ashish-lamsal/huffman-zipper?style=flat-square)
-![GitHub Repo Size](https://img.shields.io/github/repo-size/ashish-lamsal/huffman-zipper?style=flat-square&logo=GitHub)
-![Last Commit](https://img.shields.io/github/last-commit/ashish-lamsal/huffman-zipper?style=flat-square)
-![License](https://img.shields.io/github/license/ashish-lamsal/huffman-zipper?style=flat-square)
+![GitHub Repo Size](https://img.shields.io/github/repo-size/ashishlamsal/huffman-zipper?style=flat-square&logo=GitHub)
+![Last Commit](https://img.shields.io/github/last-commit/ashishlamsal/huffman-zipper?style=flat-square)
+![License](https://img.shields.io/github/license/ashishlamsal/huffman-zipper?style=flat-square)
 
 <!-- omit in toc -->
 ## Table of Contents
@@ -111,7 +110,7 @@ But, as the size of input file increases, the compression ratio becomes nearly 5
 
 ## Documentation
 
-The huffman-zipper documentation is available [here.](https://ashish-lamsal.github.io/huffman-zipper/)
+The huffman-zipper documentation is available [here.](https://ashishlamsal.github.io/huffman-zipper/)
 
 ## References
 
@@ -126,15 +125,9 @@ Analysis Edition 3.2 (C++ Version)"
 
 ## Team
 
-| <a href = "https://github.com/ashish-lamsal"><img src = "https://avatars1.githubusercontent.com/u/59776422?s=400&v=4" width="144" style="border-radius:50%"></a> | <a href = "https://github.com/AadityaSubedi"><img src = "https://avatars0.githubusercontent.com/u/50743268?s=400&u=429e94fad8ff81704e92b0a53dd65dce4baa5f99&v=4" width="144" style="border-radius:50%"></a> |
+| <a href = "https://github.com/ashishlamsal"><img src = "https://avatars1.githubusercontent.com/u/59776422?s=400&v=4" width="144" style="border-radius:50%"></a> | <a href = "https://github.com/AadityaSubedi"><img src = "https://avatars0.githubusercontent.com/u/50743268?s=400&u=429e94fad8ff81704e92b0a53dd65dce4baa5f99&v=4" width="144" style="border-radius:50%"></a> |
 | :-: | :-: |
-| [Ashish Lamsal](https://github.com/ashish-lamsal) |[Aaditya Subedi](https://github.com/AadityaSubedi) |
-
-## How to Contribute
-
-Pull requests are welcome. Submit Pull Request with comprehensive description of changes. For major changes, please open an issue first to discuss what you would like to change.
-
-Please make sure to update tests as appropriate.
+| [Ashish Lamsal](https://github.com/ashishlamsal) |[Aaditya Subedi](https://github.com/AadityaSubedi) |
 
 ## License
 
